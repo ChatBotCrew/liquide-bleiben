@@ -1,0 +1,91 @@
+openapi: "3.0.0"
+info:
+  description: ""
+  version: "0.1.0"
+  title: "liquide bleiben"
+  termsOfService: ""
+  contact:
+    email: "wir-bleiben-liquide@gmail.com"
+  license:
+    name: ""
+    url: ""
+servers:
+  - url: "http://wir-bleiben-liqui.de"
+    description: "Production server"
+paths:
+  /api/offers:
+    get:
+      summary: "Get all offers available"
+      operationId: "getOffers"
+      parameters:
+        - in: "query"
+          name: "state"
+          description: "german state the company is located in"
+          required: false
+          schema:
+            type: string
+        - in: "query"
+          name: "trade"
+          description: "trade of the company"
+          required: false
+          schema:
+            type: string
+        - in: "query"
+          name: "age"
+          description: "age of the company in years"
+          required: false
+          schema:
+            type: integer
+        - in: "query"
+          name: "legal"
+          description: "legal form of the company"
+          required: false
+          schema:
+            type: string
+        - in: "query"
+          name: "sales"
+          description: "last years sales of the company"
+          required: false
+          schema:
+            type: string
+        - in: "query"
+          name: "employees"
+          description: "employees of the company"
+          required: false
+          schema:
+            type: integer
+        - in: "query"
+          name: "time"
+          description: "german state the company is located in"
+          required: false
+          schema:
+            type: string
+            enum: [ '0', '1' ]
+      responses:
+        200:
+          description: "Succesful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/offers-response"
+components:
+  schemas:
+    offers-response:
+      type: "object"
+      properties:
+        columns:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              columnName:
+                type: string
+              columNKey:
+                type: string
+        offers:
+          type: "array"
+          items:
+            type: "object"
+externalDocs:
+  description: ""
+  url: ""
