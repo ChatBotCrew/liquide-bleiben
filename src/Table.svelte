@@ -3,57 +3,43 @@
 
   export let selection;
 
-  const tableData = [
-    {
-      name: 'Akutkredit LfA',
-      land: 'NRW',
-      summe: 10000,
-      mitarbeiter: 500,
-      jahresabschluss: 0,
-    },
-    {
-      name: 'L-Bank',
-      land: 'Hessen',
-      summe: 25000,
-      mitarbeiter: 100,
-      jahresabschluss: 2,
-    },
-    {
-      name: 'Bayernfonds',
-      land: 'Bayern',
-      summe: 10000,
-      mitarbeiter: 5,
-      jahresabschluss: 1,
-    },
-  ];
+  const data$ = fetch('/api/offers?', {
+    method: 'GET'
+  })
+  .then(res => res.json());
 </script>
 
+<h1>Ihre Auswahl</h1>
 {#each Object.keys(selection) as key}
   <div>
     <span>{key}</span>
     <span>{selection[key]}</span>
   </div>
 {/each}
-<table>
-  <tr class="theader">
-    <th>Name</th>
-    <th>Land</th>
-    <th>Fördersumme</th>
-    <th>Mitarbeiter</th>
-    <th>Jahresabschluss</th>
-    <th></th>
-  </tr>
-  {#each tableData as row}
-    <tr>
-      <td>{row.name}</td>
-      <td>{row.land}</td>
-      <td>{row.summe}</td>
-      <td>{row.mitarbeiter}</td>
-      <td>{row.jahresabschluss}</td>
-      <td><a href="#">Zur Ansicht →</a></td>
-    </tr>
-  {/each}
-</table>
+{#await data$}
+  <div>Angebote werden geladen...</div>
+{:then data}
+  <table>
+    <thead>
+      <tr>
+        {#each data.columnNames as column}
+          <th>{column}</th>
+        {/each}
+        <th></th>
+      </tr>
+    </thead>
+    {#each data.offers as row}
+      <tr>
+        <td>{row.name}</td>
+        <td>{row.land}</td>
+        <td>{row.summe}</td>
+        <td>{row.mitarbeiter}</td>
+        <td>{row.jahresabschluss}</td>
+        <td><a href="#">Zur Ansicht →</a></td>
+      </tr>
+    {/each}
+  </table>
+{/await}
 
 <style>
   table {
@@ -64,7 +50,7 @@
     height: 50px;
   }
 
-  table > tr:first-child {
-    background-color: hsl(15, 100%, 90%);
+  thead {
+    background-color: #2CFFA299;
   }
 </style>
