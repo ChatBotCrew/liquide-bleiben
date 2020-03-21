@@ -4,7 +4,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --port=8080"
+    "start": "sirv public --port=8080",
+    "start:server": "node server.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
@@ -16,6 +17,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "sirv-cli": "^0.4.4"
   }
 }
