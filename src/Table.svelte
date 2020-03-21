@@ -19,12 +19,6 @@
 </script>
 
 <h1>Ihre Auswahl</h1>
-{#each Object.keys(selection) as key}
-  <div>
-    <span>{key}</span>
-    <span>{selection[key]}</span>
-  </div>
-{/each}
 {#await data$}
   <div>Angebote werden geladen...</div>
 {:then data}
