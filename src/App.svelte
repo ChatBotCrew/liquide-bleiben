@@ -154,7 +154,7 @@
   }
 
   .next-button-wrapper {
-    height: 100px;
+    height: 50px;
     width: 90%;
     position: absolute;
     bottom: 16px;
@@ -167,11 +167,12 @@
 
   .next-button-wrapper > button {
     flex: 1;
+    margin: 0;
     border-radius: 50px;
   }
 
   button.next {
-    height: 100px;
+    height: 50px;
     width: 90%;
     border-radius: 50px;
     position: absolute;
