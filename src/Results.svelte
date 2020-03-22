@@ -1,5 +1,6 @@
 <script>
   import { fly } from 'svelte/transition';
+  import { finanzaemter, weitereInfos } from'./data';
 
   import Table from './Table.svelte';
 
@@ -23,6 +24,16 @@
 </script>
 
 <div class="results">
+  {#if selection.state}
+    <div class="additional-info-wrapper">
+      <div class="info-title">Für {selection.state} sind zusätzliche Ressourcen verfügbar:</div>
+      <div class="info-link-wrapper">
+        <a class="info-link" href={weitereInfos.requestForm}>Antragsformular</a>
+        <a class="info-link" href={finanzaemter[selection.state]}>Finanzamt</a>
+        <a class="info-link" href={weitereInfos.requestForm}>Steuerliche Maßnahmen</a>
+      </div>
+    </div>
+  {/if}
   <h1>Ihre Auswahl</h1>
   <!-- {#each Object.keys(selection) as key}
     <div>
@@ -42,7 +53,7 @@
     {/each}
   {/await}
   <div class="link-text" style="text-align: center;">
-    Dein persönlicher Finder-Link:<br>
+    Ihr persönlicher Finder-Link:<br>
     <a href={pageUrl}>{pageUrl}</a>
   </div>
 </div>
@@ -53,6 +64,32 @@
     overflow: auto;
     max-width: 100%;
     width: 100%;
+    margin-bottom: 150px; 
+  }
+
+  .additional-info-wrapper {
+    box-shadow: 
+      12px 12px 16px 0 #2CFFA2,
+      -8px -8px 12px 0 #c5ffdd;
+    width: calc(100% - 32px);
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .info-title {
+    margin: 16px 0;
+  }
+
+  .info-link-wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .info-link {
+    height: 50px;
   }
 
   summary {

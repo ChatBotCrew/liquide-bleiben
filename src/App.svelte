@@ -11,7 +11,7 @@
     for (let i in pairs) {
       if (pairs[i] === "") continue;
       const pair = pairs[i].split("=");
-      if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj[employees] = 0;
+      if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj["employees"] = 0;
       else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
     }
     return obj;
@@ -31,9 +31,11 @@
 
   const next = () => currentStep++;
   const seeResults = () => currentStep = 8;
+  const toFirstStep = () => currentStep = 1;
 </script>
 
 <main>
+  <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
   {#if currentStep === 0}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <p class="input-wrapper disclaimer">
@@ -44,9 +46,11 @@
       </p>
     </div>
     <div class="next-button-wrapper" transition:fade|local>
-      <button on:click={next}>Verstanden</button>
-      {#if Object.entries(selection).filter(([k,v]) => !!v).length}
-        <button on:click={seeResults}>Verstanden & direkt zu den Ergebnissen</button>
+      {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
+        <button on:click={seeResults}>Verstanden</button>
+        <button on:click={next}>Verstanden & Kriterien anpassen</button>
+      {:else}
+        <button on:click={next}>Verstanden</button>
       {/if}
     </div>
   {/if}
@@ -73,7 +77,7 @@
         Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
       </div>
     </div>
-    <button disabled={!selection.age} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={!selection.age || selection.age < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 4}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -91,7 +95,7 @@
         Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
       </div>
     </div>
-    <button disabled={!selection.sales} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={!selection.sales || selection.sales < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 6}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -102,7 +106,7 @@
         Je nach Anzahl der Mitarbeiter in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter haben und ein Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
       </div>
     </div>
-    <button disabled={!selection.employees} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={!selection.employees || selection.employees < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 7}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -121,6 +125,7 @@
   {#if currentStep === 8}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <Results {selection} />
+      <button class="next" on:click={toFirstStep}>Kriterien anpassen</button>
     </div>
   {/if}
 </main>
