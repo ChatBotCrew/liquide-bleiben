@@ -7,12 +7,27 @@
   export let selection;
 
   const HELP = {
-    Kredit: "Bei einem Darlehen wird dem Schuldner (dem Unternehmen) ein Geldbetrag zur Verfügung gestellt. Dieses muss in einem vorher vereinbarten Zeitraum zurückgezahlt werden. Die Rückzahlungen setzen sich aus Zins und Tilgung zusammensetzen.\nFür einen Antrag brauchen Sie in den meisten Fällen die folgenden Dokumente:\nHandelsregister Auszug, Jahresabschlüsse, Liquiditätsplanung, Beschreibung der Auswirkung der Pandemie, Betriebswirtschaftliche Auswertung 2019 (inkl. Summen-und Saldenliste), Ermittlung des Kreditbedarfs, Selbstauskunft, Vorschlag für den Eigenbeitrag des Gesellschafters, junge Unternehmen Business Plan.\nWir haben für Sie einen Überblick über die wichtigsten Dokumente erstellt und auch einige Beispiele vorbereitet:",
-    Zuschuss: "Ein Zuschuss ist ein finanzielles Fördermittel und soll bei der Finanzierung von Investitionen und Kosten helfen. Er muss nicht zurückgezahlt werdenund erfordert keine Gegenleistung. Entsprechend ist ein Zuschuss die beliebteste Förderung bei Unternehmen.\nBei den Zuschüssen für die Corona-Krise können Anträge können von gewerblichen Unternehmen und selbstständigen Angehörigen der Freien Berufegestellt werden. Als Voraussetzung gilt in den meisten Fällen ein bestehender Liquiditätsengpass.\nLiquiditätsengpass bedeutet, dass keine (ausreichende) Liquidität vorhanden ist, um z. B. laufende Verpflichtungen zu zahlen. Vor Inanspruchnahme der Soforthilfe ist meistens verfügbares liquides Privatvermögen einzusetzen.\nDie Anforderung an Dokumente für Zuschüsse ist deutlich geringer, jedoch auch die zu erwartenden Mittel.",
-    "Bürgschaft": "Bei einer Bürgschaft, verpflichtet sich ein Bürge, z.B. der Staat, für die Verbindlichkeiten eines Dritten gegenüber dem Gläubiger einzustehen.\nFür einen Antrag brauchen Sie in den meisten Fällen die folgenden Dokumente:\nHandelsregister Auszug, Jahresabschlüsse, Liquiditätsplanung, Beschreibung der Auswirkung der Pandemie, Betriebswirtschaftliche Auswertung 2019 (inkl. Summen-und Saldenliste), Ermittlung des Kreditbedarfs, Selbstauskunft.\nWir haben für Sie einen Überblick über die wichtigsten Dokumente erstellt und auch einige Beispiele vorbereitet:",
-    Steuerstundung: "Ihr Bundesland " + selection.state + " bietet Steuerstundungen imRahmen der Corona-Krise an. Eine Steuerstundung bezeichnet im abgabenrechtlichen Sinne eine Verschiebung der Fälligkeit eines Steueranspruchs in die Zukunft. Eine Steuerstundung ist ganz oder teilweise möglich. Stundbar sind im Rahmen der Corona-Krise Einkommensteuer, Körperschaftsteuer und Umsatzsteuer (zinslos). Einkommen- und Körperschaftsteuer Vorauszahlungen können im Rahmen der Krise herabgesetzt werden.",
-    Kurzarbeit: "Das Unternehmen zahlt anteiligen Lohn basierend auf tatsächlich gearbeiteten Stunden. Der Lohn wird durch die Bundesagentur für Arbeit mit 60 % (für MA mit Kind 67 %) des ausgefallenen pauschalierten Nettoentgelts aufgestockt.\nRegel-Bezugsdauer max.12 Monate (Unterbrechung bis zu 3 Monate bei Wiederaufnahme des Geschäfts möglich)\nBeantragung über Portal der Bundesagentur für Arbeit- Antragstellung an zuständige Agentur für Arbeit- Prüfung der Daten und Entscheidung Details hier- Kurzarbeitergeld kann bereits rückwirkend ab 01.03.2020 beantragt werden\nUnternehmen trägt die bisherigen Sozialversicherungsbeiträge zu 80 % → Gesetzesänderung ist geplant\nWichtig: - Kurzarbeitergeld wird erst nach Zahlung durch Unternehmen erstattet",
-    "Sozialbeiträge": "Stundung der Sozialversicherungsbeiträge kann erfolgen, wenn ein Unternehmen aufgrund der aktuellen Krise in erhebliche finanzielle Schwierigkeiten gerät.\nVoraussetzung ist eine erhebliche Härte für das Unternehmen:\n- Ernsthafte Zahlungsschwierigkeiten aufgrund ungünstiger wirtschaftlicher Verhältnisse oder wenn diese nach Einzug der Sozialversicherungsabgaben eintreten würden.\nWichtig: Nur möglich bei situativer ÜberschuldungBeantragung:\nAntrag des Unternehmens bei der zuständigen Krankenkasse, bei der das Vorliegen der Voraussetzungen zu belegen ist.",
+    Kredit: {
+      text: "Bei einem Darlehen wird dem Schuldner (dem Unternehmen) ein Geldbetrag zur Verfügung gestellt. Dieses muss in einem vorher vereinbarten Zeitraum zurückgezahlt werden. Die Rückzahlungen setzen sich aus Zins und Tilgung zusammensetzen.\nFür einen Antrag brauchen Sie in den meisten Fällen die folgenden Dokumente:\nHandelsregister Auszug, Jahresabschlüsse, Liquiditätsplanung, Beschreibung der Auswirkung der Pandemie, Betriebswirtschaftliche Auswertung 2019 (inkl. Summen-und Saldenliste), Ermittlung des Kreditbedarfs, Selbstauskunft, Vorschlag für den Eigenbeitrag des Gesellschafters, junge Unternehmen Business Plan.\nWir haben für Sie einen Überblick über die wichtigsten Dokumente erstellt und auch einige Beispiele vorbereitet:",
+      link: "https://wir-bleiben-liqui.de/tag/foerderkredit/"
+    },
+    Zuschuss: {
+      text: "Ein Zuschuss ist ein finanzielles Fördermittel und soll bei der Finanzierung von Investitionen und Kosten helfen. Er muss nicht zurückgezahlt werdenund erfordert keine Gegenleistung. Entsprechend ist ein Zuschuss die beliebteste Förderung bei Unternehmen.\nBei den Zuschüssen für die Corona-Krise können Anträge können von gewerblichen Unternehmen und selbstständigen Angehörigen der Freien Berufegestellt werden. Als Voraussetzung gilt in den meisten Fällen ein bestehender Liquiditätsengpass.\nLiquiditätsengpass bedeutet, dass keine (ausreichende) Liquidität vorhanden ist, um z. B. laufende Verpflichtungen zu zahlen. Vor Inanspruchnahme der Soforthilfe ist meistens verfügbares liquides Privatvermögen einzusetzen.\nDie Anforderung an Dokumente für Zuschüsse ist deutlich geringer, jedoch auch die zu erwartenden Mittel.",
+      link: "https://wir-bleiben-liqui.de/tag/zuschuss/",
+    },
+    "Bürgschaft": {
+      text: "Bei einer Bürgschaft, verpflichtet sich ein Bürge, z.B. der Staat, für die Verbindlichkeiten eines Dritten gegenüber dem Gläubiger einzustehen.\nFür einen Antrag brauchen Sie in den meisten Fällen die folgenden Dokumente:\nHandelsregister Auszug, Jahresabschlüsse, Liquiditätsplanung, Beschreibung der Auswirkung der Pandemie, Betriebswirtschaftliche Auswertung 2019 (inkl. Summen-und Saldenliste), Ermittlung des Kreditbedarfs, Selbstauskunft.\nWir haben für Sie einen Überblick über die wichtigsten Dokumente erstellt und auch einige Beispiele vorbereitet:",
+      link: "https://wir-bleiben-liqui.de/tag/buergschaft/"
+    },
+    Steuerstundung: {
+      text: "Ihr Bundesland " + selection.state + " bietet Steuerstundungen imRahmen der Corona-Krise an. Eine Steuerstundung bezeichnet im abgabenrechtlichen Sinne eine Verschiebung der Fälligkeit eines Steueranspruchs in die Zukunft. Eine Steuerstundung ist ganz oder teilweise möglich. Stundbar sind im Rahmen der Corona-Krise Einkommensteuer, Körperschaftsteuer und Umsatzsteuer (zinslos). Einkommen- und Körperschaftsteuer Vorauszahlungen können im Rahmen der Krise herabgesetzt werden.",
+    },
+    Kurzarbeit: {
+      text: "Das Unternehmen zahlt anteiligen Lohn basierend auf tatsächlich gearbeiteten Stunden. Der Lohn wird durch die Bundesagentur für Arbeit mit 60 % (für MA mit Kind 67 %) des ausgefallenen pauschalierten Nettoentgelts aufgestockt.\nRegel-Bezugsdauer max.12 Monate (Unterbrechung bis zu 3 Monate bei Wiederaufnahme des Geschäfts möglich)\nBeantragung über Portal der Bundesagentur für Arbeit- Antragstellung an zuständige Agentur für Arbeit- Prüfung der Daten und Entscheidung Details hier- Kurzarbeitergeld kann bereits rückwirkend ab 01.03.2020 beantragt werden\nUnternehmen trägt die bisherigen Sozialversicherungsbeiträge zu 80 % → Gesetzesänderung ist geplant\nWichtig: - Kurzarbeitergeld wird erst nach Zahlung durch Unternehmen erstattet",
+    },
+    "Sozialbeiträge": {
+      text: "Stundung der Sozialversicherungsbeiträge kann erfolgen, wenn ein Unternehmen aufgrund der aktuellen Krise in erhebliche finanzielle Schwierigkeiten gerät.\nVoraussetzung ist eine erhebliche Härte für das Unternehmen:\n- Ernsthafte Zahlungsschwierigkeiten aufgrund ungünstiger wirtschaftlicher Verhältnisse oder wenn diese nach Einzug der Sozialversicherungsabgaben eintreten würden.\nWichtig: Nur möglich bei situativer ÜberschuldungBeantragung:\nAntrag des Unternehmens bei der zuständigen Krankenkasse, bei der das Vorliegen der Voraussetzungen zu belegen ist.",
+    }
   }
 
   // Remove not set selections (should not happen)
@@ -48,8 +63,8 @@
         <details>
           <summary>{clusterName}</summary>
           <div class="info-title">
-            {HELP[clusterName]}<br>
-            <a target="_blank" class="info-link" href="https://wir-bleiben-liqui.de">Weitere Informationen</a>
+            {HELP[clusterName].text}<br>
+            <a target="_blank" class="info-link" href={HELP[clusterName] ? HELP[clusterName].link : "https://wir-bleiben-liqui.de"}>Weitere Informationen</a>
           </div>
           <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
         </details>
@@ -61,7 +76,7 @@
   {#if selection.state}
     <details class="additional-info-wrapper">
       <summary>Steuerstundung</summary>
-      <div class="info-title">{HELP['Steuerstundung']}</div>
+      <div class="info-title">{HELP['Steuerstundung'].text}</div>
       <div class="info-link-wrapper">
         <a target="_blank" class="info-link" href={weitereInfos.requestForm}>Antragsformular</a>
         <a target="_blank" class="info-link" href={finanzaemter[selection.state]}>Finanzamt</a>
@@ -72,7 +87,7 @@
   {#if selection.employees}
     <details class="additional-info-wrapper">
       <summary>Kurzarbeit</summary>
-      <div class="info-title">{HELP["Kurzarbeit"]}</div>
+      <div class="info-title">{HELP["Kurzarbeit"].text}</div>
       <div class="info-link-wrapper">
         <a target="_blank" class="info-link" href="https://wir-bleiben-liqui.de">Weitere Informationen</a>
       </div>
@@ -81,7 +96,7 @@
   {#if selection.employees}
     <details class="additional-info-wrapper">
       <summary>Sozialbeiträge</summary>
-      <div class="info-title">{HELP["Sozialbeiträge"]}</div>
+      <div class="info-title">{HELP["Sozialbeiträge"].text}</div>
       <div class="info-link-wrapper">
         <a target="_blank" class="info-link" href="https://wir-bleiben-liqui.de">Weitere Informationen</a>
       </div>
