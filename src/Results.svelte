@@ -31,37 +31,41 @@
       <span>{selection[key]}</span>
     </div>
   {/each} -->
-  {#await data$}
-    <div>Angebote werden geladen...</div>
-  {:then data}
-    {#if data.offers.length}
-      {#each data.cluster.names as clusterName}
-        {#if !(clusterName === "Zuschuss" && selection.time == 1)}
-          <details>
-            <summary>{clusterName}</summary>
-            <div class="info-title">
-              {@html help[clusterName].text}<br>
-              <a target="_blank" class="info-link" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>Weitere Informationen</a>
-            </div>
-            <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
-          </details>
-        {/if}
-      {/each}
-    {:else}
-      <div>Leider konnten keine möglichen Förderprogramme gefunden werden.</div>
-    {/if}
-  {/await}
   {#if selection.state}
-    <details class="additional-info-wrapper">
-      <summary>Steuerstundung</summary>
-      <div class="info-title">{@html help['Steuerstundung'].text(selection.state)}</div>
-      <div class="info-link-wrapper">
-        <a target="_blank" class="info-link" href={weitereInfos.requestForm}>Antragsformular</a>
-        <a target="_blank" class="info-link" href={finanzaemter[selection.state]}>Finanzamt</a>
-        <a target="_blank" class="info-link" href={weitereInfos.requestForm}>Steuerliche Maßnahmen</a>
-      </div>
-    </details>
+    {#await data$}
+      <div>Angebote werden geladen...</div>
+    {:then data}
+      {#if data.offers.length}
+        {#each data.cluster.names as clusterName}
+          {#if !(clusterName === "Zuschuss" && selection.time == 1)}
+            <details>
+              <summary>{clusterName}</summary>
+              <div class="info-title">
+                {@html help[clusterName].text}<br>
+                <a target="_blank" class="info-link" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>Weitere Informationen</a>
+              </div>
+              <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
+            </details>
+          {/if}
+        {/each}
+      {:else}
+        <div>Leider konnten keine möglichen Förderprogramme gefunden werden.</div>
+      {/if}
+    {/await}
+  {:else}
+    <div>Geben Sie mindestens Ihr Bundesland an, um spezifische Förderprogramme zu erhalten.</div>
   {/if}
+  <details class="additional-info-wrapper">
+    <summary>Steuerstundung</summary>
+    <div class="info-title">{@html help['Steuerstundung'].text(selection.state || '')}</div>
+    <div class="info-link-wrapper">
+      <a target="_blank" class="info-link" href={weitereInfos.requestForm}>Antragsformular</a>
+      {#if selection.state}
+        <a target="_blank" class="info-link" href={finanzaemter[selection.state]}>Finanzamt</a>
+      {/if}
+      <a target="_blank" class="info-link" href={weitereInfos.requestForm}>Steuerliche Maßnahmen</a>
+    </div>
+  </details>
   {#if selection.employees != 0}
     <details class="additional-info-wrapper">
       <summary>Kurzarbeit</summary>
