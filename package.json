@@ -4,12 +4,14 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
+    "dev:server": "npm run build && nodemon server.js",
     "start": "sirv public --port=8080",
     "start:server": "npm run build && node server.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
+    "nodemon": "^2.0.2",
     "rollup": "^1.20.0",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",

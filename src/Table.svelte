@@ -18,34 +18,52 @@
     .then(res => res.json());
 </script>
 
-<h1>Ihre Auswahl</h1>
-{#await data$}
-  <div>Angebote werden geladen...</div>
-{:then data}
-  <table>
-    <thead>
-      <tr>
-        {#each data.columns as column}
-          <th>{column.name}</th>
-        {/each}
-      </tr>
-    </thead>
-    {#each data.offers as row}
-      <tr>
-        <td>{row.name}</td>
-        <td>{row.land}</td>
-        <td>{row.summe}</td>
-        <td>{row.mitarbeiter}</td>
-        <td>{row.jahresabschluss}</td>
-        <td><a href="#">Zur Ansicht →</a></td>
-      </tr>
-    {/each}
-  </table>
-{/await}
+<div class="results">
+  <h1>Ihre Auswahl</h1>
+  <!-- {#each Object.keys(selection) as key}
+    <div>
+      <span>{key}</span>
+      <span>{selection[key]}</span>
+    </div>
+  {/each} -->
+  {#await data$}
+    <div>Angebote werden geladen...</div>
+  {:then data}
+    <table>
+      <thead>
+        <tr>
+          {#each data.columns as column}
+            <th>{column}</th>
+          {/each}
+        </tr>
+      </thead>
+      {#each data.offers as row}
+        <tr>
+          {#each data.columns as column}
+            {#if column === "Link" }
+              <th><a href={row[column]}>Mehr erfahren</a></th>
+            {:else}
+              <th>{row[column]}</th>
+            {/if}
+          {/each}
+        </tr>
+      {/each}
+    </table>
+  {/await}
+</div>
 
 <style>
+
+  .results {
+    text-align: center;
+    overflow: auto;
+    max-width: 100%;
+  }
+
   table {
     width: 100%;
+    font-size: 16px;
+    overflow: auto;
   }
 
   tr {

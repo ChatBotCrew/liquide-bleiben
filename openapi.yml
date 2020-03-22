@@ -13,54 +13,39 @@ servers:
   - url: "http://wir-bleiben-liqui.de"
     description: "Production server"
 paths:
+  /api/ids:
+    get:
+      summary: "Get all ids of available offers"
+      operationId: "getIds" 
+      parameters:
+      - $ref: "#/components/parameters/state"
+      - $ref: "#/components/parameters/trade"
+      - $ref: "#/components/parameters/age"
+      - $ref: "#/components/parameters/legal"
+      - $ref: "#/components/parameters/sales"
+      - $ref: "#/components/parameters/employees"
+      - $ref: "#/components/parameters/time"     
+      responses:
+        200:
+          description: "Succesful"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /api/offers:
     get:
-      summary: "Get all offers available"
+      summary: "Get all available offers"
       operationId: "getOffers"
       parameters:
-        - in: "query"
-          name: "state"
-          description: "german state the company is located in"
-          required: false
-          schema:
-            type: string
-        - in: "query"
-          name: "trade"
-          description: "trade of the company"
-          required: false
-          schema:
-            type: string
-        - in: "query"
-          name: "age"
-          description: "age of the company in years"
-          required: false
-          schema:
-            type: integer
-        - in: "query"
-          name: "legal"
-          description: "legal form of the company"
-          required: false
-          schema:
-            type: string
-        - in: "query"
-          name: "sales"
-          description: "last years sales of the company"
-          required: false
-          schema:
-            type: string
-        - in: "query"
-          name: "employees"
-          description: "employees of the company"
-          required: false
-          schema:
-            type: integer
-        - in: "query"
-          name: "time"
-          description: "german state the company is located in"
-          required: false
-          schema:
-            type: string
-            enum: [ '0', '1' ]
+      - $ref: "#/components/parameters/state"
+      - $ref: "#/components/parameters/trade"
+      - $ref: "#/components/parameters/age"
+      - $ref: "#/components/parameters/legal"
+      - $ref: "#/components/parameters/sales"
+      - $ref: "#/components/parameters/employees"
+      - $ref: "#/components/parameters/time"
       responses:
         200:
           description: "Succesful"
@@ -69,6 +54,57 @@ paths:
               schema:
                 $ref: "#/components/schemas/offers-response"
 components:
+  parameters:
+    state:
+      in: "query"
+      name: "state"
+      description: "german state the company is located in"
+      required: false
+      schema:
+        type: string
+    trade:
+      in: "query"
+      name: "trade"
+      description: "trade of the company"
+      required: false
+      schema:
+        type: string
+    age:
+      in: "query"
+      name: "age"
+      description: "age of the company in years"
+      required: false
+      schema:
+        type: integer
+    legal:
+      in: "query"
+      name: "legal"
+      description: "legal form of the company"
+      required: false
+      schema:
+        type: string
+    sales:
+      in: "query"
+      name: "sales"
+      description: "last years sales of the company"
+      required: false
+      schema:
+        type: string
+    employees:
+      in: "query"
+      name: "employees"
+      description: "employees of the company"
+      required: false
+      schema:
+        type: integer
+    time:
+      in: "query"
+      name: "time"
+      description: "german state the company is located in"
+      required: false
+      schema:
+        type: string
+        enum: [ '0', '1' ]
   schemas:
     offers-response:
       type: "object"
@@ -76,12 +112,7 @@ components:
         columns:
           type: "array"
           items:
-            type: "object"
-            properties:
-              columnName:
-                type: string
-              columNKey:
-                type: string
+            type: string
         offers:
           type: "array"
           items:
