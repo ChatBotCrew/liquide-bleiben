@@ -35,11 +35,11 @@
 </script>
 
 <main>
-  <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
+  <img class="logo" style="z-index: 100; position: absolute" src="/logo.png" alt="Wir bleiben liquide">
   {#if currentStep === 0}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <p class="input-wrapper disclaimer">
-        <a href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a> bietet weder Rechts- noch Steuerberatung an.<br>
+        <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a> bietet weder Rechts- noch Steuerberatung an.<br>
         Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.<br>
         Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
         Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
@@ -123,7 +123,7 @@
     </div>
   {/if}
   {#if currentStep === 8}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+    <div class="fullpage" style="width: 100%;" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <Results {selection} />
       <button class="next" on:click={toFirstStep}>Kriterien anpassen</button>
     </div>

@@ -83,4 +83,8 @@ button:focus {
   body {
     font-size: 16px;
   }
+  
+  .logo {
+    display: none;
+  }
 }
