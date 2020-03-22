@@ -35,7 +35,9 @@
 </script>
 
 <main>
-  <img class="logo" style="z-index: 100; position: absolute" src="/logo.png" alt="Wir bleiben liquide">
+  <a href="https://wir-bleiben-liqui.de">
+    <img class="logo" style="z-index: 100; position: absolute" src="/logo.png" alt="Wir bleiben liquide">
+  </a>
   {#if currentStep === 0}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <p class="input-wrapper disclaimer">
@@ -58,13 +60,13 @@
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <Select categoryName="Bundesland" bind:value={selection.state} options={bundeslaender} help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist." />
     </div>
-    <button disabled={!selection.state} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.state === null} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 2}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <Select categoryName="Gewerbe" bind:value={selection.trade} options={gewerbe} help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können." />
     </div>
-    <button disabled={!selection.trade} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.trade === null} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 3}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }} >
@@ -77,7 +79,7 @@
         Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
       </div>
     </div>
-    <button disabled={!selection.age || selection.age < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.age === null || selection.age < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 4}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -95,7 +97,7 @@
         Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
       </div>
     </div>
-    <button disabled={!selection.sales || selection.sales < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.sales === null || selection.sales > 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 6}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -106,7 +108,7 @@
         Je nach Anzahl der Mitarbeiter in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter haben und ein Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
       </div>
     </div>
-    <button disabled={!selection.employees || selection.employees < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.employees === null || selection.employees > 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 7}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
