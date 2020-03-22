@@ -17,8 +17,9 @@ body {
 }
 
 a {
-  color: rgb(0,100,200);
-  text-decoration: none;
+  color: #333;
+  text-decoration: underline;
+  text-decoration-color: #2CFFA2;
 }
 
 a:hover {
@@ -26,7 +27,7 @@ a:hover {
 }
 
 a:visited {
-  color: rgb(0,80,160);
+  color: #333;
 }
 
 label {

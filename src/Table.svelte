@@ -17,7 +17,9 @@
         {#if column === "Link" }
           <th><a href={row[column]}>Mehr erfahren</a></th>
         {:else if column === "E-Mail-Adresse"}
-          <th><a href={'mailto:' + row[column]}>Kontakt aufnehmen</a></th>
+          <th><a href={'mailto:' + row[column]}>{row[column]}</a></th>
+        {:else if column === "Telefon-Hotline"}
+          <th><a href={'tel:' + row[column]}>{row[column]}</a></th>
         {:else}
           <th>{row[column]}</th>
         {/if}

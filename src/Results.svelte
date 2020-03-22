@@ -12,8 +12,10 @@
 
   // Build URL with Query Params
   const dataUrl = new URL(location.origin + '/api/offers');
+  const pageUrl = new URL(location.origin);
   const searchParams = new URLSearchParams(selection).toString()
   dataUrl.search = searchParams;
+  pageUrl.search = searchParams;
 
   // Query Data which contains columns and offers
   const data$ = fetch(dataUrl, { method: 'GET' })
@@ -39,6 +41,10 @@
       </details>
     {/each}
   {/await}
+  <div class="link-text" style="text-align: center;">
+    Dein persönlicher Finder-Link:<br>
+    <a href={pageUrl}>{pageUrl}</a>
+  </div>
 </div>
 
 <style>
@@ -46,5 +52,28 @@
     text-align: center;
     overflow: auto;
     max-width: 100%;
+    width: 100%;
+  }
+
+  summary {
+    font-size: 36px;
+    height: 50px;
+    background-color: #c5ffdd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+
+  details {
+    margin-bottom: 32px;
+  }
+
+  .link-text {
+    max-width: 100%;
+    margin-bottom: 32px;
+    text-align: center;
+    font-size: 0.8em;
   }
 </style>

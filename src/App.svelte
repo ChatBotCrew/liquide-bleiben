@@ -87,7 +87,6 @@
         Mein Unternehmen hatte 2019 einen <br>
         Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" type="number" /> €
       </div>
-      <div class="help-text"></div>
     </div>
     <button disabled={!selection.sales} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
@@ -96,30 +95,19 @@
       <div class="input-wrapper">
         Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" type="number" /> Mitarbeiter
       </div>
-      <div class="help-text"></div>
     </div>
     <button disabled={!selection.employees} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 7}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <div class="input-wrapper">
-        Ich brauche Liquidität innerhalb der nächsten <br>
-        <div class="radio-group">
-          <label class="radio-field">
-            <input type="radio" id="time-0" bind:group={selection.time} name="time" value="0">
-            <span class="checkmark"></span>
-            30 Tage
-          </label>
-          <label class="radio-field">
-            <input type="radio" id="time-1" bind:group={selection.time} name="time" value="1">
-            <span class="checkmark"></span>
-            6 Monate
-          </label>
-        </div>
+        Ich brauche Liquidität innerhalb der nächsten
       </div>
-      <div class="help-text"></div>
     </div>
-    <button disabled={!selection.time} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <div class="next-button-wrapper" transition:fade|local>
+      <button on:click={() => { selection.time = 0; next(); }}>30 Tage</button>
+      <button on:click={() => { selection.time = 1; next(); }}>6 Monate</button>
+    </div>
   {/if}
   {#if currentStep === 8}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -187,10 +175,5 @@
 
   .main-input:focus {
     outline: none;
-  }
-
-  .radio-group {
-    display: flex;
-    justify-content: space-around;
   }
 </style>
