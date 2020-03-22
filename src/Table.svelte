@@ -15,13 +15,13 @@
     <tr>
       {#each columns as column}
         {#if column === "Link" }
-          <th><a href={row[column]}>Mehr erfahren</a></th>
+          <td><a href={row[column]}>Mehr erfahren</a></td>
         {:else if column === "E-Mail-Adresse"}
-          <th><a href={'mailto:' + row[column]}>{row[column]}</a></th>
+          <td><a href={'mailto:' + row[column]}>{row[column]}</a></td>
         {:else if column === "Telefon-Hotline"}
-          <th><a href={'tel:' + row[column]}>{row[column]}</a></th>
+          <td><a href={'tel:' + row[column]}>{row[column]}</a></td>
         {:else}
-          <th>{row[column]}</th>
+          <td>{row[column]}</td>
         {/if}
       {/each}
     </tr>
@@ -33,13 +33,15 @@
     width: 100%;
     font-size: 16px;
     overflow: auto;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
   }
 
+  th {
+    padding: 8px 0;
+  }
   tr {
     height: 50px;
-  }
-
-  thead {
-    background-color: #c5ffdd;
+    font-weight: 500;
   }
 </style>

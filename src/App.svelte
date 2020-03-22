@@ -66,7 +66,7 @@
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }} >
       <div class="input-wrapper">
         Mein Unternehmen ist
-        <input class="main-input" bind:value={selection.age} style="width: 100px;" placeholder="XX" type="number" max="999" />
+        <input class="main-input" bind:value={selection.age} style="width: 100px;" placeholder="XX" type="number" min="0" max="999" />
         Jahre alt
       </div>
       <div class="help-text">
@@ -85,7 +85,7 @@
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <div class="input-wrapper">
         Mein Unternehmen hatte 2019 einen <br>
-        Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" type="number" /> €
+        Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" min="0" type="number" /> €
       </div>
     </div>
     <button disabled={!selection.sales} transition:fade|local class="next" on:click={next}>Weiter</button>
@@ -93,7 +93,7 @@
   {#if currentStep === 6}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <div class="input-wrapper">
-        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" type="number" /> Mitarbeiter
+        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter
       </div>
     </div>
     <button disabled={!selection.employees} transition:fade|local class="next" on:click={next}>Weiter</button>
