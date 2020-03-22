@@ -14,7 +14,7 @@ const LOGIC_MAPPING = {
   "Umsatz MAX": "sales", 
   "Unternehmenshistorie MIN": "age", 
   "Unternehmenshistorie MAX": "age",
-  "Land": "state"
+  "Bundesland": "state"
 }
 
 let doc;
@@ -58,11 +58,18 @@ const filterOffers = async (filterParams) => {
       }
     });
     return include;
-  }).map(el => {
-    const displayedFields = {};
-    columns.forEach(col => logic[col] === 'show' ? displayedFields[col] = el[col] : null);
-    return displayedFields;
-  });
+  })
 
-  return { columns: columns.filter(col => logic[col] === 'show'), offers: filteredData };
+  return { 
+    columns: columns.filter(col => logic[col] === 'show'), 
+    offers: filteredData.map(el => {
+      const displayedFields = {};
+      columns.forEach(col => logic[col] === 'show' || logic[col] === 'cluster' ? displayedFields[col] = el[col] : null);
+      return displayedFields;
+    }), 
+    cluster: {
+      column: columns.filter(col => logic[col] === 'cluster')[0],
+      names: Array.from(new Set(filteredData.map(offer => offer[columns.filter(col => logic[col] === 'cluster')[0]])))
+    }
+  }
 }

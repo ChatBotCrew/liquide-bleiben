@@ -2,8 +2,20 @@
   import { fade, fly } from 'svelte/transition';
 
   import Select from './Select.svelte';
-  import Table from './Table.svelte';
+  import Results from './Results.svelte';
   import { bundeslaender, gewerbe, rechtsformen } from './data.js';
+
+  function searchToObject() {
+    const pairs = window.location.search.substring(1).split("&");
+    const obj = {};
+    for (let i in pairs) {
+      if (pairs[i] === "") continue;
+      const pair = pairs[i].split("=");
+      if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj[employees] = 0;
+      else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    }
+    return obj;
+  }
 
   let currentStep = 0;
   let selection = {
@@ -14,9 +26,11 @@
     sales: null,
     employees: null,
     time: null,
+    ...searchToObject()
   }
 
   const next = () => currentStep++;
+  const seeResults = () => currentStep = 8;
 </script>
 
 <main>
@@ -29,7 +43,12 @@
         Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
       </p>
     </div>
-    <button transition:fade|local class="next" on:click={next}>Verstanden</button>
+    <div class="next-button-wrapper" transition:fade|local>
+      <button on:click={next}>Verstanden</button>
+      {#if Object.entries(selection).filter(([k,v]) => !!v).length}
+        <button on:click={seeResults}>Verstanden & direkt zu den Ergebnissen</button>
+      {/if}
+    </div>
   {/if}
   {#if currentStep === 1}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -104,7 +123,7 @@
   {/if}
   {#if currentStep === 8}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
-      <Table {selection} />
+      <Results {selection} />
     </div>
   {/if}
 </main>
@@ -126,6 +145,23 @@
 
   .disclaimer {
     max-width: 700px;
+  }
+
+  .next-button-wrapper {
+    height: 100px;
+    width: 90%;
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .next-button-wrapper > button {
+    flex: 1;
+    border-radius: 50px;
   }
 
   button.next {

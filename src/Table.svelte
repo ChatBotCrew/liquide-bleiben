@@ -1,65 +1,32 @@
 <script>
-  import { fly } from 'svelte/transition';
-
-  export let selection;
-
-  // Remove not set selections (should not happen)
-  Object.keys(selection).forEach(key => { 
-    if (selection[key] === null) delete selection[key];
-  });
-
-  // Build URL with Query Params
-  const dataUrl = new URL(location.href + 'api/offers');
-  const searchParams = new URLSearchParams(selection).toString()
-  dataUrl.search = searchParams;
-
-  // Query Data which contains columns and offers
-  const data$ = fetch(dataUrl, { method: 'GET' })
-    .then(res => res.json());
+  export let columns = [];
+  export let offers = [];
 </script>
 
-<div class="results">
-  <h1>Ihre Auswahl</h1>
-  <!-- {#each Object.keys(selection) as key}
-    <div>
-      <span>{key}</span>
-      <span>{selection[key]}</span>
-    </div>
-  {/each} -->
-  {#await data$}
-    <div>Angebote werden geladen...</div>
-  {:then data}
-    <table>
-      <thead>
-        <tr>
-          {#each data.columns as column}
-            <th>{column}</th>
-          {/each}
-        </tr>
-      </thead>
-      {#each data.offers as row}
-        <tr>
-          {#each data.columns as column}
-            {#if column === "Link" }
-              <th><a href={row[column]}>Mehr erfahren</a></th>
-            {:else}
-              <th>{row[column]}</th>
-            {/if}
-          {/each}
-        </tr>
+<table>
+  <thead>
+    <tr>
+      {#each columns as column}
+        <th>{column}</th>
       {/each}
-    </table>
-  {/await}
-</div>
+    </tr>
+  </thead>
+  {#each offers as row}
+    <tr>
+      {#each columns as column}
+        {#if column === "Link" }
+          <th><a href={row[column]}>Mehr erfahren</a></th>
+        {:else if column === "E-Mail-Adresse"}
+          <th><a href={'mailto:' + row[column]}>Kontakt aufnehmen</a></th>
+        {:else}
+          <th>{row[column]}</th>
+        {/if}
+      {/each}
+    </tr>
+  {/each}
+</table>
 
 <style>
-
-  .results {
-    text-align: center;
-    overflow: auto;
-    max-width: 100%;
-  }
-
   table {
     width: 100%;
     font-size: 16px;
@@ -71,6 +38,6 @@
   }
 
   thead {
-    background-color: #2CFFA299;
+    background-color: #c5ffdd;
   }
 </style>
