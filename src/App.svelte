@@ -35,9 +35,11 @@
 </script>
 
 <main>
-  <a href="https://wir-bleiben-liqui.de">
-    <img class="logo" style="z-index: 100; position: absolute" src="/logo.png" alt="Wir bleiben liquide">
-  </a>
+  {#if !(window.innerWidth < 1000 && currentStep === 8)}
+    <a href="https://wir-bleiben-liqui.de">
+      <img class="logo" style="z-index: 100; position: absolute" src="/logo.png" alt="Wir bleiben liquide">
+    </a>
+  {/if}
   {#if currentStep === 0}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <p class="input-wrapper disclaimer">
@@ -49,10 +51,10 @@
     </div>
     <div class="next-button-wrapper" transition:fade|local>
       {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
-        <button on:click={seeResults}>Verstanden</button>
-        <button on:click={next}>Verstanden & Kriterien anpassen</button>
+        <button on:click={seeResults}>Akzeptieren</button>
+        <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
       {:else}
-        <button on:click={next}>Verstanden</button>
+        <button on:click={next}>Akzeptieren</button>
       {/if}
     </div>
   {/if}
