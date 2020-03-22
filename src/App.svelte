@@ -97,7 +97,7 @@
         Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
       </div>
     </div>
-    <button disabled={selection.sales === null || selection.sales > 0} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.sales === null || selection.sales < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 6}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
@@ -108,7 +108,7 @@
         Je nach Anzahl der Mitarbeiter in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter haben und ein Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
       </div>
     </div>
-    <button disabled={selection.employees === null || selection.employees > 0} transition:fade|local class="next" on:click={next}>Weiter</button>
+    <button disabled={selection.employees === null || selection.employees < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 7}
     <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>

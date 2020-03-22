@@ -14,7 +14,7 @@
   {#each offers as row}
     <tr>
       {#each columns as column}
-        {#if column === "Link" }
+        {#if row[column].startsWith('http://') || row[column].startsWith('https://')}
           <td><a target="_blank" href={row[column]}>Mehr erfahren</a></td>
         {:else if column === "E-Mail-Adresse"}
           <td><a href={'mailto:' + row[column]}>{row[column]}</a></td>

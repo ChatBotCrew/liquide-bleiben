@@ -27,7 +27,7 @@ export const gewerbe = [
   "Dienstleistung",
   "Gesundheit / Pflege / Soziales",
   "Gastronomie / Hotel",
-  "Sonnstige"
+  "Sonstige"
 ]
 
 export const rechtsformen = [
