@@ -36,14 +36,16 @@
   {:then data}
     {#if data.offers.length}
       {#each data.cluster.names as clusterName}
-        <details>
-          <summary>{clusterName}</summary>
-          <div class="info-title">
-            {@html help[clusterName].text}<br>
-            <a target="_blank" class="info-link" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>Weitere Informationen</a>
-          </div>
-          <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
-        </details>
+        {#if !(clusterName === "Zuschuss" && selection.time == 1)}
+          <details>
+            <summary>{clusterName}</summary>
+            <div class="info-title">
+              {@html help[clusterName].text}<br>
+              <a target="_blank" class="info-link" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>Weitere Informationen</a>
+            </div>
+            <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
+          </details>
+        {/if}
       {/each}
     {:else}
       <div>Leider konnten keine möglichen Förderprogramme gefunden werden.</div>
@@ -60,7 +62,7 @@
       </div>
     </details>
   {/if}
-  {#if selection.employees}
+  {#if selection.employees != 0}
     <details class="additional-info-wrapper">
       <summary>Kurzarbeit</summary>
       <div class="info-title">{@html help["Kurzarbeit"].text}</div>
@@ -69,7 +71,7 @@
       </div>
     </details>
   {/if}
-  {#if selection.employees}
+  {#if selection.employees != 0}
     <details class="additional-info-wrapper">
       <summary>Sozialbeiträge</summary>
       <div class="info-title">{@html help["Sozialbeiträge"].text}</div>
@@ -95,6 +97,7 @@
 
   .info-title {
     margin: 16px 0;
+    padding: 0 8px;
     font-size: 0.8em;
   }
 
@@ -105,6 +108,11 @@
 
   .info-link {
     height: 50px;
+    flex: 1;
+  }
+
+  li {
+    text-align: left;
   }
 
   summary {
