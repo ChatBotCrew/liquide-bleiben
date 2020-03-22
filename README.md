@@ -1,4 +1,4 @@
-# Der wir-bleiben-liqui.de Förderfinder - #liquideblieben
+# Der "wir-bleiben-liqui.de" Förderfinder - #liquidebleiben
 
 Das Projekt [wir-bleiben-liqui.de](https://wir-bleiben-liqui.de) schließt diese Lücke und gibt professionelle Hilfe – einfach, schnell und auf das konkrete Unternehmen bezogen.  
 Zusammen mit einem kurzen Fragebogen aus acht Fragen, der von unserem Partner taxy.io, entwickelt wurde, werden relevante Hilfen und Maßnahmen identifiziert.  
