@@ -1,27 +1,18 @@
-*Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# Der wir-bleiben-liqui.de Förderfinder - #liquideblieben
 
----
+Das Projekt [wir-bleiben-liqui.de](https://wir-bleiben-liqui.de) schließt diese Lücke und gibt professionelle Hilfe – einfach, schnell und auf das konkrete Unternehmen bezogen.  
+Zusammen mit einem kurzen Fragebogen aus acht Fragen, der von unserem Partner taxy.io, entwickelt wurde, werden relevante Hilfen und Maßnahmen identifiziert.  
+wir-bleiben-liqui.de bietet eine einfach zu handhabende Schritt-für-Schritt Anleitung zur Antragsstellung von Coronoa Hilfsmitteln an.  
+Parallel werden die jeweils nötigen Unterlagen angezeigt und welche Fördergelder entsprechend der individuellen Unternehmenssituation abgerufen werden können.  
+Dadurch werden auch Beratungsstellen wie Wirtschaftsförderungen und IHKs entlastet.
 
-# svelte app
+Diese App kann unter [finder.wir-bleiben-liqui.de](https://finder.wir-bleiben-liqui.de) genutzt werden.
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
-
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
-
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
-
-## Get started
+## Get in development
 
 Install the dependencies...
 
 ```bash
-cd svelte-app
 npm install
 ```
 
@@ -31,10 +22,33 @@ npm install
 npm run dev
 ```
 
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+Navigate to [localhost:8080](http://localhost:8080). You should see the app running.  
+This startup does not include starting the backend and therefore will not allow you to load any data.  
+Edit a component file in `src`, save it, and reload the page to see your changes.
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
+To start the application with the backend expressjs-Server, run:
 
+```bash
+npm run dev:server
+```
+
+Navigate to [localhost:8080](http://localhost:8080). You should see the app running.  
+Now the frontend will **not** reload on changes, but the backend is used for providing data.
+The backend reloads on changes to the `server.js`-file.
+
+To be able to include data, you will have to configure a Google Sheets connection.  
+You will need to provide following environment variable to accomplish this:
+
+| Variable Name | Description |
+|-|-|
+| GOOGLE_API_KEY | Your Google API key of a Project with the *Google Sheets API* enabled |
+| GOOGLE_SHEETS_URL | The ID part of the Google Sheets URL you want to provide data from |
+
+Run the start command as follows to include those:
+
+```bash
+GOOGLE_API_KEY=YOUR_KEY_HERE GOOGLE_SHEETS_URL=YOUR_ID_HERE npm run dev:server
+```
 
 ## Building and running in production mode
 
@@ -44,50 +58,28 @@ To create an optimised version of the app:
 npm run build
 ```
 
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
+You can run the newly built app with `npm run start`.  
+This startup does not include starting the backend and therefore will not allow you to load any data.  
 
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-
-## Deploying to the web
-
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
+To start the application with the backend expressjs-Server, run:
 
 ```bash
-npm install -g now
+npm run start:server
 ```
 
-Then, from within your project folder:
+This command automatically includes the `npm run build` command to ensure your app is up-to-date.  
+Navigate to [localhost:8080](http://localhost:8080). You should see the app running.  
+
+To be able to include data, you will have to configure a Google Sheets connection.  
+You will need to provide following environment variable to accomplish this:
+
+| Variable Name | Description |
+|-|-|
+| GOOGLE_API_KEY | Your Google API key of a Project with the *Google Sheets API* enabled |
+| GOOGLE_SHEETS_URL | The ID part of the Google Sheets URL you want to provide data from |
+
+Run the start command as follows to include those:
 
 ```bash
-cd public
-now deploy --name my-project
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
+GOOGLE_API_KEY=YOUR_KEY_HERE GOOGLE_SHEETS_URL=YOUR_ID_HERE npm run start:server
 ```
