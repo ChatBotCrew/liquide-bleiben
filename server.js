@@ -49,7 +49,7 @@ const filterOffers = async (filterParams) => {
     columns.forEach(col => {
       if (OPERATORS[logic[col]]) {
         if (logic[col] === '===') {
-          if (!OPERATORS[logic[col]](filterParams[LOGIC_MAPPING[col]], el[col])) include = false;
+          if (el[col] && !OPERATORS[logic[col]](filterParams[LOGIC_MAPPING[col]], el[col])) include = false;
         } else {
           const selectionVariable = parseFloat(filterParams[LOGIC_MAPPING[col]]);
           const columnValue = parseFloat(el[col]);
