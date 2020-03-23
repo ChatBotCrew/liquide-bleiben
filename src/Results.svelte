@@ -71,7 +71,7 @@
       <summary>Kurzarbeit</summary>
       <div class="info-title">{@html help["Kurzarbeit"].text}</div>
       <div class="info-link-wrapper">
-        <a target="_blank" class="info-link" href="https://wir-bleiben-liqui.de">Weitere Informationen</a>
+        <a target="_blank" class="info-link" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
       </div>
     </details>
   {/if}
@@ -80,7 +80,7 @@
       <summary>Sozialbeiträge</summary>
       <div class="info-title">{@html help["Sozialbeiträge"].text}</div>
       <div class="info-link-wrapper">
-        <a target="_blank" class="info-link" href="https://wir-bleiben-liqui.de">Weitere Informationen</a>
+        <a target="_blank" class="info-link" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
       </div>
     </details>
   {/if}
