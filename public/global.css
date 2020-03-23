@@ -5,6 +5,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-size: 24px;
 }
 
 body {
@@ -13,7 +14,6 @@ body {
   padding: 8px;
   box-sizing: border-box;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 24px;
 }
 
 a {

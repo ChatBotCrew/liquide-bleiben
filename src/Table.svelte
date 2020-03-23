@@ -96,6 +96,13 @@
     margin-bottom: 4px;
   }
 
+  @media(max-width: 1300px) {
+    .entry {
+      width: calc(33% - 16px);
+      margin: 8px;
+    }
+  }
+
   @media(max-width: 1000px) {
     .doc {
       width: 100%;
