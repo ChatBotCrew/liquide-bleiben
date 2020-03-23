@@ -6,8 +6,8 @@
 
   export let selection;
 
-  // Remove not set selections (should not happen)
-  Object.keys(selection).forEach(key => { 
+  // Remove not set selections (may happen when coming from a link)
+  Object.keys(selection).forEach(key => {
     if (selection[key] === null) delete selection[key];
   });
 
@@ -96,13 +96,13 @@
     overflow: auto;
     max-width: 100%;
     width: 100%;
-    margin-bottom: 75px; 
+    margin-bottom: 75px;
   }
 
   .info-title {
     margin: 16px 0;
     padding: 0 8px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
   }
 
   .info-link-wrapper {
@@ -120,7 +120,7 @@
   }
 
   summary {
-    font-size: 36px;
+    font-size: 1.5rem;
     height: 50px;
     background-color: #c5ffdd;
     display: flex;
@@ -137,7 +137,7 @@
 
   details {
     overflow: auto;
-    box-shadow: 
+    box-shadow:
       8px 8px 12px 0 #2CFFA2,
       -8px -8px 12px 0 #c5ffdd;
     width: calc(100% - 32px);
@@ -148,12 +148,6 @@
     max-width: 100%;
     margin-bottom: 32px;
     text-align: center;
-    font-size: 0.8em;
-  }
-
-  @media(max-width: 700px) {
-    summary {
-      font-size: 24px;
-    }
+    font-size: 0.8rem;
   }
 </style>

@@ -36,12 +36,11 @@
       <div class="title">{doc[columns[0]]}</div>
       <div class="content">
         {#each columns.slice(1) as column}
+          {#if doc[column]}
           <div class="entry">
             <div class="key">{column}</div>
             <div class="name">
-              {#if !doc[column]}
-                keine Angabe
-              {:else if doc[column] && (doc[column].startsWith('http://') || doc[column].startsWith('https://'))}
+              {#if doc[column] && (doc[column].startsWith('http://') || doc[column].startsWith('https://'))}
                 <a target="_blank" href={doc[column]}>Mehr erfahren</a>
               {:else if column === "E-Mail-Adresse"}
                 <a href={'mailto:' + doc[column]}>{doc[column]}</a>
@@ -52,6 +51,7 @@
               {/if}
             </div>
           </div>
+          {/if}
         {/each}
       </div>
     </div>
@@ -73,14 +73,14 @@
   }
 
   .title {
-    font-size: 24px;
+    font-size: 1rem;
   }
 
   .content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    font-size: 16px;
+    font-size: 0.75rem;
   }
 
   .entry {
@@ -106,7 +106,7 @@
       flex-direction: column;
       width: calc(25% - 16px);
       margin: 8px;
-    } 
+    }
   }
 
   @media(max-width: 880px) {

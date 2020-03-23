@@ -36,8 +36,8 @@
 
 <main>
   {#if !(window.innerWidth < 1000 && currentStep === 8)}
-    <a href="https://wir-bleiben-liqui.de">
-      <img class="logo" style="z-index: 100; position: absolute" src="/logo.png" alt="Wir bleiben liquide">
+    <a transition:fade href="https://wir-bleiben-liqui.de">
+      <img class="logo" style="position: absolute; max-width: 50%;" src="/logo.png" alt="Wir bleiben liquide">
     </a>
   {/if}
   {#if currentStep === 0}
@@ -118,7 +118,7 @@
         Ich brauche Liquidität innerhalb der nächsten
       </div>
       <div class="help-text">
-        Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen. 
+        Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen.
       </div>
     </div>
     <div class="next-button-wrapper" transition:fade|local>
@@ -140,6 +140,7 @@
     top: 0;
     left: 0;
     right: 0;
+    z-index: 5;
     margin: auto;
     height: 100%;
     width: 90%;
@@ -160,6 +161,7 @@
     bottom: 16px;
     left: 0;
     right: 0;
+    z-index: 10;
     margin: auto;
     display: flex;
     align-items: stretch;
@@ -168,6 +170,7 @@
   .next-button-wrapper > button {
     flex: 1;
     margin: 0;
+    z-index: 10;
     border-radius: 50px;
   }
 
@@ -179,20 +182,13 @@
     bottom: 16px;
     left: 0;
     right: 0;
+    z-index: 10;
     margin: auto;
   }
 
   .input-wrapper {
     text-align: center;
+    max-width: 100%;
     margin-bottom: 16px;
-  }
-
-  .main-input {
-    border-radius: 50px;
-    text-align: center;
-  }
-
-  .main-input:focus {
-    outline: none;
   }
 </style>

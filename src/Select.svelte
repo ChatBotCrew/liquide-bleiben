@@ -12,15 +12,3 @@
   {/each}
 </select>
 <div class="help-text">{help}</div>
-
-<style>
-  .main-input {
-    max-width: 90%;
-    border-radius: 50px;
-    text-align: center;
-  }
-
-  .main-input:focus {
-    outline: none;
-  }
-</style>

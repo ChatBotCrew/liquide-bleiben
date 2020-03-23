@@ -52,6 +52,16 @@ input[type="range"] {
   height: 0;
 }
 
+.main-input {
+  max-width: 90%;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.main-input:focus {
+  outline: none;
+}
+
 button {
   background-color: #2CFFA2;
   color: #333;
@@ -77,11 +87,17 @@ button:focus {
   max-width: 100%;
   margin-bottom: 32px;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 
-@media(max-width: 700px) {
+@media(max-width: 800px) {
   body {
     font-size: 16px;
+  }
+}
+
+@media(max-width: 600px) {
+  body {
+    font-size: 14px;
   }
 }
