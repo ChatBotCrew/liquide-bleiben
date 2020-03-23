@@ -43,9 +43,9 @@
               {#if doc[column] && (doc[column].startsWith('http://') || doc[column].startsWith('https://'))}
                 <a target="_blank" href={doc[column]}>Mehr erfahren</a>
               {:else if column === "E-Mail-Adresse"}
-                <a href={'mailto:' + doc[column]}>{doc[column]}</a>
+                <a href={'mailto:' + doc[column]} style="word-break: break-all;">{doc[column]}</a>
               {:else if column === "Telefon-Hotline"}
-                <a href={'tel:' + doc[column]}>{doc[column]}</a>
+                <a href={'tel:' + doc[column]} style="word-break: break-all;">{doc[column]}</a>
               {:else}
                 {doc[column]}
               {/if}

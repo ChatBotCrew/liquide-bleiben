@@ -1,7 +1,8 @@
 <script>
   import { fly } from 'svelte/transition';
-  import { help, finanzaemter, weitereInfos } from'./data';
 
+  import {send, receive} from './animations/crossfade.js';
+  import { help, finanzaemter, weitereInfos } from'./data';
   import Table from './Table.svelte';
 
   export let selection;
@@ -24,6 +25,9 @@
 </script>
 
 <div class="results">
+  <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
+    <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
+  </a>
   <h1>Ihre Resultate</h1>
   <!-- {#each Object.keys(selection) as key}
     <div>
@@ -37,7 +41,7 @@
     {:then data}
       {#if data.offers.length}
         {#each data.cluster.names as clusterName}
-          {#if !(clusterName === "Zuschuss" && selection.time == 1)}
+          {#if !(clusterName === "Zuschuss" && selection.time == "6 Monate")}
             <details>
               <summary>{clusterName}</summary>
               <div class="info-title">
@@ -86,7 +90,7 @@
   {/if}
   <div class="link-text" style="text-align: center;">
     Ihr persönlicher Finder-Link:<br>
-    <a href={pageUrl}>{pageUrl}</a>
+    <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a>
   </div>
 </div>
 

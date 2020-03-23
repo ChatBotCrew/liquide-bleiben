@@ -1,9 +1,12 @@
 <script>
   import { fade, fly } from 'svelte/transition';
+	import { tweened } from 'svelte/motion';
 
+  import {send, receive} from './animations/crossfade.js';
+  import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import { bundeslaender, gewerbe, rechtsformen } from './data.js';
+  import { bundeslaender, gewerbe, rechtsformen, times } from './data.js';
 
   function searchToObject() {
     const pairs = window.location.search.substring(1).split("&");
@@ -12,12 +15,13 @@
       if (pairs[i] === "") continue;
       const pair = pairs[i].split("=");
       if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj["employees"] = 0;
-      else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]).replace("+", " ");
     }
     return obj;
   }
 
   let currentStep = 0;
+  let progress = tweened(currentStep);
   let selection = {
     state: null,
     trade: null,
@@ -29,108 +33,134 @@
     ...searchToObject()
   }
 
-  const next = () => currentStep++;
-  const seeResults = () => currentStep = 8;
-  const toFirstStep = () => currentStep = 1;
+  console.log(selection)
+
+  const next = () => { currentStep++; progress.set(currentStep); }
+  const back = () => { currentStep--; progress.set(currentStep); }
+  const seeResults = () => { currentStep = 8; progress.set(currentStep); }
+  const toFirstStep = () => { currentStep = 1; progress.set(currentStep); }
 </script>
 
 <main>
-  {#if !(window.innerWidth < 1000 && currentStep === 8)}
-    <a transition:fade href="https://wir-bleiben-liqui.de">
+  {#if currentStep !== 8}
+    <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
       <img class="logo" style="position: absolute; max-width: 50%;" src="/logo.png" alt="Wir bleiben liquide">
     </a>
   {/if}
   {#if currentStep === 0}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
-      <p class="input-wrapper disclaimer">
+    <div class="fullpage">
+      <p class="input-wrapper disclaimer" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
         <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a> bietet weder Rechts- noch Steuerberatung an.<br>
         Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.<br>
         Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
         Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
       </p>
-    </div>
-    <div class="next-button-wrapper" transition:fade|local>
-      {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
-        <button on:click={seeResults}>Akzeptieren</button>
-        <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
-      {:else}
-        <button on:click={next}>Akzeptieren</button>
-      {/if}
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
+          <button on:click={seeResults}>Akzeptieren</button>
+          <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
+        {:else}
+          <button on:click={next}>Akzeptieren</button>
+        {/if}
+      </div>
     </div>
   {/if}
   {#if currentStep === 1}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+    <div class="fullpage">
       <Select categoryName="Bundesland" bind:value={selection.state} options={bundeslaender} help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist." />
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={selection.state === null}>Weiter</button>
+      </div>
+      <Progress progress={$progress} />
     </div>
-    <button disabled={selection.state === null} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 2}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+    <div class="fullpage">
       <Select categoryName="Gewerbe" bind:value={selection.trade} options={gewerbe} help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können." />
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={selection.trade === null}>Weiter</button>
+      </div>
+      <Progress progress={$progress} />
     </div>
-    <button disabled={selection.trade === null} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 3}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }} >
-      <div class="input-wrapper">
+    <div class="fullpage">
+      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
         Mein Unternehmen ist
         <input class="main-input" bind:value={selection.age} style="width: 100px;" placeholder="XX" type="number" min="0" max="999" />
         Jahre alt
+        <div class="help-text">
+          Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
+        </div>
       </div>
-      <div class="help-text">
-        Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={selection.age === null || selection.age < 0}>Weiter</button>
       </div>
+      <Progress progress={$progress} />
     </div>
-    <button disabled={selection.age === null || selection.age < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 4}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
-      <Select categoryName="Rechtsform" bind:value={selection.legal} options={rechtsformen} help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein Einzelunternehmer sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR." />
+    <div class="fullpage">
+      <Select categoryName="Rechtsform" bind:value={selection.legal} options={rechtsformen} help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein:e Einzelunternehmer:in sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR." />
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={!selection.legal}>Weiter</button>
+      </div>
+      <Progress progress={$progress} />
     </div>
-    <button disabled={!selection.legal} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 5}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
-      <div class="input-wrapper">
+    <div class="fullpage">
+      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
         Mein Unternehmen hatte 2019 einen <br>
         Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" min="0" type="number" /> €
+        <div class="help-text">
+          Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
+        </div>
       </div>
-      <div class="help-text">
-        Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={selection.sales === null || selection.sales < 0}>Weiter</button>
       </div>
+      <Progress progress={$progress} />
     </div>
-    <button disabled={selection.sales === null || selection.sales < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 6}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
-      <div class="input-wrapper">
-        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter
+    <div class="fullpage">
+      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter:innen
+        <div class="help-text">
+          Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
+        </div>
       </div>
-      <div class="help-text">
-        Je nach Anzahl der Mitarbeiter in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter haben und ein Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={selection.employees === null || selection.employees < 0}>Weiter</button>
       </div>
+      <Progress progress={$progress} />
     </div>
-    <button disabled={selection.employees === null || selection.employees < 0} transition:fade|local class="next" on:click={next}>Weiter</button>
   {/if}
   {#if currentStep === 7}
-    <div class="fullpage" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
-      <div class="input-wrapper">
+    <div class="fullpage">
+      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
         Ich brauche Liquidität innerhalb der nächsten
       </div>
-      <div class="help-text">
-        Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen.
+      <Select categoryName="Verbleibende Zeit" bind:value={selection.time} options={times} help="Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen." />
+      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={!selection.time}>Zu den Resultaten</button>
       </div>
-    </div>
-    <div class="next-button-wrapper" transition:fade|local>
-      <button on:click={() => { selection.time = 0; next(); }}>30 Tage</button>
-      <button on:click={() => { selection.time = 1; next(); }}>6 Monate</button>
+      <Progress progress={$progress} />
     </div>
   {/if}
   {#if currentStep === 8}
     <div class="fullpage" style="width: 100%;" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
       <Results {selection} />
-      <button class="next" on:click={toFirstStep}>Kriterien anpassen</button>
     </div>
+    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">Kriterien anpassen</button>
   {/if}
 </main>
 
@@ -155,14 +185,9 @@
   }
 
   .next-button-wrapper {
-    height: 50px;
+    min-height: 50px;
     width: 90%;
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    right: 0;
     z-index: 10;
-    margin: auto;
     display: flex;
     align-items: stretch;
   }
@@ -174,7 +199,7 @@
     border-radius: 50px;
   }
 
-  button.next {
+  button.change-inputs {
     height: 50px;
     width: 90%;
     border-radius: 50px;
@@ -190,5 +215,8 @@
     text-align: center;
     max-width: 100%;
     margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

@@ -41,6 +41,11 @@ export const rechtsformen = [
   "Einzelunternehmer"
 ]
 
+export const times = [
+  "30 Tage",
+  "6 Monate"
+]
+
 export const finanzaemter = {
   "Bremen": "https://www.finanzen.bremen.de/steuern/finanzaemter-19710",
   "Berlin": "https://service.berlin.de/standorte/finanzaemter/",
