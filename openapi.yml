@@ -180,5 +180,9 @@ components:
           properties:
             column:
               type: "string"
+            names:
+              type: "array"
+              items:
+                type: "string"
 externalDocs:
   url: "https://devpost.com/software/liquiditat-fur-den-mittelstand"
