@@ -3,20 +3,20 @@ info:
   description: ""
   version: "0.1.0"
   title: "liquide bleiben"
-  termsOfService: ""
   contact:
     email: "wir-bleiben-liquide@gmail.com"
   license:
-    name: ""
-    url: ""
+    name: "MIT"
+    url: "https://github.com/TimMaa/liquide-bleiben/blob/master/LICENSE"
 servers:
-  - url: "http://wir-bleiben-liqui.de"
+  - url: "https://finder.wir-bleiben-liqui.de"
     description: "Production server"
 paths:
   /api/ids:
     get:
       summary: "Get all ids of available offers"
-      operationId: "getIds" 
+      deprecated: true
+      operationId: "getIds"
       parameters:
       - $ref: "#/components/parameters/state"
       - $ref: "#/components/parameters/trade"
@@ -24,16 +24,25 @@ paths:
       - $ref: "#/components/parameters/legal"
       - $ref: "#/components/parameters/sales"
       - $ref: "#/components/parameters/employees"
-      - $ref: "#/components/parameters/time"     
+      - $ref: "#/components/parameters/time"
       responses:
         200:
           description: "Succesful"
           content:
             application/json:
               schema:
-                type: array
+                type: "array"
                 items:
-                  type: string
+                  type: "string"
+        400:
+          description: "Bad Input"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "string"
   /api/offers:
     get:
       summary: "Get all available offers"
@@ -53,6 +62,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/offers-response"
+        400:
+          description: "Bad Input"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "string"
 components:
   parameters:
     state:
@@ -61,50 +79,89 @@ components:
       description: "german state the company is located in"
       required: false
       schema:
-        type: string
+        type: "string"
+        enum:
+        - "Baden-Württemberg"
+        - "Bayern"
+        - "Berlin"
+        - "Brandenburg"
+        - "Bremen"
+        - "Hamburg"
+        - "Hessen"
+        - "Mecklenburg-Vorpommern"
+        - "Niedersachsen"
+        - "Nordrhein-Westfalen"
+        - "Rheinland-Pfalz"
+        - "Saarland"
+        - "Sachsen-Anhalt"
+        - "Sachsen"
+        - "Schleswig-Holstein"
+        - "Thüringen"
     trade:
       in: "query"
       name: "trade"
       description: "trade of the company"
       required: false
       schema:
-        type: string
+        type: "string"
+        enum:
+        - "Land- und Forstwirtschaft Fischerei und Fischzucht"
+        - "Bergbau und Gewinnung von Steinen und Erden"
+        - "Verarbeitendes Gewerbe"
+        - "Energie- und Wasserversorgung"
+        - "Handel"
+        - "Baugewerbe"
+        - "Dienstleistung"
+        - "Gesundheit / Pflege / Soziales"
+        - "Gastronomie / Hotel"
+        - "Sonstige"
     age:
       in: "query"
       name: "age"
       description: "age of the company in years"
       required: false
       schema:
-        type: integer
+        type: "integer"
     legal:
       in: "query"
       name: "legal"
       description: "legal form of the company"
       required: false
       schema:
-        type: string
+        type: "string"
+        enum:
+        - "GmbH"
+        - "UG"
+        - "AG"
+        - "GBR"
+        - "E.K."
+        - "GmbH & Co. KG"
+        - "OHG"
+        - "Einzelunternehmer"
     sales:
       in: "query"
       name: "sales"
-      description: "last years sales of the company"
+      description: "last years sales of the company (rounded to full Euro)"
       required: false
       schema:
-        type: string
+        type: "integer"
     employees:
       in: "query"
       name: "employees"
       description: "employees of the company"
       required: false
       schema:
-        type: integer
+        type: "integer"
     time:
       in: "query"
       name: "time"
       description: "german state the company is located in"
       required: false
       schema:
-        type: string
-        enum: [ '0', '1' ]
+        type: "string"
+        enum:
+        - "30 Tage"
+        - "6 Monate"
   schemas:
     offers-response:
       type: "object"
@@ -112,11 +169,16 @@ components:
         columns:
           type: "array"
           items:
-            type: string
+            type: "string"
         offers:
           type: "array"
+          description: the keys of the objects will be the same as the values in the "columns"-array
           items:
             type: "object"
+        cluster:
+          type: "object"
+          properties:
+            column:
+              type: "string"
 externalDocs:
-  description: ""
-  url: ""
+  url: "https://devpost.com/software/liquiditat-fur-den-mittelstand"

@@ -33,8 +33,6 @@
     ...searchToObject()
   }
 
-  console.log(selection)
-
   const next = () => { currentStep++; progress.set(currentStep); }
   const back = () => { currentStep--; progress.set(currentStep); }
   const seeResults = () => { currentStep = 8; progress.set(currentStep); }
