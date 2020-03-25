@@ -2,17 +2,17 @@ var express = require('express');
 var app = express();
 var { GoogleSpreadsheet } = require('google-spreadsheet');
 
-const OPERATORS = { 
+const OPERATORS = {
   '>=': (a,b) => a >= b,
   '<=': (a,b) => a <= b,
   '===': (a,b) => a === b,
 };
-const LOGIC_MAPPING = { 
-  "Mitarbeiter MIN": "employees", 
-  "Mitarbeiter MAX": "employees", 
-  "Umsatz MIN": "sales", 
-  "Umsatz MAX": "sales", 
-  "Unternehmenshistorie MIN": "age", 
+const LOGIC_MAPPING = {
+  "Mitarbeiter MIN": "employees",
+  "Mitarbeiter MAX": "employees",
+  "Umsatz MIN": "sales",
+  "Umsatz MAX": "sales",
+  "Unternehmenshistorie MIN": "age",
   "Unternehmenshistorie MAX": "age",
   "Bundesland": "state"
 }
@@ -45,30 +45,31 @@ const filterOffers = async (filterParams) => {
   const data = rows.slice(1);
 
   const filteredData = data.filter(el => {
-    let include = true;
-    columns.forEach(col => {
+    return columns.every(col => {
       if (OPERATORS[logic[col]]) {
-        if (logic[col] === '===') {
-          if (el[col] && !OPERATORS[logic[col]](filterParams[LOGIC_MAPPING[col]], el[col])) include = false;
+        if(el[col] === undefined) {
+          return false;
+        } else if (logic[col] === '===') {
+          if (el[col] && !OPERATORS[logic[col]](filterParams[LOGIC_MAPPING[col]], el[col])) return false;
         } else {
           const selectionVariable = parseFloat(filterParams[LOGIC_MAPPING[col]]);
           const columnValue = parseFloat(el[col]);
           if (!isNaN(selectionVariable) && !isNaN(columnValue)) {
-            if (!OPERATORS[logic[col]](selectionVariable, columnValue)) include = false;
+            if (!OPERATORS[logic[col]](selectionVariable, columnValue)) return false;
           }
         }
       }
+      return true;
     });
-    return include;
   })
 
-  return { 
-    columns: columns.filter(col => logic[col] === 'show'), 
+  return {
+    columns: columns.filter(col => logic[col] === 'show'),
     offers: filteredData.map(el => {
       const displayedFields = {};
       columns.forEach(col => logic[col] === 'show' || logic[col] === 'cluster' ? displayedFields[col] = el[col] : null);
       return displayedFields;
-    }), 
+    }),
     cluster: {
       column: columns.filter(col => logic[col] === 'cluster')[0],
       names: Array.from(new Set(filteredData.map(offer => offer[columns.filter(col => logic[col] === 'cluster')[0]])))
