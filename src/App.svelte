@@ -1,7 +1,8 @@
 <script>
   import { fade, fly } from 'svelte/transition';
-	import { tweened } from 'svelte/motion';
+  import { tweened } from 'svelte/motion';
 
+  import { lastStep } from './store.js';
   import {send, receive} from './animations/crossfade.js';
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
@@ -22,32 +23,32 @@
 
   let currentStep = 0;
   let progress = tweened(currentStep);
-  let selection = {
+  let selection = Object.assign({}, {
     state: null,
     trade: null,
     age: null,
     legal: null,
     sales: null,
     employees: null,
-    time: null,
-    ...searchToObject()
-  }
+    time: null
+  }, searchToObject());
 
-  const next = () => { currentStep++; progress.set(currentStep); }
-  const back = () => { currentStep--; progress.set(currentStep); }
-  const seeResults = () => { currentStep = 8; progress.set(currentStep); }
-  const toFirstStep = () => { currentStep = 1; progress.set(currentStep); }
+  const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); }
+  const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); }
+  const seeResults = () => { lastStep.set(1); currentStep = 8; progress.set(currentStep); }
+  const toFirstStep = () => { lastStep.set(-1); currentStep = 1; progress.set(currentStep); }
+  const flyDirection = () => 1000 * $lastStep;
 </script>
 
 <main>
   {#if currentStep !== 8}
-    <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
-      <img class="logo" style="position: absolute; max-width: 50%;" src="/logo.png" alt="Wir bleiben liquide">
+    <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de" style="position: absolute; max-width: 50%;">
+      <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
   {/if}
   {#if currentStep === 0}
     <div class="fullpage">
-      <p class="input-wrapper disclaimer" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+      <p class="input-wrapper disclaimer" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a> bietet weder Rechts- noch Steuerberatung an.<br>
         Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.<br>
         Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
@@ -65,7 +66,12 @@
   {/if}
   {#if currentStep === 1}
     <div class="fullpage">
-      <Select categoryName="Bundesland" bind:value={selection.state} options={bundeslaender} help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist." />
+      <Select
+        categoryName="Bundesland"
+        bind:value={selection.state}
+        options={bundeslaender}
+        help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist."
+      />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.state === null}>Weiter</button>
@@ -75,7 +81,12 @@
   {/if}
   {#if currentStep === 2}
     <div class="fullpage">
-      <Select categoryName="Gewerbe" bind:value={selection.trade} options={gewerbe} help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können." />
+      <Select
+        categoryName="Gewerbe"
+        bind:value={selection.trade}
+        options={gewerbe}
+        help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können."
+      />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.trade === null}>Weiter</button>
@@ -85,7 +96,7 @@
   {/if}
   {#if currentStep === 3}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Mein Unternehmen ist
         <input class="main-input" bind:value={selection.age} style="width: 100px;" placeholder="XX" type="number" min="0" max="999" />
         Jahre alt
@@ -95,14 +106,19 @@
       </div>
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={selection.age === null || selection.age < 0}>Weiter</button>
+        <button class="next" on:click={next} disabled={selection.age === null || selection.age < 0 || selection.age > 999}>Weiter</button>
       </div>
       <Progress progress={$progress} />
     </div>
   {/if}
   {#if currentStep === 4}
     <div class="fullpage">
-      <Select categoryName="Rechtsform" bind:value={selection.legal} options={rechtsformen} help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein:e Einzelunternehmer:in sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR." />
+      <Select
+        categoryName="Rechtsform"
+        bind:value={selection.legal}
+        options={rechtsformen}
+        help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein:e Einzelunternehmer:in sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR."
+      />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={!selection.legal}>Weiter</button>
@@ -112,7 +128,7 @@
   {/if}
   {#if currentStep === 5}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Mein Unternehmen hatte 2019 einen <br>
         Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" min="0" type="number" /> €
         <div class="help-text">
@@ -128,7 +144,7 @@
   {/if}
   {#if currentStep === 6}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter:innen
         <div class="help-text">
           Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
@@ -143,10 +159,15 @@
   {/if}
   {#if currentStep === 7}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Ich brauche Liquidität innerhalb der nächsten
       </div>
-      <Select categoryName="Verbleibende Zeit" bind:value={selection.time} options={times} help="Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen." />
+      <Select
+        categoryName="Verbleibende Zeit"
+        bind:value={selection.time}
+        options={times}
+        help="Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen."
+      />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={!selection.time}>Zu den Resultaten</button>
@@ -155,10 +176,10 @@
     </div>
   {/if}
   {#if currentStep === 8}
-    <div class="fullpage" style="width: 100%;" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+    <div class="fullpage" style="width: 100%; max-width: none;" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <Results {selection} />
     </div>
-    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">Kriterien anpassen</button>
+    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">Zurück zum Finder</button>
   {/if}
 </main>
 
@@ -172,14 +193,11 @@
     margin: auto;
     height: 100%;
     width: 90%;
+    max-width: 880px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-
-  .disclaimer {
-    max-width: 700px;
   }
 
   .next-button-wrapper {
@@ -192,7 +210,7 @@
 
   .next-button-wrapper > button {
     flex: 1;
-    margin: 0;
+    margin: 0 8px;
     z-index: 10;
     border-radius: 50px;
   }
@@ -216,5 +234,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .disclaimer {
+    line-height: 1.25;
   }
 </style>

@@ -44,11 +44,16 @@
           {#if !(clusterName === "Zuschuss" && selection.time == "6 Monate")}
             <details>
               <summary>{clusterName}</summary>
+              <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
               <div class="info-title">
                 {@html help[clusterName].text}<br>
-                <a target="_blank" class="info-link" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>Weitere Informationen</a>
               </div>
-              <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
+              <div class="info-link-wrapper">
+                <span>Sie wollen mehr wissen?</span>
+                <a target="_blank" class="info-link button" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>
+                  Direkt zu unserem Blog
+                </a>
+              </div>
             </details>
           {/if}
         {/each}
@@ -75,7 +80,8 @@
       <summary>Kurzarbeit</summary>
       <div class="info-title">{@html help["Kurzarbeit"].text}</div>
       <div class="info-link-wrapper">
-        <a target="_blank" class="info-link" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
+        <span>Sie wollen mehr wissen?</span>
+        <a target="_blank" class="info-link button" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
       </div>
     </details>
   {/if}
@@ -84,12 +90,13 @@
       <summary>Sozialbeiträge</summary>
       <div class="info-title">{@html help["Sozialbeiträge"].text}</div>
       <div class="info-link-wrapper">
-        <a target="_blank" class="info-link" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
+        <span>Sie wollen mehr wissen?</span>
+        <a target="_blank" class="info-link button" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
       </div>
     </details>
   {/if}
   <div class="link-text" style="text-align: center;">
-    Ihr persönlicher Finder-Link:<br>
+    Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
     <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a>
   </div>
 </div>
@@ -104,19 +111,29 @@
   }
 
   .info-title {
-    margin: 16px 0;
+    margin: 16px auto;
     padding: 0 8px;
     font-size: 0.8rem;
+    line-height: 1.5;
+    max-width: 880px;
+    text-align: justify;
   }
 
   .info-link-wrapper {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
   }
 
   .info-link {
     height: 50px;
     flex: 1;
+    border-radius: 50px;
+    margin: 16px;
+    line-height: 50px;
+    max-width: 500px;
+    width: 100%;
   }
 
   li {

@@ -1,13 +1,15 @@
 <script>
   import { fly } from 'svelte/transition';
 
+  import { lastStep } from './store.js'
+
   export let value;
   export let options;
   export let help;
   export let categoryName;
 </script>
 
-<div class="select-wrapper" in:fly={{ x: 1000, duration: 1500 }} out:fly={{ x: -1000, duration: 1500 }}>
+<div class="select-wrapper" in:fly={{ x: 1000 * $lastStep, duration: 1500 }} out:fly={{ x: -1000 * $lastStep , duration: 1500 }}>
   <select class="main-input" bind:value>
     <option selected disabled>{categoryName} wählen</option>
     {#each options as option}
