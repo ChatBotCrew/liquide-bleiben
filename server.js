@@ -24,7 +24,7 @@ if (process.env.GOOGLE_SHEET_URL && process.env.GOOGLE_API_KEY) {
   doc.useApiKey(process.env.GOOGLE_API_KEY);
   const getDocInfo = async () => {
     await doc.loadInfo(); // loads document properties and worksheets
-    parameterSheet = doc.sheetsByIndex[0];
+    parameterSheet = doc.sheetsByIndex[1];
   };
   setTimeout(getDocInfo, 300000);
   getDocInfo();

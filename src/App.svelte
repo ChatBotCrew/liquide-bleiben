@@ -32,15 +32,31 @@
     employees: null,
     time: null
   }, searchToObject());
+  let cookiesSet = null;
+
+  if (document.cookie.indexOf(window.disableStr + '=true') > -1) cookiesSet = true;
+  if (document.cookie.indexOf('_ga') > -1) cookiesSet = true;
 
   const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); }
   const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); }
   const seeResults = () => { lastStep.set(1); currentStep = 8; progress.set(currentStep); }
   const toFirstStep = () => { lastStep.set(-1); currentStep = 1; progress.set(currentStep); }
   const flyDirection = () => 1000 * $lastStep;
+  const optin = () => { window.gaOptin(); cookiesSet = true; }
+  const optout = () => { window.gaOptout(); cookiesSet = true; }
 </script>
 
 <main>
+  {#if !cookiesSet}
+    <div class="cookies-banner" transition:fly="{{ y: 100 }}">
+      <div>
+        <div>Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="https://wir-bleiben-liqui.de/datenschutz/">Datenschutzerklärung</a>.</div>
+        <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
+      </div>
+      <button class="ga-optin" on:click={optin}>Ich stimme zu</button>
+      <a on:click={optout} href="">X</a>
+    </div>
+  {/if}
   {#if currentStep !== 8}
     <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de" style="position: absolute; max-width: 50%;">
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
@@ -238,5 +254,32 @@
 
   .disclaimer {
     line-height: 1.25;
+  }
+
+  .cookies-banner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    font-size: 0.75em;
+    display: flex;
+    padding: 16px 32px;
+    box-sizing: border-box;
+    align-items: center;
+  }
+
+  .cookies-banner > div {
+    flex: 1;
+  }
+
+  .cookies-banner > button {
+    margin: 0 8px;
+    border-radius: 50px;
+  }
+
+  .ga-optin {
+    max-width: 300px;
+    width: 30%;
   }
 </style>

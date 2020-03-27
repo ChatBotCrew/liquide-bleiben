@@ -90,7 +90,7 @@
       <summary>Sozialbeiträge</summary>
       <div class="info-title">{@html help["Sozialbeiträge"].text}</div>
       <div class="info-link-wrapper">
-        <span>Sie wollen mehr wissen?</span>
+        <span0>Sie wollen mehr wissen?</span0>
         <a target="_blank" class="info-link button" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
       </div>
     </details>
