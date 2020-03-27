@@ -1,6 +1,8 @@
 <script>
   import { fly } from 'svelte/transition';
 
+  import ga from './ga.js';
+  import { cookiesAllowed } from './store.js';
   import {send, receive} from './animations/crossfade.js';
   import { help, finanzaemter, weitereInfos } from'./data';
   import Table from './Table.svelte';
@@ -15,13 +17,17 @@
   // Build URL with Query Params
   const dataUrl = new URL(location.origin + '/api/offers');
   const pageUrl = new URL(location.origin);
-  const searchParams = new URLSearchParams(selection).toString()
+  const searchParams = new URLSearchParams(Object.assign({}, selection, { lok: $cookiesAllowed })).toString()
   dataUrl.search = searchParams;
   pageUrl.search = searchParams;
 
   // Query Data which contains columns and offers
   const data$ = fetch(dataUrl, { method: 'GET' })
-    .then(res => res.json());
+    .then(res => {
+      ga.sendGAEvent('nav', 'load', 'results')
+      return res.json()
+    });
+  
 </script>
 
 <div class="results">

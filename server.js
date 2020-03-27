@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var { GoogleSpreadsheet } = require('google-spreadsheet');
+var fs = require('fs');
 
 const OPERATORS = {
   '>=': (a,b) => a >= b,
@@ -19,12 +20,13 @@ const LOGIC_MAPPING = {
 
 let doc;
 let parameterSheet;
+
 if (process.env.GOOGLE_SHEET_URL && process.env.GOOGLE_API_KEY) {
   doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_URL);
   doc.useApiKey(process.env.GOOGLE_API_KEY);
   const getDocInfo = async () => {
     await doc.loadInfo(); // loads document properties and worksheets
-    parameterSheet = doc.sheetsByIndex[1];
+    parameterSheet = doc.sheetsByIndex[0];
   };
   setTimeout(getDocInfo, 300000);
   getDocInfo();
@@ -33,6 +35,7 @@ if (process.env.GOOGLE_SHEET_URL && process.env.GOOGLE_API_KEY) {
 app.use(express.static('public'));
 
 app.get('/api/offers', async (req, res) => {
+  if (req.query.lok) fs.writeFile('log.txt', `${JSON.stringify(req.query)}\n`, { flag: 'a' }, e => { if(e) console.log(e); });
   res.send(await filterOffers(req.query))
 });
 

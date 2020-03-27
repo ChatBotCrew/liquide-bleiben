@@ -2,7 +2,8 @@
   import { fade, fly } from 'svelte/transition';
   import { tweened } from 'svelte/motion';
 
-  import { lastStep } from './store.js';
+  import ga from './ga.js'
+  import { cookiesAllowed, lastStep } from './store.js';
   import {send, receive} from './animations/crossfade.js';
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
@@ -32,23 +33,19 @@
     employees: null,
     time: null
   }, searchToObject());
-  let cookiesSet = null;
 
-  if (document.cookie.indexOf(window.disableStr + '=true') > -1) cookiesSet = true;
-  if (document.cookie.indexOf('_ga') > -1) cookiesSet = true;
-
-  const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); }
-  const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); }
-  const seeResults = () => { lastStep.set(1); currentStep = 8; progress.set(currentStep); }
-  const toFirstStep = () => { lastStep.set(-1); currentStep = 1; progress.set(currentStep); }
+  const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
+  const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `back ${currentStep}`) }
+  const seeResults = () => { lastStep.set(1); currentStep = 8; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
+  const toFirstStep = () => { lastStep.set(-1); currentStep = 1; progress.set(currentStep); ga.sendGAEvent('nav', 'click', 'restart') }
   const flyDirection = () => 1000 * $lastStep;
-  const optin = () => { window.gaOptin(); cookiesSet = true; }
-  const optout = () => { window.gaOptout(); cookiesSet = true; }
+  const optin = () => ga.optin();
+  const optout = () => ga.optout();
 </script>
 
 <main>
-  {#if !cookiesSet}
-    <div class="cookies-banner" transition:fly="{{ y: 100 }}">
+  {#if $cookiesAllowed === null}
+    <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
       <div>
         <div>Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="https://wir-bleiben-liqui.de/datenschutz/">Datenschutzerklärung</a>.</div>
         <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
