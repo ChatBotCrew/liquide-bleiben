@@ -1,6 +1,6 @@
 import { cookiesAllowed } from './store.js';
 
-const gaProperty = 'UA-160501577-1';
+const gaProperty = 'UA-161472816-1';
 const disableStr = 'ga-disable-' + gaProperty;
 
 if (document.cookie.indexOf(disableStr + '=true') > -1) { window[disableStr] = true; cookiesAllowed.set(false) };
