@@ -51,15 +51,17 @@
             <details>
               <summary>{clusterName}</summary>
               <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
-              <div class="info-title">
-                {@html help[clusterName].text}<br>
-              </div>
-              <div class="info-link-wrapper">
-                <span>Sie wollen mehr wissen?</span>
-                <a target="_blank" class="info-link button" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>
-                  Direkt zu unserem Blog
-                </a>
-              </div>
+              {#if help[clusterName]}
+                <div class="info-title">
+                  {@html help[clusterName].text}<br>
+                </div>
+                <div class="info-link-wrapper">
+                  <span>Sie wollen mehr wissen?</span>
+                  <a target="_blank" class="info-link button" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>
+                    Direkt zu unserem Blog
+                  </a>
+                </div>
+              {/if}
             </details>
           {/if}
         {/each}
