@@ -13,7 +13,7 @@
   <select class="main-input" bind:value>
     <option selected disabled>{categoryName} wählen</option>
     {#each options as option}
-      <option value={option}>{option}</option>
+      <option value={option.id}>{option.name}</option>
     {/each}
   </select>
   <div class="help-text">{help}</div>
