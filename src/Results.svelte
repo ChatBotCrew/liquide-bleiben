@@ -27,7 +27,7 @@
       ga.sendGAEvent('nav', 'load', 'results')
       return res.json()
     });
-  
+
 </script>
 
 <div class="results">
@@ -128,6 +128,7 @@
   }
 
   .info-link-wrapper {
+    margin: 0 8px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -139,9 +140,11 @@
     flex: 1;
     border-radius: 50px;
     margin: 16px;
+    padding: 8px;
     line-height: 50px;
     max-width: 500px;
     width: 100%;
+    white-space: nowrap;
   }
 
   li {
@@ -175,7 +178,7 @@
 
   .link-text {
     max-width: 100%;
-    margin-bottom: 32px;
+    margin: 0 8px 32px 8px;
     text-align: center;
     font-size: 0.8rem;
   }
