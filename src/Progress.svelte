@@ -10,6 +10,7 @@
   progress {
     width: 90%;
     margin-top: 16px;
+    margin-bottom: 8px;
 
     -webkit-appearance: none;
     -moz-appearance: none;
