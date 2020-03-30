@@ -1,60 +1,4 @@
-var { getColumns, getOffers } = require('./codebeamer.js');
-var { getParameterSheet } = require('./googlesheets.js');
-
-const OPERATORS = {
-  '>=': (a,b) => a >= b,
-  '<=': (a,b) => a <= b,
-  '===': (a,b) => a === b,
-};
-
-const LOGIC_MAPPING = {
-  "Mitarbeiter MIN": "employees",
-  "Mitarbeiter MAX": "employees",
-  "Umsatz MIN": "sales",
-  "Umsatz MAX": "sales",
-  "Unternehmenshistorie MIN": "age",
-  "Unternehmenshistorie MAX": "age",
-  "Bundesland": "state"
-}
-
-const filterOffersGS = async (filterParams) => {
-  const rows = await getParameterSheet().getRows();
-  const logic = rows[0]
-  const columns = Object.keys(logic).filter(col => !col.startsWith('_'));
-  const data = rows.slice(1);
-
-  const filteredData = data.filter(el => {
-    return columns.every(col => {
-      if (OPERATORS[logic[col]]) {
-        if(el[col] === undefined) {
-          return false;
-        } else if (logic[col] === '===') {
-          if (el[col] && !OPERATORS[logic[col]](filterParams[LOGIC_MAPPING[col]], el[col])) return false;
-        } else {
-          const selectionVariable = parseFloat(filterParams[LOGIC_MAPPING[col]]);
-          const columnValue = parseFloat(el[col]);
-          if (!isNaN(selectionVariable) && !isNaN(columnValue)) {
-            if (!OPERATORS[logic[col]](selectionVariable, columnValue)) return false;
-          }
-        }
-      }
-      return true;
-    });
-  })
-
-  return {
-    columns: columns.filter(col => logic[col] === 'show'),
-    offers: filteredData.map(el => {
-      const displayedFields = {};
-      columns.forEach(col => logic[col] === 'show' || logic[col] === 'cluster' ? displayedFields[col] = el[col] : null);
-      return displayedFields;
-    }),
-    cluster: {
-      column: columns.filter(col => logic[col] === 'cluster')[0],
-      names: Array.from(new Set(filteredData.map(offer => offer[columns.filter(col => logic[col] === 'cluster')[0]])))
-    }
-  }
-}
+var { getClusters, getColumns, getOffers } = require('./codebeamer.js');
 
 function filterOffers(filterParams) {
   let filteredOffers = getOffers();
@@ -63,7 +7,7 @@ function filterOffers(filterParams) {
     filteredOffers = filteredOffers.filter(off => {
       return off.fields
         .find(field => field.fieldId === 1000).values
-        .find(val => val.name === filterParams.state || val.id === filterParams.state || val.id === 17)
+        .find(val => val.name === filterParams.state || val.id == filterParams.state || val.id === 17)
     });
   }
 
@@ -114,11 +58,18 @@ function formatOffersOld(offers) {
   return offers.map(off => {
     const fieldsObject = {}
     off.fields.filter(field => columndIds.includes(field.fieldId)).forEach(field => {
-      if (field.value) fieldsObject[field.name] = field.value
-      else fieldsObject[field.name] = field.values.map(val => val.name).join(', ')
+      if (field.value) {
+        if (typeof field.value === 'boolean') {
+          fieldsObject[field.name] = field.value ? 'Ja' : 'Nein';
+        } else {
+          fieldsObject[field.name] = field.value.replace(/[\\\~]/g, '');
+        }
+      } else {
+        fieldsObject[field.name] = field.values.map(val => val.name).join(', ');
+      }
     })
     return {
-      name: off.name,
+      'Name': off.name,
       ...fieldsObject
     }
   });
@@ -134,10 +85,7 @@ function getColumnsCtrl() {
 }
 
 function getClustersCtrl() {
-  return {
-    column: getColumns.find(col => col.id === 1002).name,
-    names: Array.from(new Set(filteredData.map(offer => offer[columns.filter(col => logic[col] === 'cluster')[0]])))
-  }
+  return getClusters();
 }
 
 setTimeout(() => getColumnsCtrl(), 2000);

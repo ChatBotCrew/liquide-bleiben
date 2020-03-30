@@ -71,7 +71,7 @@ export const weitereInfos = {
 }
 
 export const help = {
-  Kredit: {
+  Darlehen: {
     text: "<p>Bei einem Darlehen wird dem Unternehmen ein Geldbetrag zur Verfügung gestellt. Das Unternehmen verpflichtet sich, das Darlehen über die Laufzeit hinweg zurückzubezahlen. Die Rückzahlungsraten setzen sich aus Zins und Tilgung zusammen.</p><p>Für einen Antrag benötigen Sie in den meisten Fällen folgende Dokumente:</p><ul><li>Handelsregister Auszug</li><li>Jahresabschlüsse</li><li>Liquiditätsplanung</li><li>Beschreibung der Auswirkung der Pandemie auf Ihr Unternehmen</li><li>Betriebswirtschaftliche Auswertung 2019 (inkl. Summen-und Saldenliste)</li><li>Selbstauskunft</li><li>Vorschlag für den Eigenbeitrag des Gesellschafters</li><li>Junge Unternehmen (<5 Jahre) Business Plan</li></ul>",
     link: "https://wir-bleiben-liqui.de/tag/foerderkredit/"
   },

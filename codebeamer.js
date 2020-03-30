@@ -4,7 +4,10 @@ var BASE_PATH = 'https://liquidebleiben.codebeamer.com/api/v3'
 var AUTH_HEADER = { 'Authorization': `Basic ${process.env.CB_BASIC_AUTH}` };
 
 let offers = [];
-let clusters = [];
+let clusters = {
+  column: undefined,
+  names: [],
+};
 let displayedColumns = [];
 
 const dropdowns = [
@@ -14,19 +17,18 @@ const dropdowns = [
     options: []
   },
   {
-    id: 1001, 
+    id: 1001,
     name: 'trade',
     options: []
   },
 ]
 
 async function retrieveOffers() {
-  const cbOffers = await fetch(`${BASE_PATH}/trackers/2221/reports/2914/items?page=1&pageSize=500`, {
+  const cbOffers = await fetch(`${BASE_PATH}/trackers/2221/reports/3017/items?page=1&pageSize=500`, {
     method: 'GET',
     headers: AUTH_HEADER,
   })
     .then(res => res.json())
-  console.log(cbOffers)
   offers = cbOffers.items.map(item => ({ name: item.item.name, fields: item.item.customFields }));
 }
 
@@ -37,9 +39,10 @@ async function retrieveColumnsAndClusters() {
   })
     .then(res => res.json())
   displayedColumns = cbSchema
-    .filter(col => col.mandatoryInStatuses.findIndex(status => status.id === 8) > 0)
+    .filter(col => col.mandatoryInStatuses.findIndex(status => status.id === 8) > -1)
     .map(col => ({ id: col.id, name: col.name }));
-  clusters = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1)
+  clusters.names = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1);
+  clusters.column = cbSchema.find(col => col.id === 1002).name;
 }
 
 async function retrieveDropdownOptions(fieldId) {
@@ -72,7 +75,7 @@ function refreshData() {
   dropdowns.forEach(dd => dd.options = retrieveDropdownOptions(dd.id));
 }
 
-setTimeout(refreshData, 300000);
+setTimeout(refreshData, 1800000);
 refreshData();
 
 module.exports = {

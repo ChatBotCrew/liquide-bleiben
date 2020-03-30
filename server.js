@@ -10,7 +10,7 @@ app.get('/api/offers', async (req, res) => {
   res.send({
     columns: getColumns(),
     offers: getOffers(req.query),
-    clusters: getClusters(),
+    cluster: getClusters(),
   })
 });
 
