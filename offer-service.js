@@ -49,35 +49,51 @@ function formatOffers(offers) {
   const columndIds = getColumns().map(col => col.id)
   return offers.map(off => ({
     name: off.name,
-    fields: off.fields.filter(field => columndIds.includes(field.fieldId))
+    fields: off.fields.filter(field => columndIds.includes(field.fieldId)).map(field => {
+      let value;
+      if (field.value) {
+        if (typeof field.value === 'boolean') {
+          value = field.value ? 'Ja' : 'Nein';
+        } else {
+          value = field.value.replace(/[\\\~]/g, '');
+        }
+      } else {
+        value = field.values.map(val => val.name).join(', ');
+      }
+      return { name: field.name, value }
+    })
   }));
 }
 
-function formatOffersOld(offers) {
+function formatOffersClustered(offers) {
   const columndIds = getColumns().map(col => col.id)
-  return offers.map(off => {
-    const fieldsObject = {}
-    off.fields.filter(field => columndIds.includes(field.fieldId)).forEach(field => {
-      if (field.value) {
-        if (typeof field.value === 'boolean') {
-          fieldsObject[field.name] = field.value ? 'Ja' : 'Nein';
-        } else {
-          fieldsObject[field.name] = field.value.replace(/[\\\~]/g, '');
-        }
-      } else {
-        fieldsObject[field.name] = field.values.map(val => val.name).join(', ');
-      }
-    })
+  return getClusters().map(clusterName => {
     return {
-      'Name': off.name,
-      ...fieldsObject
-    }
+      name: clusterName,
+      offers: offers
+        .filter(off => off.fields.find(field => field.fieldId === 1002).values.map(val => val.name).includes(clusterName))
+        .map(off => ({
+          name: off.name,
+          fields: off.fields.filter(field => columndIds.includes(field.fieldId)).map(field => {
+            let value;
+            if (field.value !== undefined) {
+              if (typeof field.value === 'boolean') {
+                value = field.value ? 'Ja' : 'Nein';
+              } else {
+                value = field.value.replace(/[\\\~]/g, '');
+              }
+            } else {
+              value = field.values.map(val => val.name).join(', ');
+            }
+            return { name: field.name, value }
+          })
+        }))
+      };
   });
 }
 
 function getOffersCtrl(filterParams) {
-  console.log(formatOffersOld(filterOffers(filterParams)));
-  return formatOffersOld(filterOffers(filterParams));
+  return formatOffersClustered(filterOffers(filterParams));
 }
 
 function getColumnsCtrl() {
@@ -88,7 +104,7 @@ function getClustersCtrl() {
   return getClusters();
 }
 
-setTimeout(() => getColumnsCtrl(), 2000);
+setTimeout(() => getOffersCtrl({}), 2000);
 
 module.exports = {
   getClusters: getClustersCtrl,

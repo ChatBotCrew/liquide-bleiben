@@ -4,10 +4,7 @@ var BASE_PATH = 'https://liquidebleiben.codebeamer.com/api/v3'
 var AUTH_HEADER = { 'Authorization': `Basic ${process.env.CB_BASIC_AUTH}` };
 
 let offers = [];
-let clusters = {
-  column: undefined,
-  names: [],
-};
+let clusters = [];
 let displayedColumns = [];
 
 const dropdowns = [
@@ -41,8 +38,7 @@ async function retrieveColumnsAndClusters() {
   displayedColumns = cbSchema
     .filter(col => col.mandatoryInStatuses.findIndex(status => status.id === 8) > -1)
     .map(col => ({ id: col.id, name: col.name }));
-  clusters.names = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1);
-  clusters.column = cbSchema.find(col => col.id === 1002).name;
+  clusters = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1);
 }
 
 async function retrieveDropdownOptions(fieldId) {

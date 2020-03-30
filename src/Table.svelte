@@ -1,28 +1,26 @@
 <script>
-  export let columns = [];
   export let offers = [];
 </script>
 
 <div class="custom-table">
-  {#each offers as doc}
+  {#each offers as offer}
     <div class="doc">
-      <div class="title">{doc[columns[0]]}</div>
+      <div class="title">{offer.name}</div>
       <div class="divider"></div>
       <div class="content">
-        {#each columns.slice(1) as column}
-          {#if doc[column]}
-            <p><span class="key">{column}:</span>
-              {#if doc[column] && (doc[column].startsWith('http://') || doc[column].startsWith('https://'))}
-                <a target="_blank" href={doc[column]}>Mehr erfahren</a>
-              {:else if column === "E-Mail-Adresse"}
-                <a href={'mailto:' + doc[column]} style="word-break: break-all;">{doc[column]}</a>
-              {:else if column === "Telefon-Hotline"}
-                <a href={'tel:' + doc[column]} style="word-break: break-all;">{doc[column]}</a>
-              {:else}
-                {doc[column]}
-              {/if}
-            </p>
-          {/if}
+        {#each offer.fields as field}
+          <p>
+            <span class="key">{field.name}:</span>
+            {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
+              <a target="_blank" href={field.value}>Mehr erfahren</a>
+            <!-- {:else if column === "E-Mail-Adresse"}
+              <a href={'mailto:' + field.value} style="word-break: break-all;">{field.value}</a>
+            {:else if column === "Telefon-Hotline"}
+              <a href={'tel:' + field.value} style="word-break: break-all;">{field.value}</a> -->
+            {:else}
+              {field.value}
+            {/if}
+          </p>
         {/each}
       </div>
     </div>
