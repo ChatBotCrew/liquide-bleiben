@@ -44,9 +44,9 @@ function minMaxFilter(rowFields, minId, maxId, filterValue) {
   const minField = rowFields.find(field => field.fieldId === minId);
   const maxField = rowFields.find(field => field.fieldId === maxId);
   if (!minField && !maxField) return true;
-  if (!minField) return maxField.value > filterValue;
-  if (!maxField) return minField.value < filterValue;
-  return minField.value < filterValue && maxField.value > filterValue;
+  if (!minField) return maxField.value >= filterValue;
+  if (!maxField) return minField.value <= filterValue;
+  return minField.value <= filterValue && maxField.value >= filterValue;
 }
 
 function formatOffer(offer, columndIds) {
