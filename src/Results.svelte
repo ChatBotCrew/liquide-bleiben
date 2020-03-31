@@ -35,39 +35,31 @@
     <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
   </a>
   <h1>Ihre Resultate</h1>
-  <!-- {#each Object.keys(selection) as key}
-    <div>
-      <span>{key}</span>
-      <span>{selection[key]}</span>
-    </div>
-  {/each} -->
   {#if selection.state}
     {#await data$}
       <div>Angebote werden geladen...</div>
     {:then data}
-      {#if data.offers.length}
-        {#each data.cluster.names as clusterName}
-          {#if !(clusterName === "Zuschuss" && selection.time == "6 Monate")}
-            <details>
-              <summary>{clusterName}</summary>
-              <Table columns={data.columns} offers={data.offers.filter(offer => offer[data.cluster.column] === clusterName)} />
-              {#if help[clusterName]}
-                <div class="info-title">
-                  {@html help[clusterName].text}<br>
-                </div>
-                <div class="info-link-wrapper">
-                  <span>Sie wollen mehr wissen?</span>
-                  <a target="_blank" class="info-link button" href={help[clusterName] ? help[clusterName].link : "https://wir-bleiben-liqui.de"}>
-                    Direkt zu unserem Blog
-                  </a>
-                </div>
-              {/if}
-            </details>
+        {#each data as cluster}
+          {#if !(cluster.name === "Zuschuss" && selection.time == "6 Monate")}
+            {#if cluster.offers.length}
+              <details>
+                <summary>{cluster.name}</summary>
+                  <Table offers={cluster.offers} />
+                {#if help[cluster.name]}
+                  <div class="info-title">
+                    {@html help[cluster.name].text}<br>
+                  </div>
+                  <div class="info-link-wrapper">
+                    <span>Sie wollen mehr wissen?</span>
+                    <a target="_blank" class="info-link button" href={help[cluster.name] ? help[cluster.name].link : "https://wir-bleiben-liqui.de"}>
+                      Direkt zu unserem Blog
+                    </a>
+                  </div>
+                {/if}
+              </details>
+            {/if}
           {/if}
         {/each}
-      {:else}
-        <div>Leider konnten keine möglichen Förderprogramme gefunden werden.</div>
-      {/if}
     {/await}
   {:else}
     <div>Geben Sie mindestens Ihr Bundesland an, um spezifische Förderprogramme zu erhalten.</div>
@@ -105,7 +97,8 @@
   {/if}
   <div class="link-text" style="text-align: center;">
     Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
-    <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a>
+    <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
+    <p>Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a></p>
   </div>
 </div>
 

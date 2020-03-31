@@ -11,9 +11,9 @@
 
 <div class="select-wrapper" in:fly={{ x: 1000 * $lastStep, duration: 1500 }} out:fly={{ x: -1000 * $lastStep , duration: 1500 }}>
   <select class="main-input" bind:value>
-    <option selected disabled>{categoryName} wählen</option>
+    <option disabled selected={!value}>{categoryName} wählen</option>
     {#each options as option}
-      <option value={option}>{option}</option>
+      <option selected={value === option.id} value={option.id}>{option.name}</option>
     {/each}
   </select>
   <div class="help-text">{help}</div>
@@ -21,7 +21,8 @@
 
 <style>
   .select-wrapper {
-    max-width: 100%;
+    width: 100%;
+    max-width: 880px;
     display: flex;
     flex-direction: column;
     align-items: center;

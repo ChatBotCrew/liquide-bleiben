@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info:
   description: ""
-  version: "0.1.0"
+  version: "0.2.0"
   title: "liquide bleiben"
   contact:
     email: "wir-bleiben-liquide@gmail.com"
@@ -12,37 +12,6 @@ servers:
   - url: "https://finder.wir-bleiben-liqui.de"
     description: "Production server"
 paths:
-  /api/ids:
-    get:
-      summary: "Get all ids of available offers"
-      deprecated: true
-      operationId: "getIds"
-      parameters:
-      - $ref: "#/components/parameters/state"
-      - $ref: "#/components/parameters/trade"
-      - $ref: "#/components/parameters/age"
-      - $ref: "#/components/parameters/legal"
-      - $ref: "#/components/parameters/sales"
-      - $ref: "#/components/parameters/employees"
-      - $ref: "#/components/parameters/time"
-      responses:
-        200:
-          description: "Succesful"
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items:
-                  type: "string"
-        400:
-          description: "Bad Input"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  error:
-                    type: "string"
   /api/offers:
     get:
       summary: "Get all available offers"
@@ -163,26 +132,30 @@ components:
         - "30 Tage"
         - "6 Monate"
   schemas:
-    offers-response:
+    cluster:
       type: "object"
       properties:
-        columns:
-          type: "array"
-          items:
-            type: "string"
+        name:
+          type: "string"
         offers:
           type: "array"
-          description: the keys of the objects will be the same as the values in the "columns"-array
           items:
             type: "object"
-        cluster:
-          type: "object"
-          properties:
-            column:
-              type: "string"
-            names:
-              type: "array"
-              items:
+            properties:
+              name:
                 type: "string"
+              fields:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    name:
+                      type: "string"
+                    value:
+                      type: "string"
+    offers-response:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/cluster"
 externalDocs:
   url: "https://devpost.com/software/liquiditat-fur-den-mittelstand"

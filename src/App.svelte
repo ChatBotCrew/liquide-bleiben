@@ -8,31 +8,14 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import { bundeslaender, gewerbe, rechtsformen, times } from './data.js';
-
-  function searchToObject() {
-    const pairs = window.location.search.substring(1).split("&");
-    const obj = {};
-    for (let i in pairs) {
-      if (pairs[i] === "") continue;
-      const pair = pairs[i].split("=");
-      if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj["employees"] = 0;
-      else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]).replace("+", " ");
-    }
-    return obj;
-  }
+  import { bundeslaender, gewerbe, rechtsformen, initialSelection, times } from './data.js';
 
   let currentStep = 0;
   let progress = tweened(currentStep);
-  let selection = Object.assign({}, {
-    state: null,
-    trade: null,
-    age: null,
-    legal: null,
-    sales: null,
-    employees: null,
-    time: null
-  }, searchToObject());
+
+  let selection = null;
+
+  initialSelection.subscribe(s => { selection = s; console.log(selection) })
 
   const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
   const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `back ${currentStep}`) }
@@ -43,6 +26,7 @@
   const optout = () => ga.optout();
 </script>
 
+{#if $initialSelection}
 <main>
   {#if $cookiesAllowed === null}
     <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
@@ -82,7 +66,7 @@
       <Select
         categoryName="Bundesland"
         bind:value={selection.state}
-        options={bundeslaender}
+        options={$bundeslaender}
         help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist."
       />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
@@ -97,7 +81,7 @@
       <Select
         categoryName="Gewerbe"
         bind:value={selection.trade}
-        options={gewerbe}
+        options={$gewerbe}
         help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können."
       />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
@@ -126,14 +110,12 @@
   {/if}
   {#if currentStep === 4}
     <div class="fullpage">
-      <div class="input-wrapper">
-        <Select
-          categoryName="Rechtsform"
-          bind:value={selection.legal}
-          options={rechtsformen}
-          help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein:e Einzelunternehmer:in sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR."
-        />
-      </div>
+      <Select
+        categoryName="Rechtsform"
+        bind:value={selection.legal}
+        options={$rechtsformen}
+        help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein:e Einzelunternehmer:in sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR."
+      />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={!selection.legal}>Weiter</button>
@@ -176,13 +158,13 @@
     <div class="fullpage">
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Ich brauche Liquidität innerhalb der nächsten
-        <Select
-          categoryName="Verbleibende Zeit"
-          bind:value={selection.time}
-          options={times}
-          help="Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen."
-        />
       </div>
+      <Select
+        categoryName="Verbleibende Zeit"
+        bind:value={selection.time}
+        options={times}
+        help="Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen."
+      />
       <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={!selection.time}>Zu den Resultaten</button>
@@ -197,6 +179,7 @@
     <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">Zurück zum Finder</button>
   {/if}
 </main>
+{/if}
 
 <style>
   .fullpage {
@@ -208,7 +191,6 @@
     margin: auto;
     height: 100%;
     width: 90%;
-    max-width: 880px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -217,6 +199,7 @@
 
   .next-button-wrapper {
     width: 90%;
+    max-width: 880px;
     z-index: 10;
     display: flex;
     align-items: stretch;
@@ -249,7 +232,8 @@
 
   .input-wrapper {
     text-align: center;
-    max-width: 100%;
+    width: 100%;
+    max-width: 880px;
     margin-top: 120px;
     margin-bottom: 16px;
     display: flex;

@@ -1,49 +1,64 @@
-export const bundeslaender = [
-  "Baden-Württemberg",
-  "Bayern",
-  "Berlin",
-  "Brandenburg",
-  "Bremen",
-  "Hamburg",
-  "Hessen",
-  "Mecklenburg-Vorpommern",
-  "Niedersachsen",
-  "Nordrhein-Westfalen",
-  "Rheinland-Pfalz",
-  "Saarland",
-  "Sachsen-Anhalt",
-  "Sachsen",
-  "Schleswig-Holstein",
-  "Thüringen"
-]
+import { writable } from 'svelte/store';
 
-export const gewerbe = [
-  "Land- und Forstwirtschaft, Fischerei und Fischzucht",
-  "Bergbau und Gewinnung von Steinen und Erden",
-  "Verarbeitendes Gewerbe",
-  "Energie- und Wasserversorgung",
-  "Handel",
-  "Baugewerbe",
-  "Dienstleistung",
-  "Gesundheit / Pflege / Soziales",
-  "Gastronomie / Hotel",
-  "Sonstige"
-]
+(async function getSelectValues() {
+  const selects = await fetch(new URL(location.origin + '/api/selects'), { method: 'GET' })
+    .then(res => res.json())
+  selects.forEach(select => {
+    if(select.name === 'state') bundeslaender.set(select.options);
+    if(select.name === 'trade') gewerbe.set(select.options);
+    if(select.name === 'legal') rechtsformen.set(select.options);
+  })
+  initialSelection.set(Object.assign({}, {
+    state: null,
+    trade: null,
+    age: null,
+    legal: null,
+    sales: null,
+    employees: null,
+    time: null
+  }, searchToObject()));
+})()
 
-export const rechtsformen = [
-  "GmbH",
-  "UG",
-  "AG",
-  "GBR",
-  "E.K.",
-  "GmbH & Co. KG",
-  "OHG",
-  "Einzelunternehmer"
-]
+function searchToObject() {
+  const pairs = window.location.search.substring(1).split("&");
+  const obj = {};
+  for (let i in pairs) {
+    if (pairs[i] === "") continue;
+    const [key, value] = pairs[i].split("=").map(decodeURIComponent);
+    if(key === "solo" && value === "ja") obj["employees"] = 0;
+    else if((key === "state") && !parseInt(value)) {
+      const state = bundeslaender.find(b => b.name === value.replace("+", " "))
+      if (!state) continue;
+      obj[key] = state.id;
+    }
+    else if((key === "trade") && !parseInt(value)) {
+      const trade = gewerbe.find(b => b.name === value.replace("+", " "))
+      if (!trade) continue;
+      obj[key] = trade.id;
+    }
+    else if((key === "legal") && !parseInt(value)) {
+      const legal = rechtsformen.find(b => b.name === value.replace("+", " "));
+      if (!legal) continue;
+      obj[key] = legal.id;
+    }
+    else if((key === "time") && parseInt(value) === NaN) {
+      const time = times.find(b => b.name === value.replace("+", " ")).id
+      if (!time) continue;
+      obj[key] = times.id;
+    }
+    else obj[key] = value;
+  }
+  return obj;
+}
+
+export const initialSelection = writable(null);
+export const bundeslaender = writable(null);
+export const gewerbe = writable(null);
+export const rechtsformen = writable(null)
 
 export const times = [
-  "30 Tage",
-  "6 Monate"
+  { id: "0", name: "30 Tage" },
+  { id: "1", name: "6 Monate" },
 ]
 
 export const finanzaemter = {
@@ -71,7 +86,7 @@ export const weitereInfos = {
 }
 
 export const help = {
-  Kredit: {
+  Darlehen: {
     text: "<p>Bei einem Darlehen wird dem Unternehmen ein Geldbetrag zur Verfügung gestellt. Das Unternehmen verpflichtet sich, das Darlehen über die Laufzeit hinweg zurückzubezahlen. Die Rückzahlungsraten setzen sich aus Zins und Tilgung zusammen.</p><p>Für einen Antrag benötigen Sie in den meisten Fällen folgende Dokumente:</p><ul><li>Handelsregister Auszug</li><li>Jahresabschlüsse</li><li>Liquiditätsplanung</li><li>Beschreibung der Auswirkung der Pandemie auf Ihr Unternehmen</li><li>Betriebswirtschaftliche Auswertung 2019 (inkl. Summen-und Saldenliste)</li><li>Selbstauskunft</li><li>Vorschlag für den Eigenbeitrag des Gesellschafters</li><li>Junge Unternehmen (<5 Jahre) Business Plan</li></ul>",
     link: "https://wir-bleiben-liqui.de/tag/foerderkredit/"
   },
