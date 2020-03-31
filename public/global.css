@@ -90,3 +90,9 @@ button:focus {
   text-align: center;
   font-size: 0.8rem;
 }
+
+@media(max-width: 660px) {
+  html, body {
+    font-size: 16px;
+  }
+}

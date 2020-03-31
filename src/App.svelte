@@ -39,7 +39,7 @@
     </div>
   {/if}
   {#if currentStep !== 8}
-    <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de" style="position: absolute; max-width: 50%;">
+    <a class="logo-link" out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
   {/if}
@@ -182,6 +182,12 @@
 {/if}
 
 <style>
+
+  .logo-link {
+    position: absolute; 
+    max-width: 50%;
+  }
+
   .fullpage {
     position: absolute;
     top: 0;
@@ -209,6 +215,10 @@
     .wide-buttons {
       flex-direction: column;
     }
+
+    .logo-link {
+      display: none;
+    }
   }
 
   .next-button-wrapper > button {
@@ -234,7 +244,7 @@
     text-align: center;
     width: 100%;
     max-width: 880px;
-    margin-top: 120px;
+    margin-top: 60px;
     margin-bottom: 16px;
     display: flex;
     flex-direction: column;
