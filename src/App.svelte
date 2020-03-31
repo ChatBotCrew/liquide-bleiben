@@ -163,7 +163,7 @@
         categoryName="Verbleibende Zeit"
         bind:value={selection.time}
         options={times}
-        help="Es gibt Hilfsmaßnahmen für Unternehmen die akut durch die Corona-Krise bedroht sind. Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch darauf. Bitte beachten Sie, dass dies nur für Unternehmen reserviert ist die akut bedroht sind. Sollten Sie über einen Puffer für die zunächst absehbare Zeit verfügen können Sie natürlich auch auf Fördermittel zugreifen. Bitte geben Sie uns an, wie dringlich Sie Liquidität benötigen."
+        help="Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch auf spezielle Hilfsmaßnahmen."
       />
       <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
