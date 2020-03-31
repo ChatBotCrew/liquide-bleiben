@@ -7,6 +7,8 @@
   export let options;
   export let help;
   export let categoryName;
+
+  console.log(value)
 </script>
 
 <div class="select-wrapper" in:fly={{ x: 1000 * $lastStep, duration: 1500 }} out:fly={{ x: -1000 * $lastStep , duration: 1500 }}>

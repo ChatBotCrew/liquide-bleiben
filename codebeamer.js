@@ -18,6 +18,11 @@ const dropdowns = [
     name: 'trade',
     options: []
   },
+  {
+    id: 1004,
+    name: 'legal',
+    options: []
+  },
 ]
 
 async function retrieveOffers() {
@@ -46,7 +51,7 @@ async function retrieveDropdownOptions(fieldId) {
     method: 'GET',
     headers: AUTH_HEADER,
   }).then(res => res.json());
-  return dropdownValues.options;
+  return dropdownValues.options.splice(1).map(opt => ({ id: opt.id.toString(), name: opt.name }));
 }
 
 function getOffers() {
@@ -68,7 +73,11 @@ function getClusters() {
 function refreshData() {
   retrieveOffers();
   retrieveColumnsAndClusters();
-  dropdowns.forEach(dd => dd.options = retrieveDropdownOptions(dd.id));
+  dropdowns.forEach(async dd => {
+    const ddOptions = await retrieveDropdownOptions(dd.id);
+    if(dd.name === 'state') ddOptions.pop();
+    dropdowns.find(dropdown => dropdown.id == dd.id).options = ddOptions;
+  });
 }
 
 setTimeout(refreshData, 1800000);

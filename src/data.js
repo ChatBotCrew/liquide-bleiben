@@ -1,45 +1,60 @@
-export const bundeslaender = [
-  { id: "1", name: "Baden-Württemberg" },
-  { id: "2", name: "Bayern" },
-  { id: "3", name: "Berlin" },
-  { id: "4", name: "Brandenburg" },
-  { id: "5", name: "Bremen" },
-  { id: "6", name: "Hamburg" },
-  { id: "7", name: "Hessen" },
-  { id: "8", name: "Mecklenburg-Vorpommern" },
-  { id: "9", name: "Niedersachsen" },
-  { id: "10", name: "Nordrhein-Westfalen" },
-  { id: "11", name: "Rheinland-Pfalz" },
-  { id: "12", name: "Saarland" },
-  { id: "13", name: "Sachsen-Anhalt" },
-  { id: "14", name: "Sachsen" },
-  { id: "15", name: "Schleswig-Holstein" },
-  { id: "16", name: "Thüringen" },
-]
+import { writable } from 'svelte/store';
 
-export const gewerbe = [
-  { id: "1", name: "Land- und Forstwirtschaft, Fischerei und Fischzucht" },
-  { id: "2", name: "Bergbau und Gewinnung von Steinen und Erden" },
-  { id: "3", name: "Verarbeitendes Gewerbe" },
-  { id: "4", name: "Energie- und Wasserversorgung" },
-  { id: "5", name: "Handel" },
-  { id: "6", name: "Baugewerbe" },
-  { id: "7", name: "Dienstleistung" },
-  { id: "8", name: "Gesundheit / Pflege / Soziales" },
-  { id: "9", name: "Gastronomie / Hotel" },
-  { id: "10", name: "Sonstige" }
-]
+(async function getSelectValues() {
+  const selects = await fetch(new URL(location.origin + '/api/selects'), { method: 'GET' })
+    .then(res => res.json())
+  selects.forEach(select => {
+    if(select.name === 'state') bundeslaender.set(select.options);
+    if(select.name === 'trade') gewerbe.set(select.options);
+    if(select.name === 'legal') rechtsformen.set(select.options);
+  })
+  initialSelection.set(Object.assign({}, {
+    state: null,
+    trade: null,
+    age: null,
+    legal: null,
+    sales: null,
+    employees: null,
+    time: null
+  }, searchToObject()));
+})()
 
-export const rechtsformen = [
-  { id: "1", name: "GmbH" },
-  { id: "2", name: "UG" },
-  { id: "3", name: "AG" },
-  { id: "4", name: "GBR" },
-  { id: "5", name: "E.K." },
-  { id: "6", name: "GmbH & Co. KG" },
-  { id: "7", name: "OHG" },
-  { id: "8", name: "Einzelunternehmer" }
-]
+function searchToObject() {
+  const pairs = window.location.search.substring(1).split("&");
+  const obj = {};
+  for (let i in pairs) {
+    if (pairs[i] === "") continue;
+    const pair = pairs[i].split("=");
+    if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj["employees"] = 0;
+    else if((decodeURIComponent(pair[0]) === "state") && !parseInt(decodeURIComponent(pair[1]))) {
+      const state = bundeslaender.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " "))
+      if (!state) continue;
+      obj[decodeURIComponent(pair[0])] = state.id;
+    }
+    else if((decodeURIComponent(pair[0]) === "trade") && !parseInt(decodeURIComponent(pair[1]))) {
+      const trade = gewerbe.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " "))
+      if (!trade) continue;
+      obj[decodeURIComponent(pair[0])] = trade.id;
+    }
+    else if((decodeURIComponent(pair[0]) === "legal") && !parseInt(decodeURIComponent(pair[1]))) {
+      const legal = rechtsformen.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " "));
+      if (!legal) continue;
+      obj[decodeURIComponent(pair[0])] = legal.id;
+    }
+    else if((decodeURIComponent(pair[0]) === "time") && parseInt(decodeURIComponent(pair[1])) === NaN) {
+      const time = times.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " ")).id
+      if (!time) continue;
+      obj[decodeURIComponent(pair[0])] = times.id;
+    }
+    else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+  }
+  return obj;
+}
+
+export const initialSelection = writable(null);
+export const bundeslaender = writable(null);
+export const gewerbe = writable(null);
+export const rechtsformen = writable(null)
 
 export const times = [
   { id: "0", name: "6 Monate" },

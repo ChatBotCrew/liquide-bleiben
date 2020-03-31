@@ -7,15 +7,15 @@ function filterOffers(filterParams) {
     filteredOffers = filteredOffers.filter(off => {
       return off.fields
         .find(field => field.fieldId === 1000).values
-        .find(val => val.name === filterParams.state || val.id == filterParams.state || val.id === 17)
+        .find(val => val.id == filterParams.state || val.id === 17)
     });
   }
 
   if (filterParams.trade) {
     filteredOffers = filteredOffers.filter(off => {
-      return off.fields
-        .find(field => field.fieldId === 1001).values
-        .find(val => val.name !== filterParams.trade)
+      const tradeField = off.fields.find(field => field.fieldId === 1001);
+      if (!tradeField) return true;
+      return tradeField.values.find(val => val.id !== filterParams.trade)
     });
   }
 
@@ -33,7 +33,7 @@ function filterOffers(filterParams) {
 
   if (filterParams.time) {
     filteredOffers = filteredOffers.filter(off => {
-      return off.fields.find(field => field.fieldId === 1002).values[0].id !== 1
+      return off.fields.find(field => field.fieldId === 1002).values[0].id !== filterParams.time
     });
   }
 
@@ -41,8 +41,12 @@ function filterOffers(filterParams) {
 }
 
 function minMaxFilter(rowFields, minId, maxId, filterValue) {
-  return rowFields.find(field => field.fieldId === minId).value < filterValue &&
-    rowFields.find(field => field.fieldId === maxId).value > filterValue;
+  const minField = rowFields.find(field => field.fieldId === minId);
+  const maxField = rowFields.find(field => field.fieldId === maxId);
+  if (!minField && !maxField) return true;
+  if (!minField) return maxField.value > filterValue;
+  if (!maxField) return minField.value < filterValue;
+  return minField.value < filterValue && maxField.value > filterValue;
 }
 
 function formatOffers(offers) {
