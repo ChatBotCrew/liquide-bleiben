@@ -197,12 +197,9 @@
     justify-content: center;
   }
 
-  :global(.fullpage > *) {
-    max-width: 880px;
-  }
-
   .next-button-wrapper {
     width: 90%;
+    max-width: 880px;
     z-index: 10;
     display: flex;
     align-items: stretch;
@@ -236,6 +233,7 @@
   .input-wrapper {
     text-align: center;
     width: 100%;
+    max-width: 880px;
     margin-top: 120px;
     margin-bottom: 16px;
     display: flex;

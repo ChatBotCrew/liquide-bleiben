@@ -13,10 +13,6 @@
             <span class="key">{field.name}:</span>
             {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
               <a target="_blank" href={field.value}>Mehr erfahren</a>
-            <!-- {:else if column === "E-Mail-Adresse"}
-              <a href={'mailto:' + field.value} style="word-break: break-all;">{field.value}</a>
-            {:else if column === "Telefon-Hotline"}
-              <a href={'tel:' + field.value} style="word-break: break-all;">{field.value}</a> -->
             {:else}
               {field.value}
             {/if}

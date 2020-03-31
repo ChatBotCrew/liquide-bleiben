@@ -9,6 +9,7 @@
 <style>
   progress {
     width: 90%;
+    max-width: 880px;
     margin-top: 16px;
     margin-bottom: 8px;
 

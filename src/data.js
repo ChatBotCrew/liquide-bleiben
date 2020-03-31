@@ -24,29 +24,29 @@ function searchToObject() {
   const obj = {};
   for (let i in pairs) {
     if (pairs[i] === "") continue;
-    const pair = pairs[i].split("=");
-    if(decodeURIComponent(pair[0]) === "solo" && pair[1] === "ja") obj["employees"] = 0;
-    else if((decodeURIComponent(pair[0]) === "state") && !parseInt(decodeURIComponent(pair[1]))) {
-      const state = bundeslaender.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " "))
+    const [key, value] = pairs[i].split("=").map(decodeURIComponent);
+    if(key === "solo" && value === "ja") obj["employees"] = 0;
+    else if((key === "state") && !parseInt(value)) {
+      const state = bundeslaender.find(b => b.name === value.replace("+", " "))
       if (!state) continue;
-      obj[decodeURIComponent(pair[0])] = state.id;
+      obj[key] = state.id;
     }
-    else if((decodeURIComponent(pair[0]) === "trade") && !parseInt(decodeURIComponent(pair[1]))) {
-      const trade = gewerbe.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " "))
+    else if((key === "trade") && !parseInt(value)) {
+      const trade = gewerbe.find(b => b.name === value.replace("+", " "))
       if (!trade) continue;
-      obj[decodeURIComponent(pair[0])] = trade.id;
+      obj[key] = trade.id;
     }
-    else if((decodeURIComponent(pair[0]) === "legal") && !parseInt(decodeURIComponent(pair[1]))) {
-      const legal = rechtsformen.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " "));
+    else if((key === "legal") && !parseInt(value)) {
+      const legal = rechtsformen.find(b => b.name === value.replace("+", " "));
       if (!legal) continue;
-      obj[decodeURIComponent(pair[0])] = legal.id;
+      obj[key] = legal.id;
     }
-    else if((decodeURIComponent(pair[0]) === "time") && parseInt(decodeURIComponent(pair[1])) === NaN) {
-      const time = times.find(b => b.name === decodeURIComponent(pair[1]).replace("+", " ")).id
+    else if((key === "time") && parseInt(value) === NaN) {
+      const time = times.find(b => b.name === value.replace("+", " ")).id
       if (!time) continue;
-      obj[decodeURIComponent(pair[0])] = times.id;
+      obj[key] = times.id;
     }
-    else obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    else obj[key] = value;
   }
   return obj;
 }
@@ -57,8 +57,8 @@ export const gewerbe = writable(null);
 export const rechtsformen = writable(null)
 
 export const times = [
-  { id: "0", name: "6 Monate" },
-  { id: "1", name: "30 Tage" },
+  { id: "0", name: "30 Tage" },
+  { id: "1", name: "6 Monate" },
 ]
 
 export const finanzaemter = {

@@ -33,7 +33,7 @@ function filterOffers(filterParams) {
 
   if (filterParams.time) {
     filteredOffers = filteredOffers.filter(off => {
-      return off.fields.find(field => field.fieldId === 1002).values[0].id !== filterParams.time
+      return off.fields.find(field => field.fieldId === 1002).values[0].id != filterParams.time
     });
   }
 
@@ -49,13 +49,12 @@ function minMaxFilter(rowFields, minId, maxId, filterValue) {
   return minField.value < filterValue && maxField.value > filterValue;
 }
 
-function formatOffers(offers) {
-  const columndIds = getColumns().map(col => col.id)
-  return offers.map(off => ({
-    name: off.name,
-    fields: off.fields.filter(field => columndIds.includes(field.fieldId)).map(field => {
+function formatOffer(offer, columndIds) {
+  return {
+    name: offer.name,
+    fields: offer.fields.filter(field => columndIds.includes(field.fieldId)).map(field => {
       let value;
-      if (field.value) {
+      if (field.value !== undefined) {
         if (typeof field.value === 'boolean') {
           value = field.value ? 'Ja' : 'Nein';
         } else {
@@ -66,7 +65,7 @@ function formatOffers(offers) {
       }
       return { name: field.name, value }
     })
-  }));
+  };
 }
 
 function formatOffersClustered(offers) {
@@ -76,22 +75,7 @@ function formatOffersClustered(offers) {
       name: clusterName,
       offers: offers
         .filter(off => off.fields.find(field => field.fieldId === 1002).values.map(val => val.name).includes(clusterName))
-        .map(off => ({
-          name: off.name,
-          fields: off.fields.filter(field => columndIds.includes(field.fieldId)).map(field => {
-            let value;
-            if (field.value !== undefined) {
-              if (typeof field.value === 'boolean') {
-                value = field.value ? 'Ja' : 'Nein';
-              } else {
-                value = field.value.replace(/[\\\~]/g, '');
-              }
-            } else {
-              value = field.values.map(val => val.name).join(', ');
-            }
-            return { name: field.name, value }
-          })
-        }))
+        .map(off => formatOffer(off, columndIds))
       };
   });
 }
@@ -107,8 +91,6 @@ function getColumnsCtrl() {
 function getClustersCtrl() {
   return getClusters();
 }
-
-setTimeout(() => getOffersCtrl({}), 2000);
 
 module.exports = {
   getClusters: getClustersCtrl,
