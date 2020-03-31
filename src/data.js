@@ -1,49 +1,49 @@
 export const bundeslaender = [
-  { id: 1, name: "Baden-Württemberg" },
-  { id: 2, name: "Bayern" },
-  { id: 3, name: "Berlin" },
-  { id: 4, name: "Brandenburg" },
-  { id: 5, name: "Bremen" },
-  { id: 6, name: "Hamburg" },
-  { id: 7, name: "Hessen" },
-  { id: 8, name: "Mecklenburg-Vorpommern" },
-  { id: 9, name: "Niedersachsen" },
-  { id: 10, name: "Nordrhein-Westfalen" },
-  { id: 11, name: "Rheinland-Pfalz" },
-  { id: 12, name: "Saarland" },
-  { id: 13, name: "Sachsen-Anhalt" },
-  { id: 14, name: "Sachsen" },
-  { id: 15, name: "Schleswig-Holstein" },
-  { id: 16, name: "Thüringen" },
+  { id: "1", name: "Baden-Württemberg" },
+  { id: "2", name: "Bayern" },
+  { id: "3", name: "Berlin" },
+  { id: "4", name: "Brandenburg" },
+  { id: "5", name: "Bremen" },
+  { id: "6", name: "Hamburg" },
+  { id: "7", name: "Hessen" },
+  { id: "8", name: "Mecklenburg-Vorpommern" },
+  { id: "9", name: "Niedersachsen" },
+  { id: "10", name: "Nordrhein-Westfalen" },
+  { id: "11", name: "Rheinland-Pfalz" },
+  { id: "12", name: "Saarland" },
+  { id: "13", name: "Sachsen-Anhalt" },
+  { id: "14", name: "Sachsen" },
+  { id: "15", name: "Schleswig-Holstein" },
+  { id: "16", name: "Thüringen" },
 ]
 
 export const gewerbe = [
-  { id: 1, name: "Land- und Forstwirtschaft, Fischerei und Fischzucht" },
-  { id: 2, name: "Bergbau und Gewinnung von Steinen und Erden" },
-  { id: 3, name: "Verarbeitendes Gewerbe" },
-  { id: 4, name: "Energie- und Wasserversorgung" },
-  { id: 5, name: "Handel" },
-  { id: 6, name: "Baugewerbe" },
-  { id: 7, name: "Dienstleistung" },
-  { id: 8, name: "Gesundheit / Pflege / Soziales" },
-  { id: 9, name: "Gastronomie / Hotel" },
-  { id: 10, name: "Sonstige" }
+  { id: "1", name: "Land- und Forstwirtschaft, Fischerei und Fischzucht" },
+  { id: "2", name: "Bergbau und Gewinnung von Steinen und Erden" },
+  { id: "3", name: "Verarbeitendes Gewerbe" },
+  { id: "4", name: "Energie- und Wasserversorgung" },
+  { id: "5", name: "Handel" },
+  { id: "6", name: "Baugewerbe" },
+  { id: "7", name: "Dienstleistung" },
+  { id: "8", name: "Gesundheit / Pflege / Soziales" },
+  { id: "9", name: "Gastronomie / Hotel" },
+  { id: "10", name: "Sonstige" }
 ]
 
 export const rechtsformen = [
-  { id: 1, name: "GmbH" },
-  { id: 2, name: "UG" },
-  { id: 3, name: "AG" },
-  { id: 4, name: "GBR" },
-  { id: 5, name: "E.K." },
-  { id: 6, name: "GmbH & Co. KG" },
-  { id: 7, name: "OHG" },
-  { id: 8, name: "Einzelunternehmer" }
+  { id: "1", name: "GmbH" },
+  { id: "2", name: "UG" },
+  { id: "3", name: "AG" },
+  { id: "4", name: "GBR" },
+  { id: "5", name: "E.K." },
+  { id: "6", name: "GmbH & Co. KG" },
+  { id: "7", name: "OHG" },
+  { id: "8", name: "Einzelunternehmer" }
 ]
 
 export const times = [
-  { id: 0, name: "6 Monate" },
-  { id: 1, name: "30 Tage" },
+  { id: "0", name: "6 Monate" },
+  { id: "1", name: "30 Tage" },
 ]
 
 export const finanzaemter = {
