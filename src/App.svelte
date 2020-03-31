@@ -15,7 +15,7 @@
 
   let selection = null;
 
-  initialSelection.subscribe(s => { selection = s; console.log(selection) })
+  initialSelection.subscribe(s => { selection = s })
 
   const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
   const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `back ${currentStep}`) }
@@ -114,7 +114,7 @@
         categoryName="Rechtsform"
         bind:value={selection.legal}
         options={$rechtsformen}
-        help="Je nachdem welche Rechtsform Ihr Unternehmen hat werden Sie für verschiedene Fördermittel unterschiedliche Unterlagen benötigen. Lassen Sie uns wissen was für eine Rechtsform Ihr Unternehmen hat. Sollten Sie sich nicht sicher sein welche Rechtsform Ihr Unternehmen hat, können Sie davon ausgehen, dass wenn Sie alleine ein Unternehmen gegründet haben, Sie wahrscheinlich ein:e Einzelunternehmer:in sind. Wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, und bisher keine Registrierung vorgenommen haben, sind Sie wahrscheinlich eine GbR."
+        help="Je nach Rechtsform Ihres Unternehmen werden Sie unterschiedliche Unterlagen benötigen. Sollten Sie sich nicht sicher sein, sind Sie wahrscheinlich ein:e Einzelunternehmer:in oder wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, sind Sie wahrscheinlich eine GbR."
       />
       <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
