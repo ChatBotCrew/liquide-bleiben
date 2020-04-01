@@ -27,19 +27,22 @@ function searchToObject() {
     const [key, value] = pairs[i].split("=").map(decodeURIComponent);
     if(key === "solo" && value === "ja") obj["employees"] = 0;
     else if((key === "state") && !parseInt(value)) {
-      const state = bundeslaender.find(b => b.name.toLowerCase() === value.replace("+", " ").toLowerCase())
-      if (!state) continue;
-      obj[key] = state.id;
+      bundeslaender.subscribe(states => {
+        const state = states.find(b => b.name.toLowerCase() === value.replace("+", " ").toLowerCase())
+        if (state) obj[key] = state.id;
+      });
     }
     else if((key === "trade") && !parseInt(value)) {
-      const trade = gewerbe.find(b => b.name === value.replace("+", " "))
-      if (!trade) continue;
-      obj[key] = trade.id;
+      gewerbe.subscribe(trades => {
+        const trade = trades.find(b => b.name === value.replace("+", " "))
+        if (trade) obj[key] = trade.id;
+      });
     }
     else if((key === "legal") && !parseInt(value)) {
-      const legal = rechtsformen.find(b => b.name === value.replace("+", " "));
-      if (!legal) continue;
-      obj[key] = legal.id;
+      rechtsformen.subscribe(legals => {
+        const legal = legals.find(b => b.name === value.replace("+", " "));
+        if (legal) obj[key] = legal.id;
+      });
     }
     else if((key === "time") && parseInt(value) === NaN) {
       const time = times.find(b => b.name === value.replace("+", " ")).id
