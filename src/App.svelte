@@ -3,7 +3,7 @@
   import { tweened } from 'svelte/motion';
 
   import ga from './ga.js'
-  import { cookiesAllowed, lastStep } from './store.js';
+  import { cookiesAllowed, lastStep, taxyView } from './store.js';
   import {send, receive} from './animations/crossfade.js';
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
@@ -176,7 +176,11 @@
     <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <Results {selection} />
     </div>
-    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
+    {#if !$taxyView}
+      <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
+    {:else}
+      <button class="change-inputs" style="bottom: 50px" on:click={() => taxyView.set(false)} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zu den Resultaten</button>
+    {/if}
   {/if}
 </main>
 {/if}

@@ -2,7 +2,7 @@
   import { fly } from 'svelte/transition';
 
   import ga from './ga.js';
-  import { cookiesAllowed } from './store.js';
+  import { cookiesAllowed, taxyView } from './store.js';
   import {send, receive} from './animations/crossfade.js';
   import { bundeslaender, help, finanzaemter, weitereInfos } from'./data';
   import Table from './Table.svelte';
@@ -98,11 +98,35 @@
   <div class="link-text" style="text-align: center;">
     Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
     <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
-    <p>Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a></p>
+    <p>
+      Falls Sie glauben, dass ein Förderprogramm fehlt, lassen Sie es uns wissen!<br>
+      <button class="info-link button" on:click={() => taxyView.set(true)}>Jetzt Förderprogramm hinzufügen</button>
+    </p>
+    {#if $taxyView}
+      <div class="taxy-form">
+        <iframe id="typeform-full"width="100%"height="100%"frameborder="0"allow="camera; microphone; autoplay; encrypted-media;"src="https://taxyio.typeform.com/to/ysLHDQ"></iframe>
+        <script type="text/javascript"src="https://embed.typeform.com/embed.js"></script>
+      </div>
+    {/if}
   </div>
 </div>
 
 <style>
+  .taxy-form {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #typeform-full {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    border: 0;
+  }
+
   .results {
     text-align: center;
     overflow: auto;
@@ -129,14 +153,12 @@
   }
 
   .info-link {
-    height: 50px;
-    flex: 1;
     border-radius: 50px;
     margin: 16px;
     padding: 8px;
-    line-height: 50px;
     max-width: 500px;
     width: 100%;
+    padding: 8px 16px;
     white-space: nowrap;
   }
 
