@@ -15,7 +15,7 @@ function filterOffers(filterParams) {
     filteredOffers = filteredOffers.filter(off => {
       const tradeField = off.fields.find(field => field.fieldId === 1001);
       if (!tradeField) return true;
-      return tradeField.values.find(val => val.id !== filterParams.trade)
+      return !tradeField.values.find(val => val.id == filterParams.trade)
     });
   }
 

@@ -271,6 +271,7 @@
     padding: 16px 32px;
     box-sizing: border-box;
     align-items: center;
+    background-color: #FFFFFFBB;
   }
 
   .cookies-banner > div {
