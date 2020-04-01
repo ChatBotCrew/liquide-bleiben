@@ -35,7 +35,7 @@
         <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
       </div>
       <button class="ga-optin" on:click={optin}>Ich stimme zu</button>
-      <a on:click={optout} href="">X</a>
+      <a on:click={optout} class="ga-optout">X</a>
     </div>
   {/if}
   {#if currentStep !== 8}
@@ -286,5 +286,9 @@
   .ga-optin {
     max-width: 300px;
     width: 30%;
+  }
+
+  .ga-optout {
+    cursor: pointer;
   }
 </style>
