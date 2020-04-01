@@ -1,6 +1,6 @@
 import { cookiesAllowed } from './store.js';
 
-const gaProperty = 'UA-161472816-1';
+const gaProperty = 'UA-161472816-2';
 const disableStr = 'ga-disable-' + gaProperty;
 
 if (document.cookie.indexOf(disableStr + '=true') > -1) { window[disableStr] = true; cookiesAllowed.set(false) };
@@ -17,7 +17,7 @@ function optin() {
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  
+
   cookiesAllowed.set(true);
   ga('create', gaProperty, 'auto');
   ga('set', 'anonymizeIp', true);
