@@ -51,7 +51,7 @@
         Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
         Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
       </p>
-      <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
           <button on:click={seeResults}>Akzeptieren</button>
           <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
@@ -69,7 +69,7 @@
         options={$bundeslaender}
         help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist."
       />
-      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.state === null}>Weiter</button>
       </div>
@@ -84,7 +84,7 @@
         options={$gewerbe}
         help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können."
       />
-      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.trade === null}>Weiter</button>
       </div>
@@ -101,7 +101,7 @@
           Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
         </div>
       </div>
-      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.age === null || selection.age < 0 || selection.age > 999}>Weiter</button>
       </div>
@@ -116,7 +116,7 @@
         options={$rechtsformen}
         help="Je nach Rechtsform Ihres Unternehmen werden Sie unterschiedliche Unterlagen benötigen. Sollten Sie sich nicht sicher sein, sind Sie wahrscheinlich ein:e Einzelunternehmer:in oder wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, sind Sie wahrscheinlich eine GbR."
       />
-      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={!selection.legal}>Weiter</button>
       </div>
@@ -132,7 +132,7 @@
           Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
         </div>
       </div>
-      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.sales === null || selection.sales < 0}>Weiter</button>
       </div>
@@ -147,7 +147,7 @@
           Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
         </div>
       </div>
-      <div class="next-button-wrapper" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.employees === null || selection.employees < 0}>Weiter</button>
       </div>
@@ -165,7 +165,7 @@
         options={times}
         help="Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch auf spezielle Hilfsmaßnahmen."
       />
-      <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">
+      <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={!selection.time}>Zu den Resultaten</button>
       </div>
@@ -173,10 +173,10 @@
     </div>
   {/if}
   {#if currentStep === 8}
-    <div class="fullpage" style="width: 100%; max-width: none;" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
+    <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <Results {selection} />
     </div>
-    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 500, key: 'buttons' }}" in:receive="{{ duration: 500, key: 'buttons' }}">Zurück zum Finder</button>
+    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
   {/if}
 </main>
 {/if}
@@ -184,7 +184,7 @@
 <style>
 
   .logo-link {
-    position: absolute; 
+    position: absolute;
     max-width: 50%;
   }
 

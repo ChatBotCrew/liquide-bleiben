@@ -27,7 +27,7 @@ function searchToObject() {
     const [key, value] = pairs[i].split("=").map(decodeURIComponent);
     if(key === "solo" && value === "ja") obj["employees"] = 0;
     else if((key === "state") && !parseInt(value)) {
-      const state = bundeslaender.find(b => b.name === value.replace("+", " "))
+      const state = bundeslaender.find(b => b.name.toLowerCase() === value.replace("+", " ").toLowerCase())
       if (!state) continue;
       obj[key] = state.id;
     }
@@ -62,22 +62,22 @@ export const times = [
 ]
 
 export const finanzaemter = {
-  "Bremen": "https://www.finanzen.bremen.de/steuern/finanzaemter-19710",
-  "Berlin": "https://service.berlin.de/standorte/finanzaemter/",
-  "Nordrhein-Westfalen": "https://www.finanzverwaltung.nrw.de/de/finanzamtsfinder",
-  "Mecklenburg-Vorpommern": "https://www.steuerportal-mv.de/Finanzaemter",
-  "Saarland": "https://www.saarland.de/finanzaemter.htm",
-  "Sachsen": "https://www.finanzamt.sachsen.de/",
-  "Sachsen-Anhalt": "https://finanzamt.sachsen-anhalt.de/finanzaemter-lsa/",
-  "Hamburg": "https://www.hamburg.de/fb/finanzaemter/",
-  "Schleswig-Holstein": "https://www.schleswig-holstein.de/DE/Fachinhalte/F/finanzen/finanzaemter.html",
-  "Niedersachsen": "https://www.lstn.niedersachsen.de/steuer/finanzaemter/66958.html",
-  "Hessen": "https://service.hessen.de/html/8469.htm",
-  "Rheinland-Pfalz": "https://fm.rlp.de/de/service/behoerdenverzeichnis/finanzaemter/",
-  "Bayern": "https://www.finanzamt.bayern.de/",
-  "Thüringen": "https://finanzamt.thueringen.de/",
-  "Brandenburg": "https://finanzamt.brandenburg.de/cms/detail.php/lbm1.c.289711.de",
-  "Baden-Württemberg": "https://finanzamt-bw.fv-bwl.de/,Lde/Startseite/Finanzaemter/Auswahl",
+  "1": "https://finanzamt-bw.fv-bwl.de/,Lde/Startseite/Finanzaemter/Auswahl",
+  "2": "https://www.finanzamt.bayern.de/",
+  "3": "https://service.berlin.de/standorte/finanzaemter/",
+  "4": "https://finanzamt.brandenburg.de/cms/detail.php/lbm1.c.289711.de",
+  "5": "https://www.finanzen.bremen.de/steuern/finanzaemter-19710",
+  "6": "https://www.hamburg.de/fb/finanzaemter/",
+  "7": "https://service.hessen.de/html/8469.htm",
+  "8": "https://www.steuerportal-mv.de/Finanzaemter",
+  "9": "https://www.lstn.niedersachsen.de/steuer/finanzaemter/66958.html",
+  "10": "https://www.finanzverwaltung.nrw.de/de/finanzamtsfinder",
+  "11": "https://fm.rlp.de/de/service/behoerdenverzeichnis/finanzaemter/",
+  "12": "https://www.saarland.de/finanzaemter.htm",
+  "13": "https://www.finanzamt.sachsen.de/",
+  "14": "https://finanzamt.sachsen-anhalt.de/finanzaemter-lsa/",
+  "15": "https://www.schleswig-holstein.de/DE/Fachinhalte/F/finanzen/finanzaemter.html",
+  "16": "https://finanzamt.thueringen.de/",
 }
 
 export const weitereInfos = {

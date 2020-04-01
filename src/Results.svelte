@@ -4,7 +4,7 @@
   import ga from './ga.js';
   import { cookiesAllowed } from './store.js';
   import {send, receive} from './animations/crossfade.js';
-  import { help, finanzaemter, weitereInfos } from'./data';
+  import { bundeslaender, help, finanzaemter, weitereInfos } from'./data';
   import Table from './Table.svelte';
 
   export let selection;
@@ -66,7 +66,7 @@
   {/if}
   <details class="additional-info-wrapper">
     <summary>Steuerstundung</summary>
-    <div class="info-title">{@html help['Steuerstundung'].text(selection.state || '')}</div>
+    <div class="info-title">{@html help['Steuerstundung'].text($bundeslaender.find(b => b.id === selection.state).name || '')}</div>
     <div class="info-link-wrapper">
       <a target="_blank" class="info-link" href={weitereInfos.requestForm}>Antragsformular</a>
       {#if selection.state}
@@ -108,7 +108,7 @@
     overflow: auto;
     max-width: 100%;
     width: 100%;
-    margin-bottom: 75px;
+    max-height: 100vh;
   }
 
   .info-title {
@@ -165,6 +165,7 @@
     box-shadow:
       8px 8px 12px 0 #2CFFA2,
       -8px -8px 12px 0 #c5ffdd;
+    border: 1px solid #2CFFA2;
     width: calc(100% - 32px);
     margin: 32px auto;
   }
@@ -174,5 +175,6 @@
     margin: 0 8px 32px 8px;
     text-align: center;
     font-size: 0.8rem;
+    margin-bottom: 83px;
   }
 </style>
