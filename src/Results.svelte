@@ -83,6 +83,10 @@
         <span>Sie wollen mehr wissen?</span>
         <a target="_blank" class="info-link button" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
       </div>
+      <div class="info-link-wrapper">
+        <span>Sie wollen einen Antrag stellen?</span>
+        <a target="_blank" class="info-link button" href="https://kurzarbeit-einfach.de/">Besuchen Sie U:DO</a>
+      </div>
     </details>
   {/if}
   {#if selection.employees != 0}
