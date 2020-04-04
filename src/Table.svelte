@@ -8,7 +8,7 @@
       <div class="title">{offer.name}</div>
       <div class="divider"></div>
       <div class="content">
-        {#each offer.fields as field}
+        {#each offer.fields.main as field}
           <p>
             <span class="key">{field.name}:</span>
             {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}

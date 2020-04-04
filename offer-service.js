@@ -49,33 +49,45 @@ function minMaxFilter(rowFields, minId, maxId, filterValue) {
   return minField.value <= filterValue && maxField.value >= filterValue;
 }
 
-function formatOffer(offer, columndIds) {
+function formatOffer(offer) {
   return {
     name: offer.name,
-    fields: offer.fields.filter(field => columndIds.includes(field.fieldId)).map(field => {
-      let value;
-      if (field.value !== undefined) {
-        if (typeof field.value === 'boolean') {
-          value = field.value ? 'Ja' : 'Nein';
-        } else {
-          value = field.value.replace(/[\\\~]/g, '');
-        }
-      } else {
-        value = field.values.map(val => val.name).join(', ');
-      }
-      return { name: field.name, value }
-    })
+    fields: {
+      main: filterFieldsByDisplayType(offer.fields, 'main').map(formatField),
+      details: filterFieldsByDisplayType(offer.fields, 'details').map(formatField)
+    }
   };
 }
 
+function filterFieldsByDisplayType(fields, type) {
+  return fields.filter(field => {
+    const displayField = getColumns().find(col => col.id === field.fieldId)
+    if (!displayField) return false;
+    return displayField.type === type;
+  });
+}
+
+function formatField(field) {
+  let value;
+  if (field.value !== undefined) {
+    if (typeof field.value === 'boolean') {
+      value = field.value ? 'Ja' : 'Nein';
+    } else {
+      value = field.value.replace(/[\\\~]/g, '');
+    }
+  } else {
+    value = field.values.map(val => val.name).join(', ');
+  }
+  return { name: field.name, value }
+}
+
 function formatOffersClustered(offers) {
-  const columndIds = getColumns().map(col => col.id)
   return getClusters().map(clusterName => {
     return {
       name: clusterName,
       offers: offers
         .filter(off => off.fields.find(field => field.fieldId === 1002).values.map(val => val.name).includes(clusterName))
-        .map(off => formatOffer(off, columndIds))
+        .map(off => formatOffer(off, getColumns()))
       };
   });
 }

@@ -45,7 +45,7 @@ async function retrieveColumnsAndClusters() {
     .then(res => res.json())
   displayedColumns = cbSchema
     .filter(col => col.mandatoryInStatuses.findIndex(status => [SHOW_STATUS_ID, DETAILS_STATUS_ID].includes(status.id)) > -1)
-    .map(col => ({ id: col.id, name: col.name }));
+    .map(col => ({ id: col.id, name: col.name, type: col.mandatoryInStatuses.find(status => status.id === SHOW_STATUS_ID) ? 'main' : 'details' }));
   clusters = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1);
 }
 
