@@ -3,6 +3,9 @@ var fetch = require('node-fetch')
 var BASE_PATH = 'https://liquidebleiben.codebeamer.com/api/v3'
 var AUTH_HEADER = { 'Authorization': `Basic ${process.env.CB_BASIC_AUTH}` };
 
+const SHOW_STATUS_ID = 8;
+const DETAILS_STATUS_ID = 10;
+
 let offers = [];
 let clusters = [];
 let displayedColumns = [];
@@ -41,7 +44,7 @@ async function retrieveColumnsAndClusters() {
   })
     .then(res => res.json())
   displayedColumns = cbSchema
-    .filter(col => col.mandatoryInStatuses.findIndex(status => status.id === 8) > -1)
+    .filter(col => col.mandatoryInStatuses.findIndex(status => [SHOW_STATUS_ID, DETAILS_STATUS_ID].includes(status.id)) > -1)
     .map(col => ({ id: col.id, name: col.name }));
   clusters = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1);
 }
@@ -80,7 +83,7 @@ function refreshData() {
   });
 }
 
-setTimeout(refreshData, 1800000);
+setInterval(refreshData, 1800000);
 refreshData();
 
 module.exports = {
