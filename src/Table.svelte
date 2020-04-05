@@ -1,4 +1,6 @@
 <script>
+  import { slide } from 'svelte/transition';
+
   export let offers = [];
   const details = {};
 </script>
@@ -21,7 +23,7 @@
         {/each}
         <button class="button" on:click={() => details[offer.id] = !details[offer.id]}>Details anzeigen</button>
         {#if details[offer.id]}
-          <div class="offer-details">
+          <div class="offer-details" transition:slide>
             {#each offer.fields.details as field}
               <p>
                 <span class="key">{field.name}:</span>
