@@ -33,12 +33,12 @@ const dropdowns = [
   },
 ]
 
-async function retrieveWikiAsHtml(id, value) {
+async function retrieveWikiAsHtml(id, version, value) {
   return await fetch(`${BASE_PATH}/projects/2/wiki2html`, {
     method: 'POST',
     body: JSON.stringify({
       contextId: id,
-      contextVersion: 1,
+      contextVersion: version,
       renderingContextType: 'TRACKER_ITEM',
       markup: value
     }),
@@ -60,7 +60,7 @@ async function retrieveOffers() {
         fields: await Promise.all(item.item.customFields
           .map(async field => {
             if([SPECIAL_REQ_ID, ADDITIONAL_INFOS_ID].includes(field.fieldId) && field.value.includes('~')) {
-              return await retrieveWikiAsHtml(item.item.id, field.value).then(value => ({
+              return await retrieveWikiAsHtml(item.item.id, item.item.version, field.value).then(value => ({
                 ...field,
                 value
               }))
