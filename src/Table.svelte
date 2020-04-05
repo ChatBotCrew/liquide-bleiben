@@ -1,5 +1,6 @@
 <script>
   export let offers = [];
+  const details = {};
 </script>
 
 <div class="custom-table">
@@ -18,6 +19,23 @@
             {/if}
           </p>
         {/each}
+        <button class="button" on:click={() => details[offer.id] = !details[offer.id]}>Details anzeigen</button>
+        {#if details[offer.id]}
+          <div class="offer-details">
+            {#each offer.fields.details as field}
+              <p>
+                <span class="key">{field.name}:</span>
+                {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
+                  <a target="_blank" href={field.value}>Mehr erfahren</a>
+                {:else if [10002, 10003].includes(field.id)}
+                  <br>{@html field.value}
+                {:else}
+                  {field.value}
+                {/if}
+              </p>
+            {/each}
+          </div>
+        {/if}
       </div>
     </div>
   {/each}

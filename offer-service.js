@@ -51,6 +51,7 @@ function minMaxFilter(rowFields, minId, maxId, filterValue) {
 
 function formatOffer(offer) {
   return {
+    id: offer.id,
     name: offer.name,
     fields: {
       main: filterFieldsByDisplayType(offer.fields, 'main').map(formatField),
@@ -78,7 +79,7 @@ function formatField(field) {
   } else {
     value = field.values.map(val => val.name).join(', ');
   }
-  return { name: field.name, value }
+  return { id: field.fieldId, name: field.name, value }
 }
 
 function formatOffersClustered(offers) {

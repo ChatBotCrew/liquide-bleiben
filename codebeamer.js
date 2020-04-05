@@ -1,10 +1,15 @@
 var fetch = require('node-fetch')
 
 var BASE_PATH = 'https://liquidebleiben.codebeamer.com/api/v3'
-var AUTH_HEADER = { 'Authorization': `Basic ${process.env.CB_BASIC_AUTH}` };
+var AUTH_HEADER = { 
+  'Authorization': `Basic ${process.env.CB_BASIC_AUTH}`,
+  'Content-Type': 'application/json'
+};
 
 const SHOW_STATUS_ID = 8;
 const DETAILS_STATUS_ID = 10;
+const SPECIAL_REQ_ID = 10002;
+const ADDITIONAL_INFOS_ID = 10003;
 
 let offers = [];
 let clusters = [];
@@ -28,13 +33,45 @@ const dropdowns = [
   },
 ]
 
+async function retrieveWikiAsHtml(id, value) {
+  return await fetch(`${BASE_PATH}/projects/2/wiki2html`, {
+    method: 'POST',
+    body: JSON.stringify({
+      contextId: id,
+      contextVersion: 1,
+      renderingContextType: 'TRACKER_ITEM',
+      markup: value
+    }),
+    headers: AUTH_HEADER,
+  })
+    .then(res => res.text())
+}
+
 async function retrieveOffers() {
   const cbOffers = await fetch(`${BASE_PATH}/trackers/2221/reports/3017/items?page=1&pageSize=500`, {
     method: 'GET',
     headers: AUTH_HEADER,
   })
     .then(res => res.json())
-  offers = cbOffers.items.map(item => ({ name: item.item.name, fields: item.item.customFields }));
+  offers = await Promise.all(cbOffers.items.map(async item => {
+      return await ({
+        id: item.item.id,
+        name: item.item.name,
+        fields: await Promise.all(item.item.customFields
+          .map(async field => {
+            if([SPECIAL_REQ_ID, ADDITIONAL_INFOS_ID].includes(field.fieldId) && field.value.includes('~')) {
+              return await retrieveWikiAsHtml(item.item.id, field.value).then(value => ({
+                ...field,
+                value
+              }))
+            } 
+            else {
+              return field;
+            }
+          })
+        )
+      })
+    }));
 }
 
 async function retrieveColumnsAndClusters() {
