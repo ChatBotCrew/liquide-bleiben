@@ -3,6 +3,16 @@
 
   export let offers = [];
   const details = {};
+
+  function onDetailsClick(id) {
+    details[id] = !details[id];
+    // Set timeout to wait for the transition to finish - default duration 400ms
+    setTimeout(() => {
+      for(let element of document.getElementsByClassName("external")) {
+        element.setAttribute("target", "_blank");
+      }
+    }, 500)
+  }
 </script>
 
 <div class="custom-table">
@@ -21,7 +31,7 @@
             {/if}
           </p>
         {/each}
-        <button class="button" on:click={() => details[offer.id] = !details[offer.id]}>Details anzeigen</button>
+        <button class="button" on:click={() => onDetailsClick(offer.id)}>Details anzeigen</button>
         {#if details[offer.id]}
           <div class="offer-details" transition:slide>
             {#each offer.fields.details as field}
