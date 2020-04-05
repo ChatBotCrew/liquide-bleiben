@@ -83,7 +83,37 @@ async function retrieveDropdownOptions(fieldId) {
     method: 'GET',
     headers: HEADERS,
   }).then(res => res.json());
-  return dropdownValues.options.splice(1).map(opt => ({ id: opt.id.toString(), name: opt.name }));
+  return dropdownValues.options.splice(1).map(opt => ({ id: opt.id.toString(), name: opt.name, type: opt.type }));
+}
+
+async function addOffer(newOffer) {
+  let { name, state, link } = newOffer;
+  // TODO: Need to handle states that are not in the list (currently stateToSet will be null and request will fail)
+  // TODO: Need to handle links that are not links (currently request will fail if wrong format)
+  let stateToSet = dropdowns.find(x => x.id === 1000).options.find(x => x.name === state);
+  
+  let body = {   
+    "name": name,
+    "customFields" : [
+      {
+        "fieldId": 1000, //Bundesland
+        "type": "ChoiceFieldValue",
+        "values" : [stateToSet]
+      },
+      {
+        "fieldId": 10008, // Programminformationen
+        "type": "TextFieldValue", // on purpose text field type here. Gets converted to UrlFieldValue automatically
+        "value": link
+      }
+    ]
+  };
+  
+  const newItem = await fetch(`${BASE_PATH}/trackers/2221/items`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify(body),
+    });
+  return newItem.json();
 }
 
 function getOffers() {
