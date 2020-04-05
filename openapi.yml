@@ -142,17 +142,28 @@ components:
           items:
             type: "object"
             properties:
+              id:
+                type: "number"
               name:
                 type: "string"
               fields:
-                type: "array"
-                items:
-                  type: "object"
-                  properties:
-                    name:
-                      type: "string"
-                    value:
-                      type: "string"
+                type: "object"
+                properties:
+                  main:
+                    $ref: "#/components/schemas/offer-fields"
+                  details:
+                    $ref: "#/components/schemas/offer-fields"
+    offer-fields:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          id:
+            type: "number"
+          name:
+            type: "string"
+          value:
+            type: "string"
     offers-response:
       type: "array"
       items:

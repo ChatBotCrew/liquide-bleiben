@@ -225,13 +225,11 @@
     flex: 1;
     margin: 8px;
     z-index: 10;
-    border-radius: 50px;
   }
 
   button.change-inputs {
     height: 50px;
     width: 90%;
-    border-radius: 50px;
     position: absolute;
     bottom: 16px;
     left: 0;
@@ -280,7 +278,6 @@
 
   .cookies-banner > button {
     margin: 0 8px;
-    border-radius: 50px;
   }
 
   .ga-optin {

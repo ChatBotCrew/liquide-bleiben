@@ -1,5 +1,18 @@
 <script>
+  import { slide } from 'svelte/transition';
+
   export let offers = [];
+  const details = {};
+
+  function onDetailsClick(id) {
+    details[id] = !details[id];
+    // Set timeout to wait for the transition to finish - default duration 400ms
+    setTimeout(() => {
+      for(let element of document.getElementsByClassName("external")) {
+        element.setAttribute("target", "_blank");
+      }
+    }, 500)
+  }
 </script>
 
 <div class="custom-table">
@@ -8,7 +21,7 @@
       <div class="title">{offer.name}</div>
       <div class="divider"></div>
       <div class="content">
-        {#each offer.fields as field}
+        {#each offer.fields.main as field}
           <p>
             <span class="key">{field.name}:</span>
             {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
@@ -18,6 +31,23 @@
             {/if}
           </p>
         {/each}
+        <button class="button" on:click={() => onDetailsClick(offer.id)}>Details anzeigen</button>
+        {#if details[offer.id]}
+          <div class="offer-details" transition:slide>
+            {#each offer.fields.details as field}
+              <p>
+                <span class="key">{field.name}:</span>
+                {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
+                  <a target="_blank" href={field.value}>Mehr erfahren</a>
+                {:else if [10002, 10003].includes(field.id)}
+                  <br>{@html field.value}
+                {:else}
+                  {field.value}
+                {/if}
+              </p>
+            {/each}
+          </div>
+        {/if}
       </div>
     </div>
   {/each}

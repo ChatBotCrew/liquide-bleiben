@@ -68,6 +68,7 @@ button, a.button {
   color: #333;
   outline: none;
   cursor: pointer;
+  border-radius: 50px;
 }
 
 button:disabled {

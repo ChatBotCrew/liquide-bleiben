@@ -1,7 +1,10 @@
 var fetch = require('node-fetch')
 
 var BASE_PATH = 'https://liquidebleiben.codebeamer.com/api/v3'
-var AUTH_HEADER = { 'Authorization': `Basic ${process.env.CB_BASIC_AUTH}` };
+var HEADERS = {
+  'Authorization': `Basic ${process.env.CB_BASIC_AUTH}`,
+  'Content-Type': 'application/json'
+};
 
 const SHOW_STATUS_ID = 8;
 const DETAILS_STATUS_ID = 10;
@@ -28,31 +31,57 @@ const dropdowns = [
   },
 ]
 
+async function retrieveWikiAsHtml(id, type, version, value) {
+  return await fetch(`${BASE_PATH}/projects/2/wiki2html`, {
+    method: 'POST',
+    body: JSON.stringify({
+      contextId: id,
+      contextVersion: version,
+      renderingContextType: type,
+      markup: value
+    }),
+    headers: HEADERS,
+  })
+    .then(res => res.text())
+}
+
 async function retrieveOffers() {
   const cbOffers = await fetch(`${BASE_PATH}/trackers/2221/reports/3017/items?page=1&pageSize=500`, {
     method: 'GET',
-    headers: AUTH_HEADER,
+    headers: HEADERS,
   })
     .then(res => res.json())
-  offers = cbOffers.items.map(item => ({ name: item.item.name, fields: item.item.customFields }));
+  offers = cbOffers.items.map(item => ({
+    id: item.item.id,
+    version: item.item.version,
+    name: item.item.name,
+    fields: item.item.customFields
+  }));
+  offers.forEach(offer => {
+    offer.fields.forEach(async field => {
+      if(field.type === "WikiTextFieldValue") {
+        field.value = await retrieveWikiAsHtml(offer.id, 'TRACKER_ITEM', offer.version, field.value);
+      }
+    })
+  });
 }
 
 async function retrieveColumnsAndClusters() {
   const cbSchema = await fetch(`${BASE_PATH}/trackers/2221/schema`, {
     method: 'GET',
-    headers: AUTH_HEADER,
+    headers: HEADERS,
   })
     .then(res => res.json())
   displayedColumns = cbSchema
     .filter(col => col.mandatoryInStatuses.findIndex(status => [SHOW_STATUS_ID, DETAILS_STATUS_ID].includes(status.id)) > -1)
-    .map(col => ({ id: col.id, name: col.name }));
+    .map(col => ({ id: col.id, name: col.name, type: col.mandatoryInStatuses.find(status => status.id === SHOW_STATUS_ID) ? 'main' : 'details' }));
   clusters = cbSchema.find(col => col.id === 1002).options.map(opt => opt.name).splice(1);
 }
 
 async function retrieveDropdownOptions(fieldId) {
   const dropdownValues = await fetch(`${BASE_PATH}/trackers/2221/fields/${fieldId}`, {
     method: 'GET',
-    headers: AUTH_HEADER,
+    headers: HEADERS,
   }).then(res => res.json());
   return dropdownValues.options.splice(1).map(opt => ({ id: opt.id.toString(), name: opt.name }));
 }
@@ -74,13 +103,15 @@ function getClusters() {
 }
 
 function refreshData() {
-  retrieveOffers();
-  retrieveColumnsAndClusters();
-  dropdowns.forEach(async dd => {
-    const ddOptions = await retrieveDropdownOptions(dd.id);
-    if(dd.name === 'state') ddOptions.pop();
-    dropdowns.find(dropdown => dropdown.id == dd.id).options = ddOptions;
-  });
+  return Promise.all([
+    retrieveOffers(),
+    retrieveColumnsAndClusters(),
+    Promise.all(dropdowns.map(async dd => {
+      const ddOptions = await retrieveDropdownOptions(dd.id);
+      if(dd.name === 'state') ddOptions.pop();
+      dd.options = ddOptions;
+    }))
+  ]);
 }
 
 setInterval(refreshData, 1800000);
