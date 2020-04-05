@@ -8,8 +8,6 @@ var HEADERS = {
 
 const SHOW_STATUS_ID = 8;
 const DETAILS_STATUS_ID = 10;
-const SPECIAL_REQ_ID = 10002;
-const ADDITIONAL_INFOS_ID = 10003;
 
 let offers = [];
 let clusters = [];
