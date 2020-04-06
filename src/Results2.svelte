@@ -5,6 +5,7 @@
   import { cookiesAllowed } from './store.js';
   import { send, receive } from './animations/crossfade.js';
   import { bundeslaender, help, finanzaemter, steuerstundungen, weitereInfos } from './data';
+  import Table from './Table.svelte';
 
   export let selection;
 
@@ -85,7 +86,21 @@
       {/if}
     </ul>
   </div>
-  <div id="tab-content">
+  <div id="tab-content" class="mb-3">
+    {#await data$ then data}
+      {#each data as cluster}
+        {#if selectedTab === cluster.name}
+          <Table offers={cluster.offers}/>
+          {#if help[cluster.name]}
+            {@html help[cluster.name].text}<br>
+            <span>Sie wollen mehr wissen?</span>
+            <a target="_blank" href={help[cluster.name] ? help[cluster.name].link : "https://wir-bleiben-liqui.de"}>
+              Direkt zu unserem Blog
+            </a>
+          {/if}
+        {/if}
+      {/each}
+    {/await}
     {#if selectedTab === STEUERSTUNDUNG}
       <p>
         Ihr Bundesland <b>{$bundeslaender.find(land => land.id == selection.state).name || ''}</b> bietet
@@ -147,14 +162,22 @@
     {#if selectedTab === KURZARBEIT}
       {@html help["Kurzarbeit"].text}
       <span>Sie wollen mehr wissen?</span>
-      <a target="_blank" class="info-link button" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
+      <a target="_blank" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
     {/if}
     {#if selectedTab === SOZIALBEITRAEGE}
       {@html help["Sozialbeiträge"].text}
       <span>Sie wollen mehr wissen?</span>
-      <a target="_blank" class="info-link button" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
+      <a target="_blank" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
     {/if}
   </div>
+  <p class="text-center">
+    Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
+    <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
+  </p>
+  <p class="text-center">
+    Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a
+          href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a>
+  </p>
 </div>
 
 <style type="text/scss">
@@ -178,7 +201,6 @@
 
   #tab-content {
     background-color: $gray-200;
-    border-radius: $border-radius;
     width: 100%;
     padding: 0.3rem 0.8rem;
     overflow-y: scroll;
