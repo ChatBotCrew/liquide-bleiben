@@ -31,12 +31,6 @@ function filterOffers(filterParams) {
     filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, 10013, 10014, filterParams.employees));
   }
 
-  if (filterParams.time) {
-    filteredOffers = filteredOffers.filter(off => {
-      return off.fields.find(field => field.fieldId === 1002).values[0].id != filterParams.time
-    });
-  }
-
   return filteredOffers;
 }
 
