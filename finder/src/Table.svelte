@@ -75,7 +75,7 @@
   }
 
   .divider {
-    border-bottom: #2CFFA2 2px solid;
+    border-bottom: #00A992 2px solid;
     width: 33%;
     margin-top: 0.5rem;
   }

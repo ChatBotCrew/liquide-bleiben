@@ -94,7 +94,7 @@
         Diese sind nicht an die Weisungen des Bundesfinanzministeriums bzw. der Landesfinanzbehörden gebunden, d.h. eine Stundung liegt im Ermessen der jeweiligen Gemeinde.
       </p>
       <p>
-        <b>Hinweis I:</b> Wenn Sie sowohl einen Stundungsantrag als auch einen Herabsetzungsantrag stellen möchten, bitten die Finanzämter um Einreichung des Antrags in zweifacher Ausfertigung, 
+        <b>Hinweis I:</b> Wenn Sie sowohl einen Stundungsantrag als auch einen Herabsetzungsantrag stellen möchten, bitten die Finanzämter um Einreichung des Antrags in zweifacher Ausfertigung,
         da diese Anträge zwar in den meisten Bundesländern über ein und dasselbe Formular eingereicht werden, i.d.R. aber in unterschiedliche Zuständigkeitsbereiche fallen.<br>
         <b>Hinweis II:</b> Anträge auf Stundung der Gewerbesteuer sind bei der zuständigen Gemeinde zu stellen.
       </p>
@@ -102,7 +102,7 @@
         Anträge auf Steuerstundungen und/oder auf Anpassungen von Vorauszahlungen, die nach dem 31.12.2020 eingehen oder nur Zeiträume nach dem 31.12.2020 betreffen, sind besonders zu begründen.
       </p>
       <p>
-      
+
         Antragsformular zur Stundung der Einkommensteuer, Körperschaftsteuer und Umsatzsteuer sowie zur Herabsetzung der Vorauszahlungen zur Einkommen- und Körperschaftsteuer und des Gewerbesteuer-Messbetrages:
       </p>
     </div>
@@ -186,7 +186,6 @@
   summary {
     font-size: 1.5rem;
     height: 50px;
-    background-color: #c5ffdd;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,9 +201,9 @@
   details {
     overflow: auto;
     box-shadow:
-      8px 8px 12px 0 #2CFFA2,
+      8px 8px 12px 0 #00A992,
       -8px -8px 12px 0 #c5ffdd;
-    border: 1px solid #2CFFA2;
+    border: 1px solid #00A992;
     width: calc(100% - 32px);
     margin: 32px auto;
   }

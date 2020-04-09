@@ -20,7 +20,7 @@ body {
 a {
   color: #333;
   text-decoration: underline;
-  text-decoration-color: #2CFFA2;
+  text-decoration-color: #00A992;
 }
 
 a:hover {
@@ -64,8 +64,8 @@ input[type="range"] {
 }
 
 button, a.button {
-  background-color: #2CFFA2;
-  color: #333;
+  background-color: #00A992;
+  color: white;
   outline: none;
   cursor: pointer;
   border-radius: 50px;

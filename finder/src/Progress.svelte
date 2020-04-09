@@ -16,7 +16,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: #2CFFA2;
+    color: #00A992;
   }
 
   progress::-webkit-progress-bar {
@@ -26,12 +26,12 @@
   }
 
   progress::-webkit-progress-value {
-    background-color: #2CFFA2;
+    background-color: #00A992;
     border-radius: 50px;
   }
 
   progress::-moz-progress-bar {
-    background-color: #2CFFA2;
+    background-color: #00A992;
     border-radius: 50px;
   }
 </style>
