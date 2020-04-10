@@ -31,9 +31,7 @@
 </script>
 
 <div class="results">
-  <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
-    <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
-  </a>
+  <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
   <h1>Ihre Resultate</h1>
   {#if selection.state}
     {#await data$}
@@ -145,8 +143,7 @@
 
 <style>
   .logo {
-    margin-bottom: 24px;
-    max-width: 300px;
+    max-width: 200px;
   }
 
   .results {
