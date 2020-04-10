@@ -7,7 +7,3 @@ Lizenzen:
  pdfform: Apache 2.0, https://github.com/phihag/pdfform.js/blob/master/LICENSE
  vue: MIT, https://github.com/vuejs/vuejs.org/blob/master/LICENSE
  dieses Modul: MIT
-
-Reste von U:DO:
- foerderike.js, keine zusammenhängenden Zeilen mehr, letzte Ähnlichkeiten sollten nach dem nächsten refactoring verschwunden sein
- index.html, eigentlich nichts Eigenständiges (nur selbstverständliche head Deklarationsteile)

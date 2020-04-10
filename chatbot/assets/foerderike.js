@@ -3,8 +3,14 @@ var answers= {};
 var current_step = {};
 var botui = new BotUI('foerderike');
 
+function ends_at(step){
+    if (step.id=="measures"){ // completed
+        console.log("create PDF");
+    }
+}
+
 function auswahlSingle(step) {
-    actions = []
+    var actions = []
     step["mögliche antworten"].forEach(element => {
         actions.push({ text: element, value: element })
     });
@@ -18,13 +24,36 @@ function auswahlSingle(step) {
         answers[currentStep] = res.value;
         if (step["weiter zu"])
             SchrittZeigen(step["weiter zu"][res.value])
+        else
+            ends_at(step);
     }));
 }
 
 function auswahlMultiple(step) {
-    options = []
-    step["mögliche antworten"].forEach(element => {
-        options.push({ text: element, value: element })
+    var options = [];
+    var candidates = step["mögliche antworten"];
+    candidates.forEach(element => {
+        if ((typeof element)=="object"){
+            var clause = element["Wenn"];
+            if (clause) {
+                var condition = true;
+                for (var j in clause) {
+                    //console.log(j,answers[j],clause[j]);
+                    if (answers[j]!=clause[j])
+                        condition=false;
+                }
+                if (condition){
+                    var optlist = element["Wert"];
+                    for (var j in optlist) {
+                        //console.log("Res", optlist[j]);
+                        options.push({text: optlist[j], value: optlist[j]})
+                    }
+                }
+            }
+        }
+        else {
+            options.push({ text: element, value: element })
+        }
     });
     botui.message.add({
         content: step.text,
@@ -37,7 +66,10 @@ function auswahlMultiple(step) {
         }
     }).then( (res) => {
         answers[currentStep] = res.value;
-        SchrittZeigen(step["weiter zu"][0])
+        if (step["weiter zu"])
+            SchrittZeigen(step["weiter zu"][0])
+        else
+            ends_at(step);
     }));
 }
 
@@ -58,7 +90,7 @@ function eingabe(step) {
     }).then(() =>
         botui.action.text({
             action: {
-                
+
             }
         })
     ).then((res) => {
