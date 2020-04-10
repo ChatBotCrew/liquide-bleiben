@@ -16,7 +16,8 @@ function auswahlSingle(step) {
         action: actions,
     }).then( (res) => {
         answers[currentStep] = res.value;
-        SchrittZeigen(step["weiter zu"][res.value])
+        if (step["weiter zu"])
+            SchrittZeigen(step["weiter zu"][res.value])
     }));
 }
 
@@ -40,6 +41,17 @@ function auswahlMultiple(step) {
     }));
 }
 
+function info(step) {
+    if (step["mögliche antworten"])
+    {
+        auswahlSingle(step);
+    }
+    else
+        botui.message.add({
+            content: step.text,
+        })
+}
+
 function SchrittZeigen(stepId) {
 
     var entry = foerderike_steps.find(v => v.id == stepId);
@@ -49,7 +61,8 @@ function SchrittZeigen(stepId) {
         currentStep = stepId;
         if (entry.fragetyp =="auswahl_single") auswahlSingle(entry);
         else if (entry.fragetyp == "auswahl_multiple") auswahlMultiple(entry);
-        else console.log("unknown command"+stepId);
+        else if (entry.fragetyp == "info") info(entry);
+        else console.log("unknown command "+entry.fragetyp+" in "+stepId);
     }
     else console.log("nicht gefunden "+stepId);
 };
