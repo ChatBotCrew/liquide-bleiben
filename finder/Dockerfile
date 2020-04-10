@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12-alpine3.10
 
 ARG CB_AUTH
 ENV CB_BASIC_AUTH=$CB_AUTH
