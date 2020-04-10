@@ -4,22 +4,17 @@ var current_step = {};
 var botui = new BotUI('foerderike');
 
 function auswahlSingle(step) {
+    actions = []
+    step["mögliche antworten"].forEach(element => {
+        actions.push({ text: element, value: element })
+    });
     botui.message.add({
         content: step.text,
         human: false
     }).then(() =>
     botui.action.button({
         addMessage: true,
-        action: [
-            {
-                text: step["mögliche antworten"][0],
-                value: step["mögliche antworten"][0]
-            },
-            {
-                text: step["mögliche antworten"][1],
-                value: step["mögliche antworten"][1]
-            }
-        ]               
+        action: actions,
     }).then( (res) => {
         answers[currentStep] = res.value;
         SchrittZeigen(step["weiter zu"][res.value])
@@ -30,19 +25,15 @@ function auswahlMultiple(step) {
     auswahlSingle(step);
 }
 
-/**
- * Search for first answer with "null"-answer + draw
- */
 function SchrittZeigen(stepId) {
 
-    var matchingSteps = foerderike_steps.filter((v) => {return v.id === stepId});
+    var entry = foerderike_steps.find(v => v.id == stepId);
 
-    if(matchingSteps.length > 0)
+    if(entry)
     {
         currentStep = stepId;
-        var step=matchingSteps[0]
-        if (step.fragetyp =="auswahl_single") auswahlSingle(step);
-        else if (step.fragetyp == "auswahl_multiple") auswahlMultiple(step);
+        if (entry.fragetyp =="auswahl_single") auswahlSingle(entry);
+        else if (entry.fragetyp == "auswahl_multiple") auswahlMultiple(entry);
         else console.log("unknown command"+stepId);
     }
     else console.log("nicht gefunden "+stepId);
