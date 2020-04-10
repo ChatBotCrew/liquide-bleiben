@@ -135,13 +135,20 @@
     </details>
   {/if}
   <div class="link-text" style="text-align: center;">
-    Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
-    <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
-    <p>Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a></p>
+    <p>
+      Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
+      <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
+    </p>
+    <span>Powered by <a target="_blank" href="taxy.io">taxy.io</a> und <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a></span>
   </div>
 </div>
 
 <style>
+  .logo {
+    margin-bottom: 24px;
+    max-width: 300px;
+  }
+
   .results {
     text-align: center;
     overflow: auto;
@@ -202,7 +209,7 @@
     overflow: auto;
     box-shadow:
       8px 8px 12px 0 #00A992,
-      -8px -8px 12px 0 #c5ffdd;
+      -8px -8px 12px 0 #e9f4f4;
     border: 1px solid #00A992;
     width: calc(100% - 32px);
     margin: 32px auto;

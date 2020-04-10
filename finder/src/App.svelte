@@ -39,24 +39,19 @@
     </div>
   {/if}
   {#if currentStep !== 6}
-    <a class="logo-link" out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
-      <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
-    </a>
   {/if}
   {#if currentStep === 0}
     <div class="fullpage">
       <p class="input-wrapper disclaimer" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a> bietet weder Rechts- noch Steuerberatung an.<br>
-        Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.<br>
-        Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
-        Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
+        <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
+        <span>Powered by <a target="_blank" href="taxy.io">taxy.io</a> und <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a></span>
       </p>
       <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
-          <button on:click={seeResults}>Akzeptieren</button>
-          <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
+          <button on:click={seeResults}>Zu den Fördermitteln</button>
+          <button on:click={next}>Kriterien anpassen</button>
         {:else}
-          <button on:click={next}>Akzeptieren</button>
+          <button on:click={next}>Fördermittel finden</button>
         {/if}
       </div>
     </div>
@@ -166,9 +161,9 @@
 
 <style>
 
-  .logo-link {
-    position: absolute;
-    max-width: 50%;
+  .logo {
+    margin-bottom: 24px;
+    max-width: 300px;
   }
 
   .fullpage {
@@ -192,16 +187,6 @@
     z-index: 10;
     display: flex;
     align-items: stretch;
-  }
-
-  @media(max-width: 600px) {
-    .wide-buttons {
-      flex-direction: column;
-    }
-
-    .logo-link {
-      display: none;
-    }
   }
 
   .next-button-wrapper > button {
