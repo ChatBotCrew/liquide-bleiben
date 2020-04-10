@@ -10,7 +10,6 @@ function auswahlSingle(step) {
     });
     botui.message.add({
         content: step.text,
-        human: false
     }).then(() =>
     botui.action.button({
         addMessage: true,
@@ -22,7 +21,23 @@ function auswahlSingle(step) {
 }
 
 function auswahlMultiple(step) {
-    auswahlSingle(step);
+    options = []
+    step["mögliche antworten"].forEach(element => {
+        options.push({ text: element, value: element })
+    });
+    botui.message.add({
+        content: step.text,
+    }).then(() =>
+    botui.action.select({
+        action: {
+            multipleselect: true,
+            options: options,
+            button: { icon: 'check', label: 'OK'}
+        }
+    }).then( (res) => {
+        answers[currentStep] = res.value;
+        SchrittZeigen(step["weiter zu"][res.value])
+    }));
 }
 
 function SchrittZeigen(stepId) {
