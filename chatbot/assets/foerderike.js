@@ -37,7 +37,7 @@ function auswahlMultiple(step) {
         }
     }).then( (res) => {
         answers[currentStep] = res.value;
-        SchrittZeigen(step["weiter zu"][res.value])
+        SchrittZeigen(step["weiter zu"][0])
     }));
 }
 
