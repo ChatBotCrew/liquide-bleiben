@@ -10,11 +10,13 @@
 </head>
 <body>
     <div id="foerderike"><bot-ui></bot-ui></div>
-    <button id="export">Export</button>
-    <table style="border: 1px solid black;"><tr>
-        <td><input type="file" id="selectFiles" value="Import" /><button id="import">Import</button></td>
+    
+    <table><tr>
+        <td><button id="export">Daten speichern</button></td>
+        <td style="border: 1px solid black;"><input type="file" id="selectFiles" value="Import" /><button id="import">Daten laden</button></td>
+        <td><button id="pdf">PDF</button></td>
     </tr></table>
-    <button id="pdf">PDF</button>
+   
     <!--button id="default">default values</button!-->
     <script src="/assets/vue.min.js"></script>
     <script src="/assets/botui.min.js"></script>
