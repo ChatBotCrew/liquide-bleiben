@@ -5,7 +5,7 @@ var botui = new BotUI('foerderike');
 
 function ends_at(step){
     if (step.id=="measures"){ // completed
-        console.log("create PDF");
+        foerderike_pdf(answers);
     }
 }
 
