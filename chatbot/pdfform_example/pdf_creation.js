@@ -1,6 +1,6 @@
 
 function fill_form() {
-    sourcePDF = "pdfform_example/Testform.pdf";
+    sourcePDF = "/pdfform_example/Testform.pdf";
     var xhr = new XMLHttpRequest();
     xhr.open('GET', sourcePDF, true);
     xhr.responseType = 'arraybuffer';
