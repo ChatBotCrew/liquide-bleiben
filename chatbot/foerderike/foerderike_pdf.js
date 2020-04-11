@@ -19,11 +19,19 @@ const abschnitt1 = "Liebe Nutzerin, lieber Nutzer,\n"
 
 const vorliegend = "Folgende Unterlagen hast du bereits vorbereitet:\n";
 
-const benoetigt = "Folgende Unterlagen solltest du in Vorbereitung auf den Termin mit deiner Bank noch vorbereiten:\n";
+const benoetigt = "\n\nFolgende Unterlagen solltest du in Vorbereitung auf den Termin mit deiner Bank noch vorbereiten:\n";
 const benoetigt1 = "In deinen eigenen Unterlagen findest du:\n";
 const benoetigt2 = "Dein Steuerbüro hilft dir bei:\n";
 const benoetigt3a = "Dein ";
 const benoetigt3b = " hilft dir bei:\n";
+
+const beantragt = "\n\nFolgende Fördermaßnahmen hast du bereits beantragt:\n";
+
+const moeglich = "\n\nBevor du einen Förderkredit beantragst, kann es sinnvoll oder nötig sein, zunächst andere Fördermaßnahmen in Anspruch zu nehmen.\n"
+    +"Sprich diesbezüglich zunächst mit deinem Steuerbüro und deiner Bank.\n";
+const moeglich1 = "Folgende Fördermaßnahmen kannst du selbst beantragen:\n";
+const moeglich2 = "Bei folgenden Fördermaßnahmen hilft dir dein Steuerberater:\n";
+const moeglich3 = "Bei folgenden Fördermaßnahmen hilft dir ";
 
 const disclaimer = "\n\nwir-bleiben-liqui.de bietet weder Rechts- noch Steuerberatung an.\n"
     +"Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.\n"
@@ -50,7 +58,9 @@ function combine_text(answers) {
     {
         res = res + vorliegend + liste_aus(answers["documents_partnership"] + "\n");
     }
-    return res + benoetigt + disclaimer;
+    res = res + benoetigt + moeglich;
+
+    return res + disclaimer;
 }
 
 function foerderike_pdf(answers) {
