@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Förderike</title>
+
+    <link rel="stylesheet" href="/assets/botui.min.css">
+    <link rel="stylesheet" href="/assets/botui-theme-default.css">
+</head>
+<body>
+    <div id="foerderike"><bot-ui></bot-ui></div>
+    
+    <table><tr>
+        <td><button id="export">Daten speichern</button></td>
+        <td style="border: 1px solid black;"><input type="file" id="selectFiles" value="Import" /><button id="import">Daten laden</button></td>
+        <td><button id="pdf">PDF</button></td>
+    </tr></table>
+   
+    <!--button id="default">default values</button!-->
+    <script src="/assets/vue.min.js"></script>
+    <script src="/assets/botui.debug.js"></script>
+    <script src="/assets/jspdf.min.js"></script>
+    <!--script src="/assets/jspdf.min.js"></script-->
+    <!--script src="/assets/minipdf.js"></script>
+    <script src="/assets/pako.min.js"></script>
+    <script src="/assets/pdfform.minipdf.dist.js"></script>
+    <script src="/assets/FileSaver.min.js"></script-->
+    <script src="/assets/main.js"></script>
+    <script src="/foerderike/foerderike_steps.js"></script>
+    <script src="/foerderike/foerderike_pdf.js"></script>
+    <script src="/assets/chatBot.js"></script>
+
+    <!--input type="file" id="selectFiles" value="Import" /><br /-->
+
+</body>
+
+</html>
+
