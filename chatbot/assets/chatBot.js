@@ -1,7 +1,7 @@
 
 var answers= {};
 var current_step = {};
-var botui = new BotUI('foerderike');
+var botui = new BotUI('foerderike', {fontawesome: false, searchselect: false, promise:true });
 var confirm = false;
 
 function ends_at(step){

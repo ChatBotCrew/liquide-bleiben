@@ -38,6 +38,12 @@ const disclaimer = "\n\nwir-bleiben-liqui.de bietet weder Rechts- noch Steuerber
     +"Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.\n"
     +"Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.\n";
 
+const documents_corporation_base = {"Jahresabschluss": "JA",
+    "BWA": "JA",
+    "Handelsregister": "STEUER",
+    "Steuererklärung": "STEUER",
+    "Lohnabrechnung": "LOHN"};
+
 function liste_aus(feld){
     var res = ""
 //    console.log(feld);
