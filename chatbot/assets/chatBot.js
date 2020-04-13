@@ -2,6 +2,7 @@
 var answers= {};
 var current_step = {};
 var botui = new BotUI('foerderike');
+var confirm = false;
 
 function ends_at(step){
     if (step.id=="measures"){ // completed
@@ -10,23 +11,46 @@ function ends_at(step){
 }
 
 function auswahlSingle(step) {
-    var actions = []
+    var actions = [];
+    var known = false;
     step["mögliche antworten"].forEach(element => {
-        actions.push({ text: element, value: element })
+        var action = { 
+            text: element, 
+            value: element,
+        };
+        if (answers[step.id] && element==answers[step.id]) {
+            action.icon="check";
+            if (!confirm) known=true;
+        }
+        actions.push(action);
     });
     botui.message.add({
         content: step.text,
-    }).then(() =>
-    botui.action.button({
-        addMessage: true,
-        action: actions,
-    }).then( (res) => {
-        answers[currentStep] = res.value;
-        if (step["weiter zu"])
-            SchrittZeigen(step["weiter zu"][res.value])
+    }).then(() => {
+        if (!known)
+            botui.action.button({
+                addMessage: true,
+                action: actions,
+            }).then( (res) => {
+                answers[currentStep] = res.value;
+                if (step["weiter zu"])
+                    SchrittZeigen(step["weiter zu"][res.value])
+                else
+                    ends_at(step);
+            });
         else
-            ends_at(step);
-    }));
+        {
+            botui.message.add({
+                content: answers[step.id],
+                human: true,
+            }).then( () => {
+                if (step["weiter zu"])
+                    SchrittZeigen(step["weiter zu"][answers[step.id]])
+                else
+                    ends_at(step);
+            });
+        }
+    });
 }
 
 function auswahlMultiple(step) {
@@ -57,20 +81,32 @@ function auswahlMultiple(step) {
     });
     botui.message.add({
         content: step.text,
-    }).then(() =>
+    }).then(() => { if (!answers[step.id] || confirm) {
     botui.action.select({
         action: {
             multipleselect: true,
+            value: answers[step.id],
             options: options,
             button: { icon: 'check', label: 'OK'}
         }
     }).then( (res) => {
         answers[currentStep] = res.value;
         if (step["weiter zu"])
-            SchrittZeigen(step["weiter zu"][0])
+            SchrittZeigen(step["weiter zu"][0]);
         else
             ends_at(step);
-    }));
+    })}
+    else {
+        botui.message.add({
+            content: answers[step.id],
+            human: true,
+        }).then( () => {
+            if (step["weiter zu"])
+                SchrittZeigen(step["weiter zu"][0]);
+            else
+                ends_at(step);
+        });
+    }});
 }
 
 function info(step) {
@@ -87,16 +123,24 @@ function info(step) {
 function eingabe(step) {
     botui.message.add({
         content: step.text,
-    }).then(() =>
+    }).then(() => { if (!answers[step.id] || confirm) {
         botui.action.text({
             action: {
-
+                value: answers[step.id],
             }
         })
-    ).then((res) => {
-        answers[currentStep] = res.value;
-        SchrittZeigen(step["weiter zu"][0])
-    });
+        .then((res) => {
+            answers[currentStep] = res.value;
+            SchrittZeigen(step["weiter zu"][0])
+        });
+    } else {
+        botui.message.add({
+            content: answers[step.id],
+            human: true,
+        }).then( () => {
+            SchrittZeigen(step["weiter zu"][0]);
+        });
+    }});
 }
 
 function SchrittZeigen(stepId) {
@@ -115,8 +159,9 @@ function SchrittZeigen(stepId) {
     else console.log("nicht gefunden "+stepId);
 };
 
-function startBot()
-{   
-    answers= {} 
+function startBot(confirm_arg)
+{
+    if (confirm_arg) confirm = true;
+    else confirm=false;
     SchrittZeigen(foerderike_steps[0].id);
 }
