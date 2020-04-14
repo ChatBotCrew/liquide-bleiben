@@ -19,7 +19,8 @@ function auswahlSingle(step) {
             value: element,
         };
         if (answers[step.id] && element==answers[step.id]) {
-            action.icon="check";
+            //action.icon="check";
+            action.text = "★ " + action.text;
             if (!confirm) known=true;
         }
         actions.push(action);

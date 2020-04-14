@@ -46,7 +46,7 @@ function load(confirm) {
     var fr = new FileReader();
   
     fr.onload = function(e) { 
-      console.log(e);
+      console.log(e.target.result);
       answers = JSON.parse(e.target.result);
       //var formatted = JSON.stringify(result, null, 2);
       //document.getElementById('result').value = formatted;
