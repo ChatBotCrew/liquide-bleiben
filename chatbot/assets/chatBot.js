@@ -1,7 +1,7 @@
 
 var answers= {};
 var current_step = {};
-var botui = new BotUI('foerderike', {fontawesome: false, searchselect: false, promise:true });
+var botui = new BotUI('foerderike', {fontawesome: false, searchselect: true, promise:true });
 var confirm = false;
 
 function ends_at(step){
@@ -159,6 +159,11 @@ function SchrittZeigen(stepId) {
     }
     else console.log("nicht gefunden "+stepId);
 };
+
+function initBot() {
+    answers= {}
+    Vue.component('v-select', VueSelect.VueSelect);
+}
 
 function startBot(confirm_arg)
 {

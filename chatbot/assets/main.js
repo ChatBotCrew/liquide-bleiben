@@ -2,7 +2,7 @@
 // https://stackoverflow.com/questions/9899372/pure-javascript-equivalent-of-jquerys-ready-how-to-call-a-function-when-t
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
 r(function(){
-    answers= {}
+    initBot();
     startBot();
 });
 

@@ -403,11 +403,11 @@
       loadScript(_fontAwesome);
     }
 
-    if(_options.searchselect) {
-      loadScript(_searchselect, function() {
-        Vue.component('v-select', VueSelect.VueSelect);
-      });
-    }
+    // if(_options.searchselect) {
+    //   loadScript(_searchselect, function() {
+    //     Vue.component('v-select', VueSelect.VueSelect);
+    //   });
+    // }
 
     if(_options.debug) {
       _interface._botApp = _botApp; // current Vue instance
