@@ -40,7 +40,7 @@
 
 </script>
 
-<div class="container-lg">
+<div class="container-fluid">
   <div class="d-flex flex-column align-items-center">
     <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}"
        href="https://wir-bleiben-liqui.de">
