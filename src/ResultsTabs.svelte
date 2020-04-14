@@ -36,7 +36,7 @@
             return res.filter(cluster => cluster.offers.length && !(cluster.name === "Zuschuss" && selection.time == "6 Monate"))
           });
 
-  let selectedTab = (location.hash && decodeURI(location.hash.substring(1))) || 'Übersicht'
+  let selectedTab = (location.hash && decodeURI(location.hash.substring(1))) || 'Zuschuss'
 
 </script>
 
@@ -55,10 +55,10 @@
     {:then data}
     {/await}
     <ul class="nav nav-pills sticky-top">
-      <li class="nav-item">
+    <!--<li class="nav-item">
         <a class="nav-link" on:click={() => selectedTab = UEBERSICHT}
            class:active={selectedTab === UEBERSICHT} href="{'#' + UEBERSICHT}">{UEBERSICHT}</a>
-      </li>
+      </li>-->
       {#if selection.state}
         {#await data$ then data}
           {#each data as cluster}
@@ -188,19 +188,19 @@
 
   .nav {
     flex-flow: nowrap;
-    overflow-x: scroll;
+    overflow-x: auto;
     width: 100%;
   }
 
   .nav-link.active {
-    background-color: $gray-200 !important;
+    background-color: $gray-100 !important;
     color: $primary !important;
     border-bottom-right-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }
 
   #tab-content {
-    background-color: $gray-200;
+    background-color: $gray-100;
     width: 100%;
     padding: 0.3rem 0.8rem;
     overflow-y: scroll;
