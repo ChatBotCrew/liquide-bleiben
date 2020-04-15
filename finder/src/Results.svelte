@@ -119,6 +119,7 @@
       <div class="info-link-wrapper">
         <span>Sie wollen mehr wissen?</span>
         <a target="_blank" class="info-link button" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
+        <a target="_blank" class="info-link button" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/">Weitere Informationen bei DATEV</a>
       </div>
     </details>
   {/if}
@@ -127,7 +128,7 @@
       <summary>Sozialbeiträge</summary>
       <div class="info-title">{@html help["Sozialbeiträge"].text}</div>
       <div class="info-link-wrapper">
-        <span0>Sie wollen mehr wissen?</span0>
+        <span>Sie wollen mehr wissen?</span>
         <a target="_blank" class="info-link button" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
       </div>
     </details>
