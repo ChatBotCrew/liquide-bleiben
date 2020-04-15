@@ -2,6 +2,7 @@
 // https://stackoverflow.com/questions/9899372/pure-javascript-equivalent-of-jquerys-ready-how-to-call-a-function-when-t
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
 r(function(){
+    initBot();
     startBot();
 });
 
@@ -35,21 +36,29 @@ document.getElementById('export').onclick = function() {
      save("virus.json", answers);
 }
 
+function load(confirm) {
+    var files = document.getElementById('selectFiles').files;
+    console.log(files);
+    if (files.length <= 0) {
+      return false;
+    }
+  
+    var fr = new FileReader();
+  
+    fr.onload = function(e) { 
+      console.log(e.target.result);
+      answers = JSON.parse(e.target.result);
+      //var formatted = JSON.stringify(result, null, 2);
+      //document.getElementById('result').value = formatted;
+    }
+    fr.readAsText(files.item(0));
+    startBot(confirm); // restart the bot (skipping over known values)  
+}
+
 document.getElementById('import').onclick = function() {
-  var files = document.getElementById('selectFiles').files;
-  console.log(files);
-  if (files.length <= 0) {
-    return false;
-  }
+    load(false);
+}
 
-  var fr = new FileReader();
-
-  fr.onload = function(e) { 
-    console.log(e);
-    answers = JSON.parse(e.target.result);
-    //var formatted = JSON.stringify(result, null, 2);
-    //document.getElementById('result').value = formatted;
-  }
-  fr.readAsText(files.item(0));
-//    save("virus.json", answers);
+document.getElementById('confirm').onclick = function() {
+    load(true); // bearbeiten
 }

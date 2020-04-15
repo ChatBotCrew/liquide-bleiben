@@ -13,12 +13,17 @@
     
     <table><tr>
         <td><button id="export">Daten speichern</button></td>
-        <td style="border: 1px solid black;"><input type="file" id="selectFiles" value="Import" /><button id="import">Daten laden</button></td>
+        <td style="border: 1px solid black;">
+            <input type="file" id="selectFiles" value="Import" />
+            <button id="import">Laden+übernehmen</button>
+            <button id="confirm">Laden+bestätigen</button>
+        </td>
         <td><button id="pdf">PDF</button></td>
     </tr></table>
    
     <!--button id="default">default values</button!-->
     <script src="/assets/vue.min.js"></script>
+    <script src="/assets/vue-select.js"></script>
     <script src="/assets/botui.debug.js"></script>
     <script src="/assets/jspdf.min.js"></script>
     <!--script src="/assets/jspdf.min.js"></script-->
