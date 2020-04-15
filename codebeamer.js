@@ -125,9 +125,8 @@ async function refreshData() {
       if(dd.name === 'state') ddOptions.pop();
       dd.options = ddOptions;
     })),
-    Promise.all(wikiPages.map(async wp => {
-      wikiPages[wikiPages.findIndex(w => wp === w)] = await retrieveWikiNameAndText(wp);
-      // wp = await retrieveWikiNameAndText(wp); // Why is this not working??
+    Promise.all(wikiPages.map(async (wp, idx) => {
+      wikiPages[idx] = await retrieveWikiNameAndText(wp);
     }))
   ]);
 }
