@@ -26,6 +26,8 @@
             <span class="key">{field.name}:</span>
             {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
               <a target="_blank" href={field.value}>Mehr erfahren</a>
+            {:else if [10002, 10003, 10032].includes(field.id)}
+              <br>{@html field.value}
             {:else}
               {field.value}
             {/if}
@@ -39,7 +41,7 @@
                 <span class="key">{field.name}:</span>
                 {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
                   <a target="_blank" href={field.value}>Mehr erfahren</a>
-                {:else if [10002, 10003].includes(field.id)}
+                {:else if [10002, 10003, 10032].includes(field.id)}
                   <br>{@html field.value}
                 {:else}
                   {field.value}
