@@ -93,9 +93,8 @@
           <Table offers={cluster.offers}/>
           {#if help[cluster.name]}
             {@html help[cluster.name].text}<br>
-            <span>Sie wollen mehr wissen?</span>
             <a target="_blank" href={help[cluster.name] ? help[cluster.name].link : "https://wir-bleiben-liqui.de"}>
-              Direkt zu unserem Blog
+              Sie wollen mehr wissen? Direkt zu unserem Blog
             </a>
           {/if}
         {/if}
@@ -151,23 +150,21 @@
         Antragsformular zur Stundung der Einkommensteuer, Körperschaftsteuer und Umsatzsteuer sowie zur Herabsetzung der
         Vorauszahlungen zur Einkommen- und Körperschaftsteuer und des Gewerbesteuer-Messbetrages:
       </p>
-      <div class="d-flex flex-column">
+      <div class="row">
         {#if selection.state}
-          <a target="_blank" class="info-link" href={steuerstundungen[selection.state]}>Antragsformular</a>
-          <a target="_blank" class="info-link" href={finanzaemter[selection.state]}>Finanzamt</a>
+          <a target="_blank" class="info-link col-12 col-lg-4" href={steuerstundungen[selection.state]}>Antragsformular</a>
+          <a target="_blank" class="info-link col-12 col-lg-4" href={finanzaemter[selection.state]}>Finanzamt</a>
         {/if}
-        <a target="_blank" class="info-link" href={weitereInfos.source}>Steuerliche Maßnahmen</a>
+        <a target="_blank" class="info-link col-sm-12 col-lg-4" href={weitereInfos.source}>Steuerliche Maßnahmen</a>
       </div>
     {/if}
     {#if selectedTab === KURZARBEIT}
       {@html help["Kurzarbeit"].text}
-      <span>Sie wollen mehr wissen?</span>
-      <a target="_blank" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
+      <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
     {/if}
     {#if selectedTab === SOZIALBEITRAEGE}
       {@html help["Sozialbeiträge"].text}
-      <span>Sie wollen mehr wissen?</span>
-      <a target="_blank" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
+      <a target="_blank" href={help["Sozialbeiträge"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
     {/if}
   </div>
   <p class="text-center">
@@ -181,8 +178,8 @@
 </div>
 
 <style type="text/scss">
-  .container-lg {
-    height: calc(100vh - 80px);
+  .container-fluid {
+    height: calc(100vh - 75px);
     overflow-y: scroll;
   }
 
@@ -194,7 +191,6 @@
 
   .nav-link.active {
     background-color: $gray-100 !important;
-    color: $primary !important;
     border-bottom-right-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }

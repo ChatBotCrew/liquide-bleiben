@@ -74,6 +74,7 @@
 
   .title {
     font-size: 1rem;
+    text-align: center;
   }
 
   .divider {
