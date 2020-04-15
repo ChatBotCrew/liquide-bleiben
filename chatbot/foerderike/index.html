@@ -7,11 +7,35 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui-theme-default.css">
+    <style>
+      body {
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      main {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #foerderike {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #foerderike > .botui-container {
+        flex: 1;
+      }
+    </style>
 </head>
 <body>
+  <main>
     <div id="foerderike"><bot-ui></bot-ui></div>
     
-    <table><tr>
+    <table>
+      <tr>
         <td><button id="export">Daten speichern</button></td>
         <td style="border: 1px solid black;">
             <input type="file" id="selectFiles" value="Import" />
@@ -19,8 +43,10 @@
             <button id="confirm">Laden+bestätigen</button>
         </td>
         <td><button id="pdf">PDF</button></td>
-    </tr></table>
-   
+      </tr>
+    </table>
+  </main>
+
     <script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-select@3.10.0/dist/vue-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/botui/build/botui.js"></script>
