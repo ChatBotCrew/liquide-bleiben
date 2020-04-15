@@ -4,7 +4,7 @@
   import ga from './ga.js';
   import { cookiesAllowed } from './store.js';
   import {send, receive} from './animations/crossfade.js';
-  import { bundeslaender, help, finanzaemter, steuerstundungen, weitereInfos } from'./data';
+  import { bundeslaender, descriptions, help, finanzaemter, steuerstundungen, weitereInfos } from'./data';
   import Table from './Table.svelte';
 
   export let selection;
@@ -45,9 +45,9 @@
               <details>
                 <summary>{cluster.name}</summary>
                   <Table offers={cluster.offers} />
-                {#if help[cluster.name]}
+                {#if $descriptions.find(d => d.name === cluster.name)}
                   <div class="info-title">
-                    {@html help[cluster.name].text}<br>
+                    {@html $descriptions.find(d => d.name === cluster.name).html}<br>
                   </div>
                   <div class="info-link-wrapper">
                     <span>Sie wollen mehr wissen?</span>
@@ -67,44 +67,7 @@
   <details class="additional-info-wrapper">
     <summary>Steuerstundung</summary>
     <div class="info-title">
-      <p>
-        Ihr Bundesland <b>{$bundeslaender.find(land => land.id == selection.state).name || ''}</b> bietet Steuerstundungen bis zum 31.12.2020 im Rahmen der Corona-Krisean.
-        Eine Steuerstundung bezeichnet im abgabenrechtlichen Sinne eine Verschiebung der Fälligkeit eines Steueranspruchs in die Zukunft.
-        Die Steuerschuld besteht also weiterhin fort.
-      </p>
-      <p>
-        Eine Steuerstundung aufgrund der Corona-Krise ist ganz oder teilweise möglich.
-        <i>Stundbar</i> sind fällige oder bis zum 31.12.2020 fällig werdende <i>Einkommensteuer</i>, <i>Körperschaftsteuer</i> und <i>Umsatzsteuer</i>.
-        Bei Stundungen, die auf die Corona-Krise zurückzuführen sind, werden keine Stundungszinsen festgesetzt.
-      </p>
-      <p>
-        Außerdem können Einkommen- und Körperschaftsteuer-Vorauszahlungen sowie der Gewerbesteuer-Messbetrag im Rahmen der Krise herabgesetzt werden.
-        Die Bundesländer stellen hierfür geeignete Formulare bereit.
-        Diese sind unten verlinkt.
-      </p>
-      <p>
-        Zusätzlich kann auf Antrag Grunderwerbsteuer für vom 1. Januar bis 30. April 2020 verwirklichte Erwerbsvorgänge und für Vorgänge,
-        für die die Steuer in diesem Zeitraum entsteht, bis längstens 31. Dezember 2020, zinslos gestundet werden.
-        Auch kann auf Antrag eine Fristverlängerung für die Abgabe der Lohnsteueranmeldungen, die 10. April 2020 einzureichen sind (März 2020 oder I. Quartal 2020) um bis zu zwei Monate gewährt werden.
-        (Hierfür stehen bislang noch keine Formulare bereit, sodass der Antrag schriftlich zu stellen ist.)
-      </p>
-      <p>
-        Auch können Anträge auf Stundung von Gewerbesteuer und Grundsteuer gestellt werden.
-        Diese sind bei der zuständigen Gemeinde zu beantragen.
-        Diese sind nicht an die Weisungen des Bundesfinanzministeriums bzw. der Landesfinanzbehörden gebunden, d.h. eine Stundung liegt im Ermessen der jeweiligen Gemeinde.
-      </p>
-      <p>
-        <b>Hinweis I:</b> Wenn Sie sowohl einen Stundungsantrag als auch einen Herabsetzungsantrag stellen möchten, bitten die Finanzämter um Einreichung des Antrags in zweifacher Ausfertigung, 
-        da diese Anträge zwar in den meisten Bundesländern über ein und dasselbe Formular eingereicht werden, i.d.R. aber in unterschiedliche Zuständigkeitsbereiche fallen.<br>
-        <b>Hinweis II:</b> Anträge auf Stundung der Gewerbesteuer sind bei der zuständigen Gemeinde zu stellen.
-      </p>
-      <p>
-        Anträge auf Steuerstundungen und/oder auf Anpassungen von Vorauszahlungen, die nach dem 31.12.2020 eingehen oder nur Zeiträume nach dem 31.12.2020 betreffen, sind besonders zu begründen.
-      </p>
-      <p>
-      
-        Antragsformular zur Stundung der Einkommensteuer, Körperschaftsteuer und Umsatzsteuer sowie zur Herabsetzung der Vorauszahlungen zur Einkommen- und Körperschaftsteuer und des Gewerbesteuer-Messbetrages:
-      </p>
+      {@html $descriptions.find(d => d.name ==='Steuerstundung').html.replace('&lt;&lt;state&gt;&gt;', $bundeslaender.find(land => land.id == selection.state).name || '')}<br>
     </div>
     <div class="info-link-wrapper">
       {#if selection.state}
@@ -117,7 +80,7 @@
   {#if selection.employees != 0}
     <details class="additional-info-wrapper">
       <summary>Kurzarbeit</summary>
-      <div class="info-title">{@html help["Kurzarbeit"].text}</div>
+      <div class="info-title">{@html $descriptions.find(d => d.name ==='Kurzarbeit').html}</div>
       <div class="info-link-wrapper">
         <span>Sie wollen mehr wissen?</span>
         <a target="_blank" class="info-link button" href={help["Kurzarbeit"].link}>Weitere Informationen</a>
@@ -127,7 +90,7 @@
   {#if selection.employees != 0}
     <details class="additional-info-wrapper">
       <summary>Sozialbeiträge</summary>
-      <div class="info-title">{@html help["Sozialbeiträge"].text}</div>
+      <div class="info-title">{@html $descriptions.find(d => d.name ==='Sozialbeiträge').html}</div>
       <div class="info-link-wrapper">
         <span0>Sie wollen mehr wissen?</span0>
         <a target="_blank" class="info-link button" href={help["Sozialbeiträge"].link}>Weitere Informationen</a>
