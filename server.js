@@ -5,6 +5,7 @@ var { getDropdowns } = require('./meta-service');
 var { getOffers } = require('./offer-service');
 
 app.use(express.static('public'));
+app.use(express.static('chatbot'));
 
 app.get('/api/offers', async (req, res) => {
   if (req.query.lok) fs.writeFile('log.txt', `${JSON.stringify(req.query)}\n`, { flag: 'a' }, e => { if(e) console.log(e); });

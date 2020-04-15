@@ -3,13 +3,15 @@
   import { tweened } from 'svelte/motion';
 
   import ga from './ga.js'
-  import { cookiesAllowed, lastStep } from './store.js';
+  import { lastStep } from './store.js';
   import {send, receive} from './animations/crossfade.js';
+  import CookieBanner from './CookieBanner.svelte';
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import { bundeslaender, gewerbe, rechtsformen, initialSelection, times } from './data.js';
+  import { bundeslaender, gewerbe, initialSelection, times } from './data.js';
 
+  let chatbotActive = false;
   let currentStep = 0;
   let progress = tweened(currentStep);
 
@@ -22,22 +24,11 @@
   const seeResults = () => { lastStep.set(1); currentStep = 6; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
   const toFirstStep = () => { lastStep.set(-1); currentStep = 1; progress.set(currentStep); ga.sendGAEvent('nav', 'click', 'restart') }
   const flyDirection = () => 1000 * $lastStep;
-  const optin = () => ga.optin();
-  const optout = () => ga.optout();
 </script>
 
 {#if $initialSelection}
 <main>
-  {#if $cookiesAllowed === null}
-    <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
-      <div>
-        <div>Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="https://wir-bleiben-liqui.de/datenschutz/">Datenschutzerklärung</a>.</div>
-        <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
-      </div>
-      <button class="ga-optin" on:click={optin}>Ich stimme zu</button>
-      <a on:click={optout} class="ga-optout">X</a>
-    </div>
-  {/if}
+  <CookieBanner></CookieBanner>
   {#if currentStep !== 6}
     <a class="logo-link" out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
@@ -159,7 +150,15 @@
     <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <Results {selection} />
     </div>
-    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
+    <div class="results-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
+      <button on:click={toFirstStep}>Zurück zum Finder</button>
+      <button on:click={() => chatbotActive = !chatbotActive}>{chatbotActive ? "Förderike ausblenden" : "Zur Antragshelferin Förderike"}</button>
+    </div>
+  {/if}
+  {#if chatbotActive}
+    <div class="chatbot-wrapper" transition:fly={{ y: 1000 }}>
+      <iframe src="/foerderike" title="Förderike"></iframe>
+    </div>
   {/if}
 </main>
 {/if}
@@ -204,21 +203,17 @@
     }
   }
 
-  .next-button-wrapper > button {
+  .next-button-wrapper > button, .results-buttons > button, .results-buttons > .button {
     flex: 1;
     margin: 8px;
     z-index: 10;
   }
 
-  button.change-inputs {
-    height: 50px;
-    width: 90%;
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    right: 0;
+  .results-buttons {
     z-index: 10;
-    margin: auto;
+    padding: 0 5%;
+    display: flex;
+    align-items: stretch;
   }
 
   .input-wrapper {
@@ -241,34 +236,23 @@
     line-height: 1.25;
   }
 
-  .cookies-banner {
+  .chatbot-wrapper {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    width: 100%;
-    z-index: 100;
-    font-size: 0.75em;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 500px;
+    max-width: 700px;
+    margin: auto;
     display: flex;
-    padding: 16px 32px;
-    box-sizing: border-box;
-    align-items: center;
-    background-color: #FFFFFFBB;
+    flex-direction: column;
   }
 
-  .cookies-banner > div {
-    flex: 1;
-  }
-
-  .cookies-banner > button {
-    margin: 0 8px;
-  }
-
-  .ga-optin {
-    max-width: 300px;
-    width: 30%;
-  }
-
-  .ga-optout {
-    cursor: pointer;
+  .chatbot-wrapper > iframe {
+    border: none;
+    height: 100%;
+    width: 100%;
   }
 </style>

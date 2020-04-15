@@ -34,6 +34,7 @@
   <a out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
     <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
   </a>
+
   <h1>Ihre Resultate</h1>
   {#if selection.state}
     {#await data$}
@@ -147,7 +148,7 @@
     overflow: auto;
     max-width: 100%;
     width: 100%;
-    max-height: 100vh;
+    max-height: calc(100vh - 65px);
   }
 
   .info-title {
@@ -177,10 +178,6 @@
     max-width: 500px;
     width: 100%;
     white-space: nowrap;
-  }
-
-  li {
-    text-align: left;
   }
 
   summary {
@@ -214,6 +211,5 @@
     margin: 0 8px 32px 8px;
     text-align: center;
     font-size: 0.8rem;
-    margin-bottom: 83px;
   }
 </style>
