@@ -19,47 +19,177 @@ const abschnitt1 = "Liebe Nutzerin, lieber Nutzer,\n"
 
 const vorliegend = "Folgende Unterlagen hast du bereits vorbereitet:\n";
 
-const benoetigt = "\n\nFolgende Unterlagen solltest du in Vorbereitung auf den Termin mit deiner Bank noch vorbereiten:\n";
+const benoetigt = "Folgende Unterlagen solltest du in Vorbereitung auf den Termin mit deiner Bank noch vorbereiten:\n";
 const benoetigt1 = "In deinen eigenen Unterlagen findest du:\n";
 const benoetigt2 = "Dein Steuerbüro hilft dir bei:\n";
 const benoetigt3a = "Dein ";
 const benoetigt3b = " hilft dir bei:\n";
 
-const beantragt = "\n\nFolgende Fördermaßnahmen hast du bereits beantragt:\n";
+const beantragt = "Folgende Fördermaßnahmen hast du bereits beantragt:\n";
 
-const moeglich = "\n\nBevor du einen Förderkredit beantragst, kann es sinnvoll oder nötig sein, zunächst andere Fördermaßnahmen in Anspruch zu nehmen.\n"
+const moeglich = "Bevor du einen Förderkredit beantragst, kann es sinnvoll oder nötig sein, zunächst andere Fördermaßnahmen in Anspruch zu nehmen. "
     +"Sprich diesbezüglich zunächst mit deinem Steuerbüro und deiner Bank.\n";
 const moeglich1 = "Folgende Fördermaßnahmen kannst du selbst beantragen:\n";
 const moeglich2 = "Bei folgenden Fördermaßnahmen hilft dir dein Steuerberater:\n";
 const moeglich3 = "Bei folgenden Fördermaßnahmen hilft dir ";
 
-const disclaimer = "\n\nwir-bleiben-liqui.de bietet weder Rechts- noch Steuerberatung an.\n"
+const disclaimer = "http://wir-bleiben-liqui.de bietet weder Rechts- noch Steuerberatung an.\n"
     +"Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.\n"
     +"Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.\n"
     +"Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.\n";
 
-function liste_aus(feld){
+const divisions = [ "buchhaltung", "steuererklärung", "jahresabschluss", "lohnabrechnung" ];
+
+const document_provider = 
+{
+    "Aktuellster Jahresabschluss": "jahresabschluss", 
+    "BWA des letzten Geschäftsjahres (inkl. abgestimmter Summen- und Saldenliste)": "buchhaltung", 
+    "BWA des aktuellen Geschäftsjahres": "buchhaltung", 
+    "Liquiditätsplanung für 2020 und 2021": "jahresabschluss", 
+    "Rentabilitätsplanung für 2020 und 2021": "jahresabschluss", 
+    "Kurze Beschreibung der Auswirkungen der Pandemie auf ihr Unternehmen": "", 
+    "Kurze Situationsbeschreibung eingeleiteter Maßnahmen": "", 
+    "Handelsregisterauszug": "", 
+    "Gesellschafterliste": "",
+    "Selbstauskunft der geschäftsführenden Gesellschafter (Dokument der Bank)": "",
+
+    // Kapitalgesellschaft
+    //  nichts eigentständiges?
+
+    // Personengesellschaft
+    "Letzter vorhandener Steuerbescheid und -erklärung (ESt, KSt, GewSt)": "steuererklärung", 
+    "Auflistung Privatentnahmen": "", 
+    "Planung Privatentnahmen": "",
+};
+
+const measure_provider =
+{
+    "Beantragung von Kurzarbeitergeld": "lohnabrechnung", 
+    "Stundung der Sozialversicherungsbeiträge": "lohnabrechnung", 
+    "Stundung der fälligen Steuerlast (ESt, KSt, USt)": "steuererklärung", 
+    "Herabsetzung von Steuer-Vorauszahlungen (ESt, KSt)": "steuererklärung", 
+    "Beantragung Steuererstattung 1/11": "steuererklärung", 
+    "Beantragung Corona Soforthilfe-Zuschuss": "", 
+    "Gespräch mit Vermieter bzgl. Mietstundung": "", 
+    "Verhandlung der Zahlungsbedingungen mit Lieferanten": "", 
+
+    // Personengesellschaft
+    "Stundung der KV-Beiträge der Gesellschafter beantragt": "",
+
+    // Kapitalgesellschaft
+};
+
+function liste_aus(array){
     var res = ""
-//    console.log(feld);
-    for (var i of feld.split(", "))
+    for (var i of array)
     {
         res = res + " - " + i + "\n";
     }
     return res;
 }
 
-function combine_text(answers) {
-    var res = abschnitt1;
-    if (answers["documents_corporation"])
-    {
-        res = res + vorliegend + liste_aus(answers["documents_corporation"]) + "\n";
-    }
-    if (answers["documents_partnership"])
-    {
-        res = res + vorliegend + liste_aus(answers["documents_partnership"] + "\n");
-    }
-    res = res + benoetigt + moeglich;
+/* example answers:
+    "hallo": "Ich bin bereit.",
+    "legal": "Kapitalgesellschaft",
+    "documents_corporation": "Aktuellster Jahresabschluss, BWA des aktuellen Geschäftsjahres",
+    "wer_macht_was_buchhaltung": "Ein anderer Dienstleister",
+    "wer_macht_was_steuererklärung": "Ein anderer Dienstleister",
+    "wer_macht_was_jahresabschluss": "Du selbst oder eine interne Abteilung",
+    "wer_macht_was_lohnabrechnung": "Dein Steuerberater",
+    "measures": "Stundung der Sozialversicherungsbeiträge, Beantragung von Kurzarbeitergeld",
+    "buchhaltung_extern": "Ernie",
+    "steuererklärung_extern": "Bert"
+*/
 
+function wer_tut(was) {
+    if (answers["wer_macht_was_"+was]=="Ein anderer Dienstleister") {
+        return answers[was+"_extern"];
+    } else if (answers["wer_macht_was_"+was]=="Dein Steuerberater") {
+        return "Steuerberater";
+    } else {
+        return "ich";
+    }
+}
+
+
+function combine_text(answers) {
+    // Dokumente
+    var kapitalgesellschaft = answers["legal"]=="Kapitalgesellschaft";
+    var docindex = kapitalgesellschaft ? "documents_corporation" : "documents_partnership";
+    var all_documents= foerderike_steps.find(v => v.id == docindex)["mögliche antworten"];
+    var available_documents = answers[docindex].split(", ");
+    var missing_documents = all_documents.filter(e => !available_documents.includes(e));
+
+    var division_name= {};
+    var who_does_what = {};
+    var who_helps_with_what = {};
+    for (var i of divisions) {
+        division_name[i] = wer_tut(i);
+        who_does_what[division_name[i]]=[]; // start with an empty list of documents
+        who_helps_with_what[division_name[i]]=[]; // start with an empty list of measures
+    }
+
+    for (var i of missing_documents) {
+        var wer_tut2 = document_provider[i];
+        if (wer_tut2 && division_name[wer_tut2])
+            who_does_what[division_name[wer_tut2]].push(i);
+        else
+            who_does_what["ich"].push(i); // fallback
+    }
+
+    var res = abschnitt1;
+    if (available_documents.length>0) {
+        res = res + vorliegend + liste_aus(available_documents) + "\n";
+    }
+    if (missing_documents.length>0) {
+        res = res + benoetigt;
+        if (who_does_what["ich"].length>0) {
+            res = res + benoetigt1 + liste_aus(who_does_what["ich"]);
+        }
+        if (who_does_what["Steuerberater"].length>0) {
+            res = res + benoetigt2 + liste_aus(who_does_what["Steuerberater"]);
+        }
+        for (var i in who_does_what) {
+            if (i=="ich" || i=="Steuerberater") {}
+            else if (who_does_what[i].length>0)
+            {
+                // should we really prefix this by "Dein" ???
+                res = res+ i + benoetigt3b + liste_aus(who_does_what[i]);
+            }
+        }
+        res= res+"\n";
+    }
+    // Fördermassnahmen
+    var beantragte_massnahmen = answers["measures"].split(", ");
+    var alle_massnahmen1 = foerderike_steps.find(v => v.id == "measures")["mögliche antworten"];
+    var alle_massnahmen = alle_massnahmen1.find(w => w.Wenn["legal"]==answers["legal"]).Wert;
+    var offene_massnahmen = alle_massnahmen.filter(e => !beantragte_massnahmen.includes(e));
+
+    if (beantragte_massnahmen.length>0) {
+        res = res + beantragt + liste_aus(beantragte_massnahmen) + "\n";
+    }
+    res = res + moeglich + "\n";
+    for (var i of offene_massnahmen) {
+        var wer_tut3 = measure_provider[i];
+        if (wer_tut3 && division_name[wer_tut3])
+            who_helps_with_what[division_name[wer_tut3]].push(i);
+        else
+            who_helps_with_what["ich"].push(i); // fallback
+    }
+    if (who_helps_with_what["ich"].length>0) {
+        res = res + moeglich1 + liste_aus(who_helps_with_what["ich"]);
+    }
+    if (who_helps_with_what["Steuerberater"].length>0) {
+        res = res + moeglich2 + liste_aus(who_helps_with_what["Steuerberater"]);
+    }
+    for (var i in who_helps_with_what) {
+        if (i=="ich" || i=="Steuerberater") {}
+        else if (who_helps_with_what[i].length>0)
+        {
+            res = res+ moeglich3 + i + ":\n" + liste_aus(who_helps_with_what[i]);
+        }
+    }
+    res= res+"\n";
     return res + disclaimer;
 }
 
@@ -71,11 +201,11 @@ function foerderike_pdf(answers) {
     });
     doc.setProperties({ title: "Förderike"});
     //var img = doc.extractImageFromDataUrl("https://wir-bleiben-liqui.de/wp-content/uploads/2020/03/logo_header1-300x81.png");
-    doc.addImage(logo, "PNG", 5, 0.5, 3, 1);
+    doc.addImage(logo, "PNG", 5.7, 0.3, 2, 0.6);
     var textlines = doc.setFont("helvetica", "neue")
         .setFontSize(12)
         .splitTextToSize(text, maxLineWidth);
-    doc.text(textlines, margin, margin+2*oneLineHeight);
+    doc.text(textlines, margin, margin+oneLineHeight);
     doc.save("förderike.pdf");
 }
 
