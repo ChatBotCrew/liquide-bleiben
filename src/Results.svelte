@@ -138,7 +138,7 @@
       Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
       <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
     </p>
-    <span>Powered by <a target="_blank" href="taxy.io">taxy.io</a> und <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a></span>
+    <span>Powered by <a target="_blank" href="https://taxy.io">taxy.io</a> und <a target="_blank" href="https://wir-bleiben-liqui.de">wir-bleiben-liqui.de</a></span>
   </div>
 </div>
 

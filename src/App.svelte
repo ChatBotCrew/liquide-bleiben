@@ -44,7 +44,7 @@
     <div class="fullpage">
       <p class="input-wrapper disclaimer" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
-        <span>Powered by <a target="_blank" href="taxy.io">taxy.io</a> und <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a></span>
+        <span>Powered by <a target="_blank" href="https://taxy.io">taxy.io</a> und <a target="_blank" href="https://wir-bleiben-liqui.de">wir-bleiben-liqui.de</a></span>
       </p>
       <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
