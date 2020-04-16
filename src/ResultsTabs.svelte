@@ -55,10 +55,10 @@
     {:then data}
     {/await}
     <ul class="nav nav-pills sticky-top">
-    <!--<li class="nav-item">
-        <a class="nav-link" on:click={() => selectedTab = UEBERSICHT}
-           class:active={selectedTab === UEBERSICHT} href="{'#' + UEBERSICHT}">{UEBERSICHT}</a>
-      </li>-->
+      <!--<li class="nav-item">
+          <a class="nav-link" on:click={() => selectedTab = UEBERSICHT}
+             class:active={selectedTab === UEBERSICHT} href="{'#' + UEBERSICHT}">{UEBERSICHT}</a>
+        </li>-->
       {#if selection.state}
         {#await data$ then data}
           {#each data as cluster}
@@ -92,89 +92,99 @@
         {#if selectedTab === cluster.name}
           <Table offers={cluster.offers}/>
           {#if help[cluster.name]}
-            {@html help[cluster.name].text}<br>
-            <a target="_blank" href={help[cluster.name] ? help[cluster.name].link : "https://wir-bleiben-liqui.de"}>
-              Sie wollen mehr wissen? Direkt zu unserem Blog
-            </a>
+            <div class="info-text">
+              {@html help[cluster.name].text}<br>
+              <a target="_blank" href={help[cluster.name] ? help[cluster.name].link : "https://wir-bleiben-liqui.de"}>
+                Sie wollen mehr wissen? Direkt zu unserem Blog
+              </a>
+            </div>
           {/if}
         {/if}
       {/each}
     {/await}
-    {#if selectedTab === STEUERSTUNDUNG}
-      <p>
-        Ihr Bundesland <b>{$bundeslaender.find(land => land.id == selection.state).name || ''}</b> bietet
-        Steuerstundungen bis zum 31.12.2020 im Rahmen der Corona-Krise an.
-        Eine Steuerstundung bezeichnet im abgabenrechtlichen Sinne eine Verschiebung der Fälligkeit eines
-        Steueranspruchs in die Zukunft.
-        Die Steuerschuld besteht also weiterhin fort.
-      </p>
-      <p>
-        Eine Steuerstundung aufgrund der Corona-Krise ist ganz oder teilweise möglich.
-        <i>Stundbar</i> sind fällige oder bis zum 31.12.2020 fällig werdende <i>Einkommensteuer</i>, <i>Körperschaftsteuer</i>
-        und <i>Umsatzsteuer</i>.
-        Bei Stundungen, die auf die Corona-Krise zurückzuführen sind, werden keine Stundungszinsen festgesetzt.
-      </p>
-      <p>
-        Außerdem können Einkommen- und Körperschaftsteuer-Vorauszahlungen sowie der Gewerbesteuer-Messbetrag im Rahmen
-        der Krise herabgesetzt werden.
-        Die Bundesländer stellen hierfür geeignete Formulare bereit.
-        Diese sind unten verlinkt.
-      </p>
-      <p>
-        Zusätzlich kann auf Antrag Grunderwerbsteuer für vom 1. Januar bis 30. April 2020 verwirklichte Erwerbsvorgänge
-        und für Vorgänge,
-        für die die Steuer in diesem Zeitraum entsteht, bis längstens 31. Dezember 2020, zinslos gestundet werden.
-        Auch kann auf Antrag eine Fristverlängerung für die Abgabe der Lohnsteueranmeldungen, die 10. April 2020
-        einzureichen sind (März 2020 oder I. Quartal 2020) um bis zu zwei Monate gewährt werden.
-        (Hierfür stehen bislang noch keine Formulare bereit, sodass der Antrag schriftlich zu stellen ist.)
-      </p>
-      <p>
-        Auch können Anträge auf Stundung von Gewerbesteuer und Grundsteuer gestellt werden.
-        Diese sind bei der zuständigen Gemeinde zu beantragen.
-        Diese sind nicht an die Weisungen des Bundesfinanzministeriums bzw. der Landesfinanzbehörden gebunden, d.h. eine
-        Stundung liegt im Ermessen der jeweiligen Gemeinde.
-      </p>
-      <p>
-        <b>Hinweis I:</b> Wenn Sie sowohl einen Stundungsantrag als auch einen Herabsetzungsantrag stellen möchten,
-        bitten die Finanzämter um Einreichung des Antrags in zweifacher Ausfertigung,
-        da diese Anträge zwar in den meisten Bundesländern über ein und dasselbe Formular eingereicht werden, i.d.R.
-        aber in unterschiedliche Zuständigkeitsbereiche fallen.<br>
-        <b>Hinweis II:</b> Anträge auf Stundung der Gewerbesteuer sind bei der zuständigen Gemeinde zu stellen.
-      </p>
-      <p>
-        Anträge auf Steuerstundungen und/oder auf Anpassungen von Vorauszahlungen, die nach dem 31.12.2020 eingehen oder
-        nur Zeiträume nach dem 31.12.2020 betreffen, sind besonders zu begründen.
-      </p>
-      <p>
+    <div class="info-text">
+      {#if selectedTab === STEUERSTUNDUNG}
+        <p>
+          Ihr Bundesland <b>{$bundeslaender.find(land => land.id == selection.state).name || ''}</b> bietet
+          Steuerstundungen bis zum 31.12.2020 im Rahmen der Corona-Krise an.
+          Eine Steuerstundung bezeichnet im abgabenrechtlichen Sinne eine Verschiebung der Fälligkeit eines
+          Steueranspruchs in die Zukunft.
+          Die Steuerschuld besteht also weiterhin fort.
+        </p>
+        <p>
+          Eine Steuerstundung aufgrund der Corona-Krise ist ganz oder teilweise möglich.
+          <i>Stundbar</i> sind fällige oder bis zum 31.12.2020 fällig werdende <i>Einkommensteuer</i>, <i>Körperschaftsteuer</i>
+          und <i>Umsatzsteuer</i>.
+          Bei Stundungen, die auf die Corona-Krise zurückzuführen sind, werden keine Stundungszinsen festgesetzt.
+        </p>
+        <p>
+          Außerdem können Einkommen- und Körperschaftsteuer-Vorauszahlungen sowie der Gewerbesteuer-Messbetrag im Rahmen
+          der Krise herabgesetzt werden.
+          Die Bundesländer stellen hierfür geeignete Formulare bereit.
+          Diese sind unten verlinkt.
+        </p>
+        <p>
+          Zusätzlich kann auf Antrag Grunderwerbsteuer für vom 1. Januar bis 30. April 2020 verwirklichte
+          Erwerbsvorgänge
+          und für Vorgänge,
+          für die die Steuer in diesem Zeitraum entsteht, bis längstens 31. Dezember 2020, zinslos gestundet werden.
+          Auch kann auf Antrag eine Fristverlängerung für die Abgabe der Lohnsteueranmeldungen, die 10. April 2020
+          einzureichen sind (März 2020 oder I. Quartal 2020) um bis zu zwei Monate gewährt werden.
+          (Hierfür stehen bislang noch keine Formulare bereit, sodass der Antrag schriftlich zu stellen ist.)
+        </p>
+        <p>
+          Auch können Anträge auf Stundung von Gewerbesteuer und Grundsteuer gestellt werden.
+          Diese sind bei der zuständigen Gemeinde zu beantragen.
+          Diese sind nicht an die Weisungen des Bundesfinanzministeriums bzw. der Landesfinanzbehörden gebunden, d.h.
+          eine
+          Stundung liegt im Ermessen der jeweiligen Gemeinde.
+        </p>
+        <p>
+          <b>Hinweis I:</b> Wenn Sie sowohl einen Stundungsantrag als auch einen Herabsetzungsantrag stellen möchten,
+          bitten die Finanzämter um Einreichung des Antrags in zweifacher Ausfertigung,
+          da diese Anträge zwar in den meisten Bundesländern über ein und dasselbe Formular eingereicht werden, i.d.R.
+          aber in unterschiedliche Zuständigkeitsbereiche fallen.<br>
+          <b>Hinweis II:</b> Anträge auf Stundung der Gewerbesteuer sind bei der zuständigen Gemeinde zu stellen.
+        </p>
+        <p>
+          Anträge auf Steuerstundungen und/oder auf Anpassungen von Vorauszahlungen, die nach dem 31.12.2020 eingehen
+          oder
+          nur Zeiträume nach dem 31.12.2020 betreffen, sind besonders zu begründen.
+        </p>
+        <p>
 
-        Antragsformular zur Stundung der Einkommensteuer, Körperschaftsteuer und Umsatzsteuer sowie zur Herabsetzung der
-        Vorauszahlungen zur Einkommen- und Körperschaftsteuer und des Gewerbesteuer-Messbetrages:
-      </p>
-      <div class="row">
-        {#if selection.state}
-          <a target="_blank" class="info-link col-12 col-lg-4" href={steuerstundungen[selection.state]}>Antragsformular</a>
-          <a target="_blank" class="info-link col-12 col-lg-4" href={finanzaemter[selection.state]}>Finanzamt</a>
-        {/if}
-        <a target="_blank" class="info-link col-sm-12 col-lg-4" href={weitereInfos.source}>Steuerliche Maßnahmen</a>
-      </div>
-    {/if}
-    {#if selectedTab === KURZARBEIT}
-      {@html help["Kurzarbeit"].text}
-      <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
-    {/if}
-    {#if selectedTab === SOZIALBEITRAEGE}
-      {@html help["Sozialbeiträge"].text}
-      <a target="_blank" href={help["Sozialbeiträge"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
-    {/if}
+          Antragsformular zur Stundung der Einkommensteuer, Körperschaftsteuer und Umsatzsteuer sowie zur Herabsetzung
+          der
+          Vorauszahlungen zur Einkommen- und Körperschaftsteuer und des Gewerbesteuer-Messbetrages:
+        </p>
+        <div class="row">
+          {#if selection.state}
+            <a target="_blank" class="info-link col-12 col-lg-4" href={steuerstundungen[selection.state]}>Antragsformular</a>
+            <a target="_blank" class="info-link col-12 col-lg-4" href={finanzaemter[selection.state]}>Finanzamt</a>
+          {/if}
+          <a target="_blank" class="info-link col-sm-12 col-lg-4" href={weitereInfos.source}>Steuerliche Maßnahmen</a>
+        </div>
+      {/if}
+      {#if selectedTab === KURZARBEIT}
+        {@html help["Kurzarbeit"].text}
+        <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
+      {/if}
+      {#if selectedTab === SOZIALBEITRAEGE}
+        {@html help["Sozialbeiträge"].text}
+        <a target="_blank" href={help["Sozialbeiträge"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
+      {/if}
+    </div>
   </div>
-  <p class="text-center">
-    Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
-    <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
-  </p>
-  <p class="text-center">
-    Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a
-          href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a>
-  </p>
+  <div class="info-text">
+    <p class="text-center">
+      Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
+      <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
+    </p>
+    <p class="text-center">
+      Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a
+            href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a>
+    </p>
+  </div>
 </div>
 
 <style type="text/scss">
@@ -204,6 +214,15 @@
     :global(p) {
       margin-block-start: 0;
     }
+  }
+
+  .info-text {
+    margin: 16px auto;
+    padding: 0 8px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    max-width: 880px;
+    text-align: justify;
   }
 
 </style>
