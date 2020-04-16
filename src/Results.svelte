@@ -47,20 +47,15 @@
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
     <h3 class="mt-4 mb-4">Ihre Resultate</h3>
-    {#if !selection.state}
-      <div>Geben Sie mindestens Ihr Bundesland an, um spezifische Förderprogramme zu erhalten.</div>
-    {/if}
-    {#await data$}
-      <div>Angebote werden geladen...</div>
-    {:then data}
-    {/await}
     <ul class="nav nav-pills sticky-top">
       <!--<li class="nav-item">
           <a class="nav-link" on:click={() => selectedTab = UEBERSICHT}
              class:active={selectedTab === UEBERSICHT} href="{'#' + UEBERSICHT}">{UEBERSICHT}</a>
         </li>-->
       {#if selection.state}
-        {#await data$ then data}
+        {#await data$}
+          <div>Angebote werden geladen...</div>
+        {:then data}
           {#each data as cluster}
             <li class="nav-item">
               <a class="nav-link" on:click={() => selectedTab = cluster.name}
@@ -105,7 +100,7 @@
     <div class="info-text">
       {#if selectedTab === STEUERSTUNDUNG}
         <p>
-          Ihr Bundesland <b>{$bundeslaender.find(land => land.id == selection.state).name || ''}</b> bietet
+          Ihr Bundesland <b>{selection.state ? $bundeslaender.find(land => land.id == selection.state).name || '' : ''}</b> bietet
           Steuerstundungen bis zum 31.12.2020 im Rahmen der Corona-Krise an.
           Eine Steuerstundung bezeichnet im abgabenrechtlichen Sinne eine Verschiebung der Fälligkeit eines
           Steueranspruchs in die Zukunft.
