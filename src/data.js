@@ -6,16 +6,17 @@ import { writable } from 'svelte/store';
   selects.forEach(select => {
     if(select.name === 'state') bundeslaender.set(select.options);
     if(select.name === 'trade') gewerbe.set(select.options);
-    if(select.name === 'legal') rechtsformen.set(select.options);
+    // Remove legal during rework
+    // if(select.name === 'legal') rechtsformen.set(select.options);
   })
   initialSelection.set(Object.assign({}, {
     state: null,
     trade: null,
     age: null,
-    legal: null,
+    // Remove legal during rework
+    // legal: null,
     sales: null,
     employees: null,
-    time: null
   }, searchToObject()));
 })()
 
@@ -38,12 +39,13 @@ function searchToObject() {
         if (trade) obj[key] = trade.id;
       });
     }
-    else if((key === "legal") && !parseInt(value)) {
-      rechtsformen.subscribe(legals => {
-        const legal = legals.find(b => b.name === value.replace("+", " "));
-        if (legal) obj[key] = legal.id;
-      });
-    }
+    // Remove legal during rework
+    // else if((key === "legal") && !parseInt(value)) {
+    //   rechtsformen.subscribe(legals => {
+    //     const legal = legals.find(b => b.name === value.replace("+", " "));
+    //     if (legal) obj[key] = legal.id;
+    //   });
+    // }
     else if((key === "time") && parseInt(value) === NaN) {
       const time = times.find(b => b.name === value.replace("+", " ")).id
       if (!time) continue;
@@ -57,12 +59,7 @@ function searchToObject() {
 export const initialSelection = writable(null);
 export const bundeslaender = writable(null);
 export const gewerbe = writable(null);
-export const rechtsformen = writable(null)
-
-export const times = [
-  { id: "0", name: "30 Tage" },
-  { id: "1", name: "6 Monate" },
-]
+// export const rechtsformen = writable(null)
 
 export const finanzaemter = {
   "1": "https://finanzamt-bw.fv-bwl.de/,Lde/Startseite/Finanzaemter/Auswahl",

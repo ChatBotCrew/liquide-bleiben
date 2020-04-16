@@ -8,7 +8,7 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import { bundeslaender, gewerbe, rechtsformen, initialSelection, times } from './data.js';
+  import { bundeslaender, gewerbe, initialSelection } from './data.js';
   import ResultsTabs from "./ResultsTabs.svelte";
 
   let currentStep = 0;
@@ -20,7 +20,7 @@
 
   const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
   const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `back ${currentStep}`) }
-  const seeResults = () => { lastStep.set(1); currentStep = 8; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
+  const seeResults = () => { lastStep.set(1); currentStep = 6; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
   const toFirstStep = () => { lastStep.set(-1); currentStep = 1; progress.set(currentStep); ga.sendGAEvent('nav', 'click', 'restart') }
   const flyDirection = () => 1000 * $lastStep;
   const optin = () => ga.optin();
@@ -39,7 +39,7 @@
       <a on:click={optout} class="ga-optout">X</a>
     </div>
   {/if}
-  {#if currentStep !== 8}
+  {#if currentStep !== 6}
     <a class="logo-link" out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
@@ -68,7 +68,7 @@
         categoryName="Bundesland"
         bind:value={selection.state}
         options={$bundeslaender}
-        help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihrer Betriebsstätte ist."
+        help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihres Unternehmens ist."
       />
       <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
@@ -80,7 +80,7 @@
   {#if currentStep === 2}
     <div class="fullpage">
       <Select
-        categoryName="Gewerbe"
+        categoryName="Branche"
         bind:value={selection.trade}
         options={$gewerbe}
         help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können."
@@ -109,7 +109,8 @@
       <Progress progress={$progress} />
     </div>
   {/if}
-  {#if currentStep === 4}
+  <!-- Temporarily remove legal question during rework -->
+  <!-- {#if currentStep === 4}
     <div class="fullpage">
       <Select
         categoryName="Rechtsform"
@@ -123,8 +124,8 @@
       </div>
       <Progress progress={$progress} />
     </div>
-  {/if}
-  {#if currentStep === 5}
+  {/if} -->
+  {#if currentStep === 4}
     <div class="fullpage">
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Mein Unternehmen hatte 2019 einen <br>
@@ -140,7 +141,7 @@
       <Progress progress={$progress} />
     </div>
   {/if}
-  {#if currentStep === 6}
+  {#if currentStep === 5}
     <div class="fullpage">
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter:innen
@@ -155,25 +156,7 @@
       <Progress progress={$progress} />
     </div>
   {/if}
-  {#if currentStep === 7}
-    <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Ich brauche Liquidität innerhalb der nächsten
-      </div>
-      <Select
-        categoryName="Verbleibende Zeit"
-        bind:value={selection.time}
-        options={times}
-        help="Sollte sich Ihr Unternehmen mit akutem Liquiditätsmangel konfrontiert sehen haben Sie möglicherweise Anspruch auf spezielle Hilfsmaßnahmen."
-      />
-      <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={!selection.time}>Zu den Resultaten</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if}
-  {#if currentStep === 8}
+  {#if currentStep === 6}
     <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <ResultsTabs {selection} />
     </div>
