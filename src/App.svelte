@@ -9,7 +9,6 @@
   import Select from './Select.svelte';
   import Results from './Results.svelte';
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
-  import ResultsTabs from "./ResultsTabs.svelte";
 
   let currentStep = 0;
   let progress = tweened(currentStep);
@@ -158,7 +157,7 @@
   {/if}
   {#if currentStep === 6}
     <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-      <ResultsTabs {selection} />
+      <Results {selection} />
     </div>
     <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
   {/if}
