@@ -30,7 +30,9 @@ const dropdowns = [
     options: []
   },
 ]
-const wikiPages = [3136, 3140, 3144, 3146, 3149, 3153, 3192]
+
+const wikiIndizes = [3136, 3140, 3144, 3146, 3149, 3153, 3192]
+const wikiPages = []
 
 async function retrieveWikiNameAndText(id) {
   return await fetch(`${BASE_PATH}/wikipages/${id}`, {
@@ -52,7 +54,7 @@ async function retrieveWikiAsHtml(id, type, version, value) {
     }),
     headers: HEADERS,
   })
-    .then(res => res.text())
+    .then(res => res.text());
 }
 
 async function retrieveOffers() {
@@ -125,7 +127,7 @@ async function refreshData() {
       if(dd.name === 'state') ddOptions.pop();
       dd.options = ddOptions;
     })),
-    Promise.all(wikiPages.map(async (wp, idx) => {
+    Promise.all(wikiIndizes.map(async (wp, idx) => {
       wikiPages[idx] = await retrieveWikiNameAndText(wp);
     }))
   ]);
