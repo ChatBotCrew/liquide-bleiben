@@ -209,7 +209,7 @@
     background-color: $gray-100;
     width: 100%;
     padding: 0.3rem 0.8rem;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     :global(p) {
       margin-block-start: 0;
