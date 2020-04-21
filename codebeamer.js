@@ -31,7 +31,7 @@ const dropdowns = [
   },
 ]
 
-const wikiIndizes = [3136, 3140, 3144, 3146, 3149, 3153, 3192]
+const wikiIndizes = [3136, 3140, 3144, 3146, 3149, 3153, 3192, 3240]
 const wikiPages = []
 
 async function retrieveWikiNameAndText(id) {

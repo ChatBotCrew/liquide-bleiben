@@ -13,6 +13,7 @@
   const STEUERSTUNDUNG = 'Steuerstundung';
   const KURZARBEIT = 'Kurzarbeit';
   const SOZIALBEITRAEGE = 'Sozialbeiträge';
+  const ZIVILRECHT = 'Zivilrecht';
 
   // Remove not set selections (may happen when coming from a link)
   Object.keys(selection).forEach(key => {
@@ -77,6 +78,10 @@
              class:active={selectedTab === SOZIALBEITRAEGE} href="{'#' + SOZIALBEITRAEGE}">{SOZIALBEITRAEGE}</a>
         </li>
       {/if}
+      <li class="nav-item">
+        <a class="nav-link" on:click={() => selectedTab = ZIVILRECHT}
+           class:active={selectedTab === ZIVILRECHT} href="{'#' + ZIVILRECHT}">{ZIVILRECHT}</a>
+      </li>
     </ul>
   </div>
   <div id="tab-content" class="mb-3">
@@ -109,12 +114,16 @@
         </div>
       {/if}
       {#if selectedTab === KURZARBEIT}
-        {@html $descriptions.find(d => d.name ==='Kurzarbeit').html}
-        <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
+        {@html $descriptions.find(d => d.name === KURZARBEIT).html}
+        <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a><br>
+        <a target="_blank" href="https://kurzarbeit-einfach.de">Sie wollen einen Antrag stellen? Jetzt zu U:DO und Unterstützung erhalten!</a>
       {/if}
       {#if selectedTab === SOZIALBEITRAEGE}
-      {@html $descriptions.find(d => d.name ==='Sozialbeiträge').html}
+        {@html $descriptions.find(d => d.name === SOZIALBEITRAEGE).html}
         <a target="_blank" href={help["Sozialbeiträge"].link}>Sie wollen mehr wissen? Weitere Informationen</a>
+      {/if}
+      {#if selectedTab === ZIVILRECHT}
+        {@html $descriptions.find(d => d.name === ZIVILRECHT).html}
       {/if}
     </div>
   </div>
