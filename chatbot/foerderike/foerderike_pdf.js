@@ -9,7 +9,7 @@ const pageWidth = 8.5, // inch
     ptsPerInch = 72,
     oneLineHeight = (fontSize * lineHeight) / ptsPerInch;
 
-const abschnitt1 = "Liebe Nutzerin, lieber Nutzer,\n"
+const intro = "Liebe Nutzerin, lieber Nutzer,\n"
     +"\n"
     +"mithilfe deiner Angaben habe ich dir eine individuelle Übersicht erstellt, welche du zur Vorbereitung des Termins mit deiner Hausbank heranziehen kannst.\n"
     +"Ich empfehle dir die aufgeführten Unterlagen bereits vor dem Termin mit der Bank zusammenzustellen, sodass die Auszahlung der Fördermittel möglichst reibungslos erfolgen kann.\n"
@@ -17,21 +17,21 @@ const abschnitt1 = "Liebe Nutzerin, lieber Nutzer,\n"
     +"Beachte bitte, dass diese Liste keinesfalls vollumfänglich ist. Sprich deshalb bestenfalls auch nochmal mit der für dich zuständigen Person in deiner Bank und lass dieser die angehängte Übersicht zukommen.\n"
     +"\n";
 
-const vorliegend = "Folgende Unterlagen hast du bereits vorbereitet:\n";
+const avail_docs = "Folgende Unterlagen hast du bereits vorbereitet:\n";
 
-const benoetigt = "Folgende Unterlagen solltest du in Vorbereitung auf den Termin mit deiner Bank noch vorbereiten:\n";
-const benoetigt1 = "In deinen eigenen Unterlagen findest du:\n";
-const benoetigt2 = "Dein Steuerbüro hilft dir bei:\n";
-const benoetigt3a = "Dein ";
-const benoetigt3b = " hilft dir bei:\n";
+const needed_docs = "Folgende Unterlagen solltest du in Vorbereitung auf den Termin mit deiner Bank noch vorbereiten:\n";
+const needed_docs1 = "In deinen eigenen Unterlagen findest du:\n";
+const needed_docs2 = "Dein Steuerbüro hilft dir bei:\n";
+const needed_docs3a = "Dein ";
+const needed_docs3b = " hilft dir bei:\n";
 
-const beantragt = "Folgende Fördermaßnahmen hast du bereits beantragt:\n";
+const applied_for = "Folgende Fördermaßnahmen hast du bereits beantragt:\n";
 
-const moeglich = "Bevor du einen Förderkredit beantragst, kann es sinnvoll oder nötig sein, zunächst andere Fördermaßnahmen in Anspruch zu nehmen. "
+const potential = "Bevor du einen Förderkredit beantragst, kann es sinnvoll oder nötig sein, zunächst andere Fördermaßnahmen in Anspruch zu nehmen. "
     +"Sprich diesbezüglich zunächst mit deinem Steuerbüro und deiner Bank.\n";
-const moeglich1 = "Folgende Fördermaßnahmen kannst du selbst beantragen:\n";
-const moeglich2 = "Bei folgenden Fördermaßnahmen hilft dir dein Steuerberater:\n";
-const moeglich3 = "Bei folgenden Fördermaßnahmen hilft dir ";
+const potential1 = "Folgende Fördermaßnahmen kannst du selbst beantragen:\n";
+const potential2 = "Bei folgenden Fördermaßnahmen hilft dir dein Steuerberater:\n";
+const potential3 = "Bei folgenden Fördermaßnahmen hilft dir ";
 
 const disclaimer = "http://wir-bleiben-liqui.de bietet weder Rechts- noch Steuerberatung an.\n"
     +"Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.\n"
@@ -116,7 +116,7 @@ function combine_text(answers) {
     // Dokumente
     var kapitalgesellschaft = answers["legal"]=="Kapitalgesellschaft";
     var docindex = kapitalgesellschaft ? "documents_corporation" : "documents_partnership";
-    var all_documents= foerderike_steps.find(v => v.id == docindex)["mögliche antworten"];
+    var all_documents= foerderike_steps.find(v => v.id == docindex)["answers"];
     var available_documents = answers[docindex].split(", ");
     var missing_documents = all_documents.filter(e => !available_documents.includes(e));
 
@@ -137,39 +137,39 @@ function combine_text(answers) {
             who_does_what["ich"].push(i); // fallback
     }
 
-    var res = abschnitt1;
+    var res = intro;
     if (available_documents.length>0) {
-        res = res + vorliegend + liste_aus(available_documents) + "\n";
+        res = res + avail_docs + liste_aus(available_documents) + "\n";
     }
     if (missing_documents.length>0) {
-        res = res + benoetigt;
+        res = res + needed_docs;
         if (who_does_what["ich"].length>0) {
-            res = res + benoetigt1 + liste_aus(who_does_what["ich"]);
+            res = res + needed_docs1 + liste_aus(who_does_what["ich"]);
         }
         if (who_does_what["Steuerberater"].length>0) {
-            res = res + benoetigt2 + liste_aus(who_does_what["Steuerberater"]);
+            res = res + needed_docs2 + liste_aus(who_does_what["Steuerberater"]);
         }
         for (var i in who_does_what) {
             if (i=="ich" || i=="Steuerberater") {}
             else if (who_does_what[i].length>0)
             {
                 // should we really prefix this by "Dein" ???
-                res = res+ i + benoetigt3b + liste_aus(who_does_what[i]);
+                res = res+ i + needed_docs3b + liste_aus(who_does_what[i]);
             }
         }
         res= res+"\n";
     }
     // Fördermassnahmen
-    var beantragte_massnahmen = answers["measures"].split(", ");
-    var alle_massnahmen1 = foerderike_steps.find(v => v.id == "measures")["mögliche antworten"];
-    var alle_massnahmen = alle_massnahmen1.find(w => w.Wenn["legal"]==answers["legal"]).Wert;
-    var offene_massnahmen = alle_massnahmen.filter(e => !beantragte_massnahmen.includes(e));
+    var applied_measures = answers["measures"].split(", ");
+    var all_measures1 = foerderike_steps.find(v => v.id == "measures")["answers"];
+    var all_measures = all_measures1.find(w => w.Wenn["legal"]==answers["legal"]).Wert;
+    var future_measures = all_measures.filter(e => !applied_measures.includes(e));
 
-    if (beantragte_massnahmen.length>0) {
-        res = res + beantragt + liste_aus(beantragte_massnahmen) + "\n";
+    if (applied_measures.length>0) {
+        res = res + applied_for + liste_aus(applied_measures) + "\n";
     }
-    res = res + moeglich + "\n";
-    for (var i of offene_massnahmen) {
+    res = res + potential + "\n";
+    for (var i of future_measures) {
         var wer_tut3 = measure_provider[i];
         if (wer_tut3 && division_name[wer_tut3])
             who_helps_with_what[division_name[wer_tut3]].push(i);
@@ -177,16 +177,16 @@ function combine_text(answers) {
             who_helps_with_what["ich"].push(i); // fallback
     }
     if (who_helps_with_what["ich"].length>0) {
-        res = res + moeglich1 + liste_aus(who_helps_with_what["ich"]);
+        res = res + potential1 + liste_aus(who_helps_with_what["ich"]);
     }
     if (who_helps_with_what["Steuerberater"].length>0) {
-        res = res + moeglich2 + liste_aus(who_helps_with_what["Steuerberater"]);
+        res = res + potential2 + liste_aus(who_helps_with_what["Steuerberater"]);
     }
     for (var i in who_helps_with_what) {
         if (i=="ich" || i=="Steuerberater") {}
         else if (who_helps_with_what[i].length>0)
         {
-            res = res+ moeglich3 + i + ":\n" + liste_aus(who_helps_with_what[i]);
+            res = res+ potential3 + i + ":\n" + liste_aus(who_helps_with_what[i]);
         }
     }
     res= res+"\n";

@@ -10,10 +10,10 @@ function ends_at(step){
     }
 }
 
-function auswahlSingle(step) {
+function selectSingle(step) {
     var actions = [];
     var known = false;
-    step["mögliche antworten"].forEach(element => {
+    step["answers"].forEach(element => {
         var action = { 
             text: element, 
             value: element,
@@ -34,8 +34,8 @@ function auswahlSingle(step) {
                 action: actions,
             }).then( (res) => {
                 answers[currentStep] = res.value;
-                if (step["weiter zu"])
-                    SchrittZeigen(step["weiter zu"][res.value])
+                if (step["next_step"])
+                    showStep(step["next_step"][res.value])
                 else
                     ends_at(step);
             });
@@ -45,8 +45,8 @@ function auswahlSingle(step) {
                 content: answers[step.id],
                 human: true,
             }).then( () => {
-                if (step["weiter zu"])
-                    SchrittZeigen(step["weiter zu"][answers[step.id]])
+                if (step["next_step"])
+                    showStep(step["next_step"][answers[step.id]])
                 else
                     ends_at(step);
             });
@@ -54,12 +54,12 @@ function auswahlSingle(step) {
     });
 }
 
-function auswahlMultiple(step) {
+function selectMultiple(step) {
     var options = [];
-    var candidates = step["mögliche antworten"];
+    var candidates = step["answers"];
     candidates.forEach(element => {
         if ((typeof element)=="object"){
-            var clause = element["Wenn"];
+            var clause = element["if"];
             if (clause) {
                 var condition = true;
                 for (var j in clause) {
@@ -68,7 +68,7 @@ function auswahlMultiple(step) {
                         condition=false;
                 }
                 if (condition){
-                    var optlist = element["Wert"];
+                    var optlist = element["values"];
                     for (var j in optlist) {
                         //console.log("Res", optlist[j]);
                         options.push({text: optlist[j], value: optlist[j]})
@@ -92,8 +92,8 @@ function auswahlMultiple(step) {
         }
     }).then( (res) => {
         answers[currentStep] = res.value;
-        if (step["weiter zu"])
-            SchrittZeigen(step["weiter zu"][0]);
+        if (step["next_step"])
+            showStep(step["next_step"][0]);
         else
             ends_at(step);
     })}
@@ -102,8 +102,8 @@ function auswahlMultiple(step) {
             content: answers[step.id],
             human: true,
         }).then( () => {
-            if (step["weiter zu"])
-                SchrittZeigen(step["weiter zu"][0]);
+            if (step["next_step"])
+                showStep(step["next_step"][0]);
             else
                 ends_at(step);
         });
@@ -111,9 +111,9 @@ function auswahlMultiple(step) {
 }
 
 function info(step) {
-    if (step["mögliche antworten"])
+    if (step["answers"])
     {
-        auswahlSingle(step);
+        selectSingle(step);
     }
     else
         botui.message.add({
@@ -121,7 +121,7 @@ function info(step) {
         })
 }
 
-function eingabe(step) {
+function input(step) {
     botui.message.add({
         content: step.text,
     }).then(() => { if (!answers[step.id] || confirm) {
@@ -132,32 +132,32 @@ function eingabe(step) {
         })
         .then((res) => {
             answers[currentStep] = res.value;
-            SchrittZeigen(step["weiter zu"][0])
+            showStep(step["next_step"][0])
         });
     } else {
         botui.message.add({
             content: answers[step.id],
             human: true,
         }).then( () => {
-            SchrittZeigen(step["weiter zu"][0]);
+            showStep(step["next_step"][0]);
         });
     }});
 }
 
-function SchrittZeigen(stepId) {
+function showStep(stepId) {
 
     var entry = foerderike_steps.find(v => v.id == stepId);
 
     if(entry)
     {
         currentStep = stepId;
-        if (entry.fragetyp =="auswahl_single") auswahlSingle(entry);
-        else if (entry.fragetyp == "auswahl_multiple") auswahlMultiple(entry);
-        else if (entry.fragetyp == "info") info(entry);
-        else if (entry.fragetyp == "eingabe") eingabe(entry);
-        else console.log("unknown command "+entry.fragetyp+" in "+stepId);
+        if (entry.ui_type =="selection_single") selectSingle(entry);
+        else if (entry.ui_type == "selection_multiple") selectMultiple(entry);
+        else if (entry.ui_type == "info") info(entry);
+        else if (entry.ui_type == "input") input(entry);
+        else console.log("unknown command "+entry.ui_type+" in "+stepId);
     }
-    else console.log("nicht gefunden "+stepId);
+    else console.log("not found "+stepId);
 };
 
 function initBot() {
@@ -169,5 +169,5 @@ function startBot(confirm_arg)
 {
     if (confirm_arg) confirm = true;
     else confirm=false;
-    SchrittZeigen(foerderike_steps[0].id);
+    showStep(foerderike_steps[0].id);
 }
