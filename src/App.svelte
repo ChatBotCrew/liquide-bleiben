@@ -8,6 +8,7 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
+  import Questionnaire from './Questionnaire.svelte';
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
 
   let currentStep = 0;
@@ -25,6 +26,10 @@
   const optin = () => ga.optin();
   const optout = () => ga.optout();
 </script>
+
+<Questionnaire></Questionnaire>
+
+<hr/>
 
 {#if $initialSelection}
 <main>
@@ -67,7 +72,7 @@
         categoryName="Bundesland"
         bind:value={selection.state}
         options={$bundeslaender}
-        help="Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihres Unternehmens ist."
+        help=""
       />
       <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
@@ -186,13 +191,6 @@
     justify-content: center;
   }
 
-  .next-button-wrapper {
-    width: 90%;
-    max-width: 880px;
-    z-index: 10;
-    display: flex;
-    align-items: stretch;
-  }
 
   @media(max-width: 600px) {
     .wide-buttons {
@@ -204,12 +202,6 @@
     }
   }
 
-  .next-button-wrapper > button {
-    flex: 1;
-    margin: 8px;
-    z-index: 10;
-  }
-
   button.change-inputs {
     height: 50px;
     width: 90%;
@@ -219,22 +211,6 @@
     right: 0;
     z-index: 10;
     margin: auto;
-  }
-
-  .input-wrapper {
-    text-align: center;
-    width: 100%;
-    max-width: 880px;
-    margin-top: 60px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: scroll;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-  }
-  .input-wrapper::-webkit-scrollbar {
-    display: none;
   }
 
   .disclaimer {
