@@ -28,7 +28,7 @@ var foerderike_steps = [
         "text": "Anbei findest du eine Liste wichtiger Unterlagen, die vor dem Stellen des Kreditantrags bei deiner Bank vorbereitet werden sollten. Welche dieser Dokumente liegen dir bereits vor?",
         "mögliche antworten": ["Aktuellster Jahresabschluss", "BWA des letzten Geschäftsjahres (inkl. abgestimmter Summen- und Saldenliste)", "BWA des aktuellen Geschäftsjahres", "Liquiditätsplanung für 2020 und 2021", "Rentabilitätsplanung für 2020 und 2021", "Letzter vorhandener Steuerbescheid und -erklärung (ESt, KSt, GewSt)", "Auflistung Privatentnahmen", "Planung Privatentnahmen", "Kurze Beschreibung der Auswirkungen der Pandemie auf ihr Unternehmen", "Kurze Situationsbeschreibung eingeleiteter Maßnahmen", "Handelsregisterauszug", "Gesellschafterliste", "Selbstauskunft der geschäftsführenden Gesellschafter (Dokument der Bank)"],
         "weiter zu": ["wer_macht_was_buchhaltung"]},
-        
+
         
         {"id": "wer_macht_was_buchhaltung",
         "fragetyp": "auswahl_single",
@@ -77,5 +77,6 @@ var foerderike_steps = [
         {"id": "measures",
         "fragetyp": "auswahl_multiple",
         "text": "Manchmal ist es sinnvoll, zunächst andere Fördermittel vorzuziehen. Außerdem setzen einige Kreditinstitute für die Kreditvergabe zunächst die Inanspruchnahme anderer Fördermittel voraus. Welche der folgenden Leistungen hast du bereits beantragt?",
-        "mögliche antworten": [ { "Wenn": { "legal": "Personengesellschaft" }, "Wert": ["Beantragung von Kurzarbeitergeld", "Stundung der Sozialversicherungsbeiträge", "Stundung der fälligen Steuerlast (ESt, KSt, USt)", "Herabsetzung von Steuer-Vorauszahlungen (ESt, KSt)", "Beantragung Steuererstattung 1/11", "Beantragung Corona Soforthilfe-Zuschuss", "Gespräch mit Vermieter bzgl. Mietstundung", "Verhandlung der Zahlungsbedingungen mit Lieferanten", "Stundung der KV-Beiträge der Gesellschafter beantragt"] }, { "Wenn": {"legal": "Kapitalgesellschaft"}, "Wert": ["Beantragung von Kurzarbeitergeld", "Stundung der Sozialversicherungsbeiträge", "Stundung der fälligen Steuerlast (ESt, KSt, USt)", "Herabsetzung von Steuer-Vorauszahlungen (ESt, KSt)", "Beantragung Steuererstattung 1/11", "Beantragung Corona Soforthilfe-Zuschuss", "Gespräch mit Vermieter bzgl. Mietstundung", "Verhandlung der Zahlungsbedingungen mit Lieferanten"] } ] }
+        "mögliche antworten": [ { "Wenn": { "legal": "Personengesellschaft" }, "Wert": ["Beantragung von Kurzarbeitergeld", "Stundung der Sozialversicherungsbeiträge", "Stundung der fälligen Steuerlast (ESt, KSt, USt)", "Herabsetzung von Steuer-Vorauszahlungen (ESt, KSt)", "Beantragung Steuererstattung 1/11", "Beantragung Corona Soforthilfe-Zuschuss", "Gespräch mit Vermieter bzgl. Mietstundung", "Verhandlung der Zahlungsbedingungen mit Lieferanten", "Stundung der KV-Beiträge der Gesellschafter beantragt"] }, 
+            { "Wenn": {"legal": "Kapitalgesellschaft"}, "Wert": ["Beantragung von Kurzarbeitergeld", "Stundung der Sozialversicherungsbeiträge", "Stundung der fälligen Steuerlast (ESt, KSt, USt)", "Herabsetzung von Steuer-Vorauszahlungen (ESt, KSt)", "Beantragung Steuererstattung 1/11", "Beantragung Corona Soforthilfe-Zuschuss", "Gespräch mit Vermieter bzgl. Mietstundung", "Verhandlung der Zahlungsbedingungen mit Lieferanten"] } ] }
 ];
