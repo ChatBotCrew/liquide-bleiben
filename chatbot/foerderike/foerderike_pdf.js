@@ -162,7 +162,7 @@ function combine_text(answers) {
     // Fördermassnahmen
     var applied_measures = answers["measures"].split(", ");
     var all_measures1 = foerderike_steps.find(v => v.id == "measures")["answers"];
-    var all_measures = all_measures1.find(w => w.Wenn["legal"]==answers["legal"]).Wert;
+    var all_measures = all_measures1.find(w => w["if"]["legal"]==answers["legal"]).value;
     var future_measures = all_measures.filter(e => !applied_measures.includes(e));
 
     if (applied_measures.length>0) {
