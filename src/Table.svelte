@@ -22,10 +22,12 @@
       <div class="divider"></div>
       <div class="content">
         {#each offer.fields.main as field}
-          <p>
+          <p class="text-center">
             <span class="key">{field.name}:</span>
             {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
               <a target="_blank" href={field.value}>Mehr erfahren</a>
+            {:else if [10002, 10003, 10032].includes(field.id)}
+              <br>{@html field.value}
             {:else}
               {field.value}
             {/if}
@@ -35,11 +37,11 @@
         {#if details[offer.id]}
           <div class="offer-details" transition:slide>
             {#each offer.fields.details as field}
-              <p>
+              <p class="text-center">
                 <span class="key">{field.name}:</span>
                 {#if (field.value.startsWith('http://') || field.value.startsWith('https://'))}
                   <a target="_blank" href={field.value}>Mehr erfahren</a>
-                {:else if [10002, 10003].includes(field.id)}
+                {:else if [10002, 10003, 10032].includes(field.id)}
                   <br>{@html field.value}
                 {:else}
                   {field.value}
@@ -53,10 +55,11 @@
   {/each}
 </div>
 
-<style>
+<style type="text/scss">
   .custom-table {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .doc {
@@ -67,11 +70,13 @@
     box-sizing: border-box;
     padding: 32px;
     box-shadow: 0 0 6px 0px #999;
-    margin: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 
   .title {
     font-size: 1rem;
+    text-align: center;
   }
 
   .divider {
@@ -82,6 +87,18 @@
 
   .content {
     font-size: 0.75rem;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .offer-details {
+    margin-top: 0.5rem;
+
+    p:last-of-type {
+      margin-block-end: 0;
+    }
   }
 
   .key {

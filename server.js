@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var fs = require('fs');
+var { getDescriptions } = require('./description-service');
 var { getDropdowns } = require('./meta-service');
 var { getOffers } = require('./offer-service');
 
@@ -13,6 +14,10 @@ app.get('/api/offers', async (req, res) => {
 
 app.get('/api/selects', async (req, res) => {
   res.send(getDropdowns())
+});
+
+app.get('/api/descriptions', async (req, res) => {
+  res.send(getDescriptions())
 });
 
 app.listen(8080, function () { console.log('"Wir bleiben Liquide" running on 8080!'); });
