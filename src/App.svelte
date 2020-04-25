@@ -51,6 +51,9 @@
         Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
         Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
       </p>
+       <!-- Rough translation of last paragraph:
+       Note that this website does not provide legal or tax advice and just provides help to get infromation for funding.
+       -->
       <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
           <button on:click={seeResults}>Akzeptieren</button>
@@ -63,6 +66,7 @@
   {/if}
   {#if currentStep === 1}
     <div class="fullpage">
+      <!-- Choose a state, so we can find funds from your state. -->
       <Select
         categoryName="Bundesland"
         bind:value={selection.state}
@@ -78,6 +82,7 @@
   {/if}
   {#if currentStep === 2}
     <div class="fullpage">
+      <!-- There are different funds for different sectors. Please tell us the sector of your company.-->
       <Select
         categoryName="Branche"
         bind:value={selection.trade}
@@ -94,10 +99,12 @@
   {#if currentStep === 3}
     <div class="fullpage">
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Mein Unternehmen ist
+        Mein Unternehmen ist <!-- My company is-->
         <input class="main-input" bind:value={selection.age} style="width: 100px;" placeholder="XX" type="number" min="0" max="999" />
-        Jahre alt
+        Jahre alt <!-- year old-->
         <div class="help-text">
+          <!-- Rought translation:
+          Different help programms for young or established companies. Please tell us how old your company is, so we can find a fitting offer for you.-->
           Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
         </div>
       </div>
@@ -127,9 +134,10 @@
   {#if currentStep === 4}
     <div class="fullpage">
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Mein Unternehmen hatte 2019 einen <br>
+        Mein Unternehmen hatte 2019 einen <br> <!-- 2019 my company had sales of:-->
         Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" min="0" type="number" /> €
         <div class="help-text">
+          <!-- There are different fundings depending on the sales of your company. Please tell us the sales of your company so we can find a gohere are funding  -->
           Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
         </div>
       </div>
@@ -145,6 +153,7 @@
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
         Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter:innen
         <div class="help-text">
+          <!-- Depending on the number of your employees there are different funds available. Please tell us the number of your employees.-->
           Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
         </div>
       </div>
