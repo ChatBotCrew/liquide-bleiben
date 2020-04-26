@@ -8,8 +8,10 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import Questionnaire from './Questionnaire.svelte';
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
+  
+  import Questionnaire from './components/questionnaire/Questionnaire.svelte';
+  import questions from './questions.js';
 
   let currentStep = 0;
   let progress = tweened(currentStep);
@@ -27,7 +29,7 @@
   const optout = () => ga.optout();
 </script>
 
-<Questionnaire></Questionnaire>
+<Questionnaire questions={questions}></Questionnaire>
 
 <hr/>
 

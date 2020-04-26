@@ -1,8 +1,6 @@
 <script>
   import { fly } from 'svelte/transition';
 
-  import { lastStep } from './store.js'
-
   export let data;
 
   export let value;

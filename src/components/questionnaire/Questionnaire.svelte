@@ -1,9 +1,9 @@
 <script>
-  import {send, receive} from './animations/crossfade.js';
+  import {send, receive} from '../../animations/crossfade.js'; //TODO: move this to a shared location?
 
-  import Question from "./Question.svelte";
-
-  import questions from './questions.js';
+  import Question from "./question/Question.svelte";
+  
+  export let questions;
 
   let step = 0;
 

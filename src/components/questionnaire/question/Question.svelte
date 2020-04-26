@@ -1,6 +1,6 @@
 <script>
-  import P from './P.svelte';
-  import Select from './Select2.svelte';
+  import P from './p/P.svelte';
+  import Select from './select/Select.svelte';
 
   export let question = {};
 </script>
