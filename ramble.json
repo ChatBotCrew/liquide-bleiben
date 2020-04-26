@@ -1,0 +1,31 @@
+{
+    "questionare": [
+        {
+            "element": {
+                "tag": "input",
+                "type": "number",
+                "min": 0,
+                "max": 128
+            },
+            "source": {
+                "type": "apicall",
+                "url": null,
+                "property": "x.y"
+            },
+            "title": "",
+            "text": ""
+        },
+        {
+            "element": {
+                "tag": "select"                                
+            },
+            "source": {
+                "type": "apicall",
+                "url": null,
+                "property": "x.y"
+            },
+            "title": "",
+            "text": ""
+        }
+    ]
+}

@@ -8,6 +8,7 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
+  import Input from './Input.svelte';
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
   
   import Questionnaire from './components/questionnaire/Questionnaire.svelte';
@@ -27,6 +28,21 @@
   const flyDirection = () => 1000 * $lastStep;
   const optin = () => ga.optin();
   const optout = () => ga.optout();
+
+  const strings = [
+    {
+      title: 'Mein unternehmen ist /newLine Jahre alt',
+      helpText: "Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote."
+    },
+    {
+      title: "Mein Unternehmen hatte 2019 einen Umsatz von /newLine €",
+      helpText: "Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können."
+    },
+    {
+      title: "Mein Unternehmen hat /newLine Mitarbeiter:innen",
+      helpText: `Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.`
+    }
+  ];
 </script>
 
 <Questionnaire questions={questions}></Questionnaire>
@@ -100,21 +116,17 @@
   {/if}
   {#if currentStep === 3}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Mein Unternehmen ist
-        <input class="main-input" bind:value={selection.age} style="width: 100px;" placeholder="XX" type="number" min="0" max="999" />
-        Jahre alt
-        <div class="help-text">
-          Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote.
-        </div>
-      </div>
+      <Input
+        bind:value={selection.age}
+        helpText={strings[0].helpText}
+        title={strings[0].title}></Input>
       <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.age === null || selection.age < 0 || selection.age > 999}>Weiter</button>
       </div>
       <Progress progress={$progress} />
     </div>
-  {/if}
+  {/if}  
   <!-- Temporarily remove legal question during rework -->
   <!-- {#if currentStep === 4}
     <div class="fullpage">
@@ -133,35 +145,31 @@
   {/if} -->
   {#if currentStep === 4}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Mein Unternehmen hatte 2019 einen <br>
-        Umsatz von <input class="main-input" bind:value={selection.sales} style="width: 300px;" placeholder="XXXXXX" min="0" type="number" /> €
-        <div class="help-text">
-          Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können.
-        </div>
-      </div>
+      <Input
+        bind:value={selection.sales}
+        title={strings[1].title}
+        helpText={strings[1].helpText}>
+      </Input>
       <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.sales === null || selection.sales < 0}>Weiter</button>
       </div>
       <Progress progress={$progress} />
     </div>
-  {/if}
+  {/if}  
   {#if currentStep === 5}
     <div class="fullpage">
-      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter:innen
-        <div class="help-text">
-          Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
-        </div>
-      </div>
+      <Input 
+        bind:value={selection.employees}
+        title={strings[2].title}
+        helpText={strings[2].helpText}></Input>
       <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
         <button class="next" on:click={back}>Zurück</button>
         <button class="next" on:click={next} disabled={selection.employees === null || selection.employees < 0}>Weiter</button>
       </div>
       <Progress progress={$progress} />
     </div>
-  {/if}
+  {/if}  
   {#if currentStep === 6}
     <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <Results {selection} />
