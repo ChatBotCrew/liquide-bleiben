@@ -10,10 +10,12 @@
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
   
   import Questionnaire from './components/questionnaire/Questionnaire.svelte';
-  import questions from './questions.js';
+  import questionsDe from './questions-de.js';
+  import questionsFr from './questions-fr.js';
 
   let currentStep = 0;
   let progress = tweened(currentStep);
+  let currentQuestions = null;
 
   let selection = null;
   let finished = false;
@@ -36,7 +38,7 @@
     const change = e.detail;
     console.log(change);
 
-    if(change.nstep !== questions.length)
+    if(change.nstep !== currentQuestions.length)
       return;
 
     console.log("Finished!");
@@ -50,10 +52,32 @@
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
 
-    {#if !finished}
-      <Questionnaire questions={questions} responses={selection} on:stepChanged={onStepChanged}></Questionnaire>
+    {#if !currentQuestions}
+        <div class="fullpage">
+          <div class="country-selector">
+            <div class="selector-title">I'm looking for information in...</div>
+            <div class="selector-content">
+              <div class="country">
+                <a on:click={() => currentQuestions = questionsDe}>
+                  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png" alt="Germany" />
+                  <span>Germany</span>
+                </a>
+              </div>
+              <div class="country">
+                <a on:click={() => currentQuestions = questionsFr}>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Flag_of_France.png" alt="France" />
+                  <span>France</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
     {:else}
-      <Results {selection} />
+      {#if !finished}
+        <Questionnaire questions={currentQuestions} responses={selection} on:stepChanged={onStepChanged}></Questionnaire>
+      {:else}
+        <Results {selection} />
+      {/if}
     {/if}
 
     {#if $cookiesAllowed === null}
@@ -128,5 +152,31 @@
 
   .ga-optout {
     cursor: pointer;
+  }
+
+  .country-selector {
+
+  }
+
+  .country-selector .selector-title {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .country-selector .selector-content {
+    width:  300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    display: flex;
+  }
+
+  .country-selector .country img {
+    width: 100px;
+  }
+
+  .country-selector .country span {
+    width: 100%;
+    display: inline-block;
   }
 </style>
