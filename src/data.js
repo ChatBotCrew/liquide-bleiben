@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import httpService from './http.service';
 
 export const initialSelection = writable(null);
 
@@ -74,20 +75,24 @@ export const help = {
 
 
 async function getDescriptions() {
-  descriptions.set(
+  descriptions.set(httpService.sendGet('/api/descriptions'));
+  /*descriptions.set(
     await fetch(new URL(location.origin + '/api/descriptions'), { method: 'GET' }).then(res => res.json())
-  );
+  );*/
 }
 
-async function getSelectValues() {
-  const selects = await fetch(new URL(location.origin + '/api/selects'), { method: 'GET' })
-    .then(res => res.json())
-  selects.forEach(select => {
-    if(select.name === 'state') bundeslaender.set(select.options);
-    if(select.name === 'trade') gewerbe.set(select.options);
-    // Remove legal during rework
-    // if(select.name === 'legal') rechtsformen.set(select.options);
-  })
+async function getSelectValues() {  
+  let selectsData;
+  let selectsCall = httpService.sendGet('/api/selects').then(options => { return options });
+  selectsCall.then((data) => {
+    selectsData = data;     
+    selectsData.forEach(select => {
+      if(select.name === 'state') bundeslaender.set(select.options);
+      if(select.name === 'trade') gewerbe.set(select.options);
+      // Remove legal during rework
+      // if(select.name === 'legal') rechtsformen.set(select.options);
+      });
+  });    
   initialSelection.set(Object.assign({}, {
     state: null,
     trade: null,

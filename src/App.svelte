@@ -17,7 +17,7 @@
 
   let selection = null;
 
-  setInterval(()=>{ console.log(selection); }, 1000);
+  //setInterval(()=>{ console.log(selection); }, 1000);
 
   initialSelection.subscribe(s => { selection = s })
 
@@ -30,7 +30,7 @@
   const optout = () => ga.optout();
 
   const onStepChanged = (e, change) => {
-    
+    console.log('current selection: ', selection);
   }
 </script>
 
