@@ -12,7 +12,7 @@ export default
         "text": "Hiermit können wir Ihnen helfen die Programme aus Ihrem Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in dem der Sitz Ihres Unternehmens ist.",
         "element": {
             "tag": "select",
-            "info": "Bundesland wählen"
+            "placeholder": "Bundesland wählen"
         },
         "source": {
             "type": "apicall",
@@ -25,7 +25,7 @@ export default
         "text": "Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können.",
         "element": {
             "tag": "select",
-            "info": "Branche wählen"
+            "placeholder": "Branche wählen"
         }
     },
     {
@@ -33,7 +33,10 @@ export default
         "text": "Here is a description for you!",
         "element": {
             "tag": "input",
-            "type": "number"
+            "type": "number",
+            "placeholder": "XX",
+            "min": 0,
+            "max": 99
         }
     }
 ]

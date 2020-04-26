@@ -8,7 +8,7 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import Input from './Input.svelte';
+  import Input from './components/questionnaire/question/input/Input.svelte';
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
   
   import Questionnaire from './components/questionnaire/Questionnaire.svelte';
@@ -28,21 +28,6 @@
   const flyDirection = () => 1000 * $lastStep;
   const optin = () => ga.optin();
   const optout = () => ga.optout();
-
-  const strings = [
-    {
-      title: 'Mein unternehmen ist /newLine Jahre alt',
-      helpText: "Für junge und bereits etablierte Unternehmen gibt es oft unterschiedliche Förderprogramme. Lassen Sie uns wissen seit wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für Sie die passenden Angebote."
-    },
-    {
-      title: "Mein Unternehmen hatte 2019 einen Umsatz von /newLine €",
-      helpText: "Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres wissen, damit wir die für Sie passenden Programme finden können."
-    },
-    {
-      title: "Mein Unternehmen hat /newLine Mitarbeiter:innen",
-      helpText: `Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.`
-    }
-  ];
 </script>
 
 <Questionnaire questions={questions}></Questionnaire>
