@@ -26,13 +26,22 @@
 
 <div class="select-wrapper">
   <select class="main-input">
-    {#if data.element.placeholder}
+    {#if data.binding === "state"}
     <option selected disabled>{data.element.placeholder}</option>
     {#await elements then value}
       {#each value[0].options as option}
         <option>{option.name}</option>
       {/each}
-    {/await}      
+    {/await}
+    {:else}
+      {#if data.binding === "trade"}
+      <option selected disabled>{data.element.placeholder}</option>
+        {#await elements then value}
+        {#each value[1].options as option}
+          <option>{option.name}</option>
+        {/each}
+        {/await}
+      {/if}
     {/if}    
         
     <!-- {#each data.options as option}

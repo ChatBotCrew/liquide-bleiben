@@ -75,14 +75,14 @@ export const help = {
 
 
 async function getDescriptions() {
-  descriptions.set(httpService.sendGet('/api/descriptions'));
-  /*descriptions.set(
+  //descriptions.set(await httpService.sendGet('/api/descriptions')).then(res => res.json());
+  descriptions.set(
     await fetch(new URL(location.origin + '/api/descriptions'), { method: 'GET' }).then(res => res.json())
-  );*/
+  );
 }
 
-async function getSelectValues() {  
-  let selectsData;
+async function getSelectValues() {
+  /*let selectsData;
   let selectsCall = httpService.sendGet('/api/selects').then(options => { return options });
   selectsCall.then((data) => {
     selectsData = data;     
@@ -92,7 +92,15 @@ async function getSelectValues() {
       // Remove legal during rework
       // if(select.name === 'legal') rechtsformen.set(select.options);
       });
-  });    
+  });*/    
+  const selects = await fetch(new URL(location.origin + '/api/selects'), { method: 'GET' })
+    .then(res => res.json())
+  selects.forEach(select => {
+    if(select.name === 'state') bundeslaender.set(select.options);
+    if(select.name === 'trade') gewerbe.set(select.options);
+    // Remove legal during rework
+    // if(select.name === 'legal') rechtsformen.set(select.options);
+  })
   initialSelection.set(Object.assign({}, {
     state: null,
     trade: null,
