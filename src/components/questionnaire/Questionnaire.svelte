@@ -70,21 +70,23 @@
   }
 </style>
 
-<div class="fullpage">
-  <div class="input-wrapper">
-    {#if questions[step].hasOwnProperty('binding')}
-      <Question question={questions[step]} bind:response={responses[questions[step].binding]} />
-    {:else}
-      <Question question={questions[step]} />
-    {/if}
-  </div>
+{#if questions[step]}
+  <div class="fullpage">
+    <div class="input-wrapper">
+      {#if questions[step].hasOwnProperty('binding')}
+        <Question question={questions[step]} bind:response={responses[questions[step].binding]} />
+      {:else}
+        <Question question={questions[step]} />
+      {/if}
+    </div>
 
-  <div class="next-button-wrapper">
-    <button class="next" on:click={onBackClicked} disabled={step === 0}>Zurück</button>
-    <button class="next" on:click={onNextClicked} disabled={step === questions.length-1}>Weiter</button>
-  </div>
+    <div class="next-button-wrapper">
+      <button class="next" on:click={onBackClicked} disabled={step === 0}>Zurück</button>
+      <button class="next" on:click={onNextClicked}>Weiter</button>
+    </div>
 
-  <div style="width: 100%; text-align: center;">
-    <Progress max={questions.length} value={step} ></Progress>
+    <div style="width: 100%; text-align: center;">
+      <Progress max={questions.length} value={step} ></Progress>
+    </div>
   </div>
-</div>
+{/if}
