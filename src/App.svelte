@@ -5,7 +5,6 @@
   import ga from './ga.js'
   import { cookiesAllowed, lastStep } from './store.js';
   import {send, receive} from './animations/crossfade.js';
-  import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
   import Input from './components/questionnaire/question/input/Input.svelte';
@@ -30,26 +29,32 @@
   const optout = () => ga.optout();
 </script>
 
-<Questionnaire questions={questions}></Questionnaire>
-
-<hr/>
-
 {#if $initialSelection}
-<main>
-  {#if $cookiesAllowed === null}
-    <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
-      <div>
-        <div>Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="https://wir-bleiben-liqui.de/datenschutz/">Datenschutzerklärung</a>.</div>
-        <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
-      </div>
-      <button class="ga-optin" on:click={optin}>Ich stimme zu</button>
-      <a on:click={optout} class="ga-optout">X</a>
-    </div>
-  {/if}
-  {#if currentStep !== 6}
+  <main>
     <a class="logo-link" out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
+
+    <Questionnaire questions={questions}></Questionnaire>
+
+    {#if $cookiesAllowed === null}
+      <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
+        <div>
+          <div>Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="https://wir-bleiben-liqui.de/datenschutz/">Datenschutzerklärung</a>.</div>
+          <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
+        </div>
+        <button class="ga-optin" on:click={optin}>Ich stimme zu</button>
+        <a on:click={optout} class="ga-optout">X</a>
+      </div>
+    {/if}
+  </main>
+{/if}
+<!-- 
+{#if $initialSelection}
+<main>
+
+  {#if currentStep !== 6}
+    
   {/if}
   {#if currentStep === 0}
     <div class="fullpage">
@@ -67,21 +72,6 @@
           <button on:click={next}>Akzeptieren</button>
         {/if}
       </div>
-    </div>
-  {/if}
-  {#if currentStep === 1}
-    <div class="fullpage">
-      <Select
-        categoryName="Bundesland"
-        bind:value={selection.state}
-        options={$bundeslaender}
-        help=""
-      />
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={selection.state === null}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
     </div>
   {/if}
   {#if currentStep === 2}
@@ -128,7 +118,7 @@
       <Progress progress={$progress} />
     </div>
   {/if} -->
-  {#if currentStep === 4}
+  <!-- {#if currentStep === 4} 
     <div class="fullpage">
       <Input
         bind:value={selection.sales}
@@ -162,30 +152,13 @@
     <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
   {/if}
 </main>
-{/if}
+{/if} -->
 
 <style>
 
   .logo-link {
-    position: absolute;
     max-width: 50%;
   }
-
-  .fullpage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    margin: auto;
-    height: 100%;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
 
   @media(max-width: 600px) {
     .wide-buttons {

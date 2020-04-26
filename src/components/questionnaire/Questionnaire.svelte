@@ -2,6 +2,7 @@
   import {send, receive} from '../../animations/crossfade.js'; //TODO: move this to a shared location?
 
   import Question from "./question/Question.svelte";
+  import Progress from './progress/Progress.svelte';
   
   export let questions;
 
@@ -22,6 +23,17 @@
 </script>
 
 <style>
+  .fullpage {
+    height: 100%;
+    width: 90%;
+    z-index: 5;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
   .input-wrapper {
     text-align: center;
     width: 100%;
@@ -54,12 +66,16 @@
 </style>
 
 <div class="fullpage">
-  <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
+  <div class="input-wrapper">
     <Question question={questions[step]} />
   </div>
 
   <div class="next-button-wrapper" in:receive="{{ duration: animModifier, key: 'buttons' }}" out:send="{{ duration: animModifier, key: 'buttons' }}">
     <button class="next" on:click={onBackClicked} disabled={step === 0}>Zurück</button>
     <button class="next" on:click={onNextClicked} disabled={step === questions.length-1}>Weiter</button>
+  </div>
+
+  <div>
+    <Progress max={questions.length} value={step} ></Progress>
   </div>
 </div>

@@ -3,7 +3,7 @@
   import P from './p/P.svelte';
   import Select from './select/Select.svelte';
 
-  export let question = {};
+  export let question;
 </script>
 
 <div>

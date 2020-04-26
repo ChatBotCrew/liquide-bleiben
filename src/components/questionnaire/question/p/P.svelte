@@ -1,7 +1,7 @@
 <script>
-  export let data = "";
+  export let data;
 </script>
 
 <p class="input-wrapper">
-  {@html data.text}
+  {@html data.element.content}
 </p>

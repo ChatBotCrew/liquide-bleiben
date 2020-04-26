@@ -22,8 +22,8 @@
 
 <div class="select-wrapper">
   <select class="main-input">
-    {#if data.element.info}
-      <option selected disabled>{data.element.info}</option>
+    {#if data.element.placeholder}
+      <option selected disabled>{data.element.placeholder}</option>
     {/if}
     <!-- {#each data.options as option}
       <option>{option}</option>

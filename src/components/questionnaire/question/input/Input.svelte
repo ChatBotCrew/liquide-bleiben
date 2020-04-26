@@ -11,26 +11,27 @@
     //  in:fly={{ x: flyDirection(), duration: 1500 }} 
     //  out:fly={{ x: -flyDirection(), duration: 1500 }}>
 
-  const mappingTest = {
-    'min': 0,
-    'max': 99
-  };
+  const mapElement = (input, properties) => {
+        if(!properties)
+          return;
 
-  const getInput = (input) => { //TODO: generalize this
-    const properties = data.element;
+        if(properties.hasOwnProperty('type'))
+          input.type = properties.type;
+        if(properties.hasOwnProperty('placeholder'))
+          input.placeholder = properties.placeholder;
 
-    if(!properties)
-      return;
+        if(properties.hasOwnProperty('min'))
+          input.min = properties.min;
+        if(properties.hasOwnProperty('max'))
+          input.max = properties.max;
+  }
+      
+  const getInput = (input, properties) => { //TODO: generalize this
+    mapElement(input, properties);
 
-    if(properties.type)
-      input.type = properties.type;
-    if(properties.placeholder)
-      input.placeholder = properties.placeholder;
-
-    if(properties.min)
-      input.min = properties.min;
-    if(properties.max)
-      input.max = properties.max;
+    return {
+      update: (p) => mapElement(input, p)
+    };
   };
 
   const getTitle = (index) => {
@@ -41,7 +42,7 @@
 </script>
 
 <div class="input-wrapper">
-  <input class="main-input" use:getInput />
+  <input class="main-input" use:getInput={data.element} />
 </div>
 
 <style>
