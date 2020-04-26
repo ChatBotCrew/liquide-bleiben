@@ -1,15 +1,11 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import { fly } from 'svelte/transition';
 
   export let data;
-
   export let value;
-  export let title;
-  export let helpText;
-  
-  // const flyDirection = () => 1000 * $lastStep;
-    //  in:fly={{ x: flyDirection(), duration: 1500 }} 
-    //  out:fly={{ x: -flyDirection(), duration: 1500 }}>
+
+  const eventDispatcher = createEventDispatcher();
 
   const mapElement = (input, properties) => {
         if(!properties)
@@ -39,10 +35,23 @@
     let stringArr = title.split('/newLine');
     return stringArr[index];
   }
+
+  const onFieldValid = (e) => {
+    eventDispatcher('validation', {
+      valid: true,
+      value: e.input.value
+    });
+  };
+  const onFieldInvalid = (e) => {
+    eventDispatcher('validation', {
+      valid: false,
+      value: e.input.value
+    });
+  };
 </script>
 
 <div class="input-wrapper">
-  <input class="main-input" use:getInput={data.element} />
+  <input class="main-input" use:getInput={data.element} bind:value={value} on:valid={onFieldValid} on:invalid={onFieldInvalid} />
 </div>
 
 <style>

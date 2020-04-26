@@ -1,9 +1,12 @@
 <script>
+  import { fade, fly } from 'svelte/transition';
+
   import Input from './input/Input.svelte';
   import P from './p/P.svelte';
   import Select from './select/Select.svelte';
 
   export let question;
+  export let response;
 </script>
 
 <div>
@@ -15,10 +18,10 @@
     <P data={question}></P>
   {/if}
   {#if question.element.tag === "select"}
-    <Select data={question}></Select>
+    <Select data={question} bind:value={response}></Select>
   {/if}
   {#if question.element.tag === "input"}
-    <Input data={question}></Input>
+    <Input data={question} bind:value={response} on:validation></Input>
   {/if}
 
   {#if question.text}

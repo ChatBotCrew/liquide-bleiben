@@ -1,11 +1,9 @@
 <script>
-  import { send, receive } from '../../../animations/crossfade.js';
-
   export let value;
   export let max;
 </script>
 
-<progress value={value} out:send="{{ duration: 500, key: 'progress' }}" in:receive="{{ duration: 500, key: 'progress' }}" max={max}></progress>
+<progress value={value} max={max}></progress>
 
 <style>
   progress {
@@ -13,6 +11,8 @@
     max-width: 880px;
     margin-top: 16px;
     margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
 
     -webkit-appearance: none;
     -moz-appearance: none;

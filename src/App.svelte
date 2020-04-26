@@ -1,5 +1,4 @@
 <script>
-  import { fade, fly } from 'svelte/transition';
   import { tweened } from 'svelte/motion';
 
   import ga from './ga.js'
@@ -18,6 +17,8 @@
 
   let selection = null;
 
+  setInterval(()=>{ console.log(selection); }, 1000);
+
   initialSelection.subscribe(s => { selection = s })
 
   const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
@@ -27,15 +28,19 @@
   const flyDirection = () => 1000 * $lastStep;
   const optin = () => ga.optin();
   const optout = () => ga.optout();
+
+  const onStepChanged = (e, change) => {
+    
+  }
 </script>
 
 {#if $initialSelection}
   <main>
-    <a class="logo-link" out:send="{{ duration: 1000, key: 'logo' }}" in:receive="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
+    <a class="logo-link" in:receive="{{ duration: 1000, key: 'logo' }}" out:send="{{ duration: 1000, key: 'logo' }}" href="https://wir-bleiben-liqui.de">
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
 
-    <Questionnaire questions={questions}></Questionnaire>
+    <Questionnaire questions={questions} responses={selection} on:stepChanged={onStepChanged}></Questionnaire>
 
     {#if $cookiesAllowed === null}
       <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">

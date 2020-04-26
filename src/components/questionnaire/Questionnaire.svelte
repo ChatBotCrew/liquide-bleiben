@@ -1,30 +1,35 @@
 <script>
-  import {send, receive} from '../../animations/crossfade.js'; //TODO: move this to a shared location?
+  import { createEventDispatcher } from 'svelte';
 
   import Question from "./question/Question.svelte";
   import Progress from './progress/Progress.svelte';
   
   export let questions;
+  export let responses;
+
+  const eventDispatcher = createEventDispatcher();
 
   let step = 0;
 
   const onBackClicked = () => {
-      step--;
+      onStepChanged(step, step - 1);
   };
+
   const onNextClicked = () => {
-      step++;
+    onStepChanged(step, step + 1);
   };
-
-  let animModifier = 100;
-
-  const flyDirection = () => { 
-      animModifier; 
-    }
+  
+  const onStepChanged = (pstep, nstep) => {
+    step = nstep;
+    eventDispatcher('stepChanged', {
+      pstep: pstep,
+      nstep: nstep
+    });
+  };
 </script>
 
 <style>
   .fullpage {
-    height: 100%;
     width: 90%;
     z-index: 5;
     margin: auto;
@@ -67,15 +72,19 @@
 
 <div class="fullpage">
   <div class="input-wrapper">
-    <Question question={questions[step]} />
+    {#if questions[step].hasOwnProperty('binding')}
+      <Question question={questions[step]} bind:response={responses[questions[step].binding]} />
+    {:else}
+      <Question question={questions[step]} />
+    {/if}
   </div>
 
-  <div class="next-button-wrapper" in:receive="{{ duration: animModifier, key: 'buttons' }}" out:send="{{ duration: animModifier, key: 'buttons' }}">
+  <div class="next-button-wrapper">
     <button class="next" on:click={onBackClicked} disabled={step === 0}>Zurück</button>
     <button class="next" on:click={onNextClicked} disabled={step === questions.length-1}>Weiter</button>
   </div>
 
-  <div>
+  <div style="width: 100%; text-align: center;">
     <Progress max={questions.length} value={step} ></Progress>
   </div>
 </div>
