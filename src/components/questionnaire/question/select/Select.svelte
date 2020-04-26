@@ -25,7 +25,7 @@
 </style>
 
 <div class="select-wrapper">
-  <select class="main-input">
+  <select class="main-input" bind:value={value}>
     {#if data.binding === "state"}
     <option selected disabled>{data.element.placeholder}</option>
     {#await elements then value}

@@ -154,8 +154,8 @@
     cursor: pointer;
   }
 
-  .country-selector {
-
+  .country-selector .country {
+    cursor: pointer;
   }
 
   .country-selector .selector-title {
