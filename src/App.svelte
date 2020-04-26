@@ -16,10 +16,13 @@
   let progress = tweened(currentStep);
 
   let selection = null;
-
-  setInterval(()=>{ console.log(selection); }, 1000);
+  let finished = false;
 
   initialSelection.subscribe(s => { selection = s })
+
+  setInterval(()=>{
+    console.log(selection);
+  }, 1000);
 
   const next = () => { lastStep.set(1); currentStep++; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `next ${currentStep}`) }
   const back = () => { lastStep.set(-1); currentStep--; progress.set(currentStep); ga.sendGAEvent('nav', 'click', `back ${currentStep}`) }
@@ -29,8 +32,15 @@
   const optin = () => ga.optin();
   const optout = () => ga.optout();
 
-  const onStepChanged = (e, change) => {
-    
+  const onStepChanged = (e) => {
+    const change = e.detail;
+    console.log(change);
+
+    if(change.nstep !== questions.length)
+      return;
+
+    console.log("Finished!");
+    finished = true;
   }
 </script>
 
@@ -40,7 +50,11 @@
       <img class="logo" src="/logo.png" alt="Wir bleiben liquide">
     </a>
 
-    <Questionnaire questions={questions} responses={selection} on:stepChanged={onStepChanged}></Questionnaire>
+    {#if !finished}
+      <Questionnaire questions={questions} responses={selection} on:stepChanged={onStepChanged}></Questionnaire>
+    {:else}
+      <Results {selection} />
+    {/if}
 
     {#if $cookiesAllowed === null}
       <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
@@ -54,113 +68,8 @@
     {/if}
   </main>
 {/if}
-<!-- 
-{#if $initialSelection}
-<main>
-
-  {#if currentStep !== 6}
-    
-  {/if}
-  {#if currentStep === 0}
-    <div class="fullpage">
-      <p class="input-wrapper disclaimer" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        <a target="_blank" href="wir-bleiben-liqui.de">wir-bleiben-liqui.de</a> bietet weder Rechts- noch Steuerberatung an.<br>
-        Bei diesem Angebot handelt es sich lediglich um einen kostenfreien und unverbindlichen Informationszugang für alle, die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.<br>
-        Die Plattform bietet diese Unterstützung nicht selbst an, hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.<br>
-        Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder oder die Finanzinstitute selbst konsultiert werden.<br>
-      </p>
-      <div class="next-button-wrapper wide-buttons" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        {#if Object.entries(selection).filter(([k,v]) => v !== null).length}
-          <button on:click={seeResults}>Akzeptieren</button>
-          <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
-        {:else}
-          <button on:click={next}>Akzeptieren</button>
-        {/if}
-      </div>
-    </div>
-  {/if}
-  {#if currentStep === 2}
-    <div class="fullpage">
-      <Select
-        categoryName="Branche"
-        bind:value={selection.trade}
-        options={$gewerbe}
-        help="Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig sind, damit wir Ihnen genauere Vorschläge machen können."
-      />
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={selection.trade === null}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if}
-  {#if currentStep === 3}
-    <div class="fullpage">
-      <Input
-        bind:value={selection.age}
-        helpText={strings[0].helpText}
-        title={strings[0].title}></Input>
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={selection.age === null || selection.age < 0 || selection.age > 999}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if}  
-  <!-- Temporarily remove legal question during rework -->
-  <!-- {#if currentStep === 4}
-    <div class="fullpage">
-      <Select
-        categoryName="Rechtsform"
-        bind:value={selection.legal}
-        options={$rechtsformen}
-        help="Je nach Rechtsform Ihres Unternehmen werden Sie unterschiedliche Unterlagen benötigen. Sollten Sie sich nicht sicher sein, sind Sie wahrscheinlich ein:e Einzelunternehmer:in oder wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, sind Sie wahrscheinlich eine GbR."
-      />
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={!selection.legal}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if} -->
-  <!-- {#if currentStep === 4} 
-    <div class="fullpage">
-      <Input
-        bind:value={selection.sales}
-        title={strings[1].title}
-        helpText={strings[1].helpText}>
-      </Input>
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={selection.sales === null || selection.sales < 0}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if}  
-  {#if currentStep === 5}
-    <div class="fullpage">
-      <Input 
-        bind:value={selection.employees}
-        title={strings[2].title}
-        helpText={strings[2].helpText}></Input>
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={selection.employees === null || selection.employees < 0}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if}  
-  {#if currentStep === 6}
-    <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-      <Results {selection} />
-    </div>
-    <button class="change-inputs" on:click={toFirstStep} out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">Zurück zum Finder</button>
-  {/if}
-</main>
-{/if} -->
 
 <style>
-
   .logo-link {
     max-width: 50%;
   }
