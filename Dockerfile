@@ -6,7 +6,7 @@ ENV CB_BASIC_AUTH=$CB_AUTH
 RUN mkdir /service
 WORKDIR /service
 COPY . .
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 EXPOSE 8080
