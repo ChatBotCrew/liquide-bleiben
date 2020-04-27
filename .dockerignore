@@ -1,6 +1,5 @@
 node_modules
-src
 .gitignore
+.git
 log.txt
-rollup.config.js
 chatbot
