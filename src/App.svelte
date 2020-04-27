@@ -8,7 +8,7 @@
   import Results from './Results.svelte';
   import Input from './components/questionnaire/question/input/Input.svelte';
   import { bundeslaender, gewerbe, initialSelection } from './data.js';
-  
+
   import Questionnaire from './components/questionnaire/Questionnaire.svelte';
   import questionsDe from './questions-de.js';
   import questionsFr from './questions-fr.js';
@@ -81,7 +81,7 @@
     {/if}
 
     {#if $cookiesAllowed === null}
-      <div class="cookies-banner" transition:fly="{{ y: 100, duration: 1500 }}">
+      <div class="cookies-banner">
         <div>
           <div>Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="https://wir-bleiben-liqui.de/datenschutz/">Datenschutzerklärung</a>.</div>
           <div>Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und direkt unsere Website besuchen zu können.</div>
