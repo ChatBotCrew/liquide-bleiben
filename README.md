@@ -84,11 +84,7 @@ CB_BASIC_AUTH=YOUR_AUTH_HERE npm run start:server
 
 # Deployment
 
-```
-docker build -t gcr.io/liquide-bleiben/finder:latest .
-docker push gcr.io/liquide-bleiben/finder
-```
-
-You need a configured access to GCP see: https://cloud.google.com/container-registry/docs/pushing-and-pulling
+CICD added via Google Cloud Build. Every commit on branch feature/questionnaire gets
+automatically build and deployed.
 
 
