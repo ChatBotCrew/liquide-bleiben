@@ -31,6 +31,18 @@ const dropdowns = [
   },
 ]
 
+const wikiIndizes = [3136, 3140, 3144, 3146, 3149, 3153, 3192, 3240]
+const wikiPages = []
+
+async function retrieveWikiNameAndText(id) {
+  return await fetch(`${BASE_PATH}/wikipages/${id}`, {
+    method: 'GET',
+    headers: HEADERS,
+  })
+    .then(res => res.json())
+    .then(async wikiEntry => ({ name: wikiEntry.name, html: await retrieveWikiAsHtml(id, 'WIKI', wikiEntry.version, wikiEntry.markup)}))
+}
+
 async function retrieveWikiAsHtml(id, type, version, value) {
   return await fetch(`${BASE_PATH}/projects/2/wiki2html`, {
     method: 'POST',
@@ -42,7 +54,7 @@ async function retrieveWikiAsHtml(id, type, version, value) {
     }),
     headers: HEADERS,
   })
-    .then(res => res.text())
+    .then(res => res.text());
 }
 
 async function retrieveOffers() {
@@ -102,7 +114,11 @@ function getClusters() {
   return clusters;
 }
 
-function refreshData() {
+function getDescriptions() {
+  return wikiPages;
+}
+
+async function refreshData() {
   return Promise.all([
     retrieveOffers(),
     retrieveColumnsAndClusters(),
@@ -110,6 +126,9 @@ function refreshData() {
       const ddOptions = await retrieveDropdownOptions(dd.id);
       if(dd.name === 'state') ddOptions.pop();
       dd.options = ddOptions;
+    })),
+    Promise.all(wikiIndizes.map(async (wp, idx) => {
+      wikiPages[idx] = await retrieveWikiNameAndText(wp);
     }))
   ]);
 }
@@ -120,6 +139,7 @@ refreshData();
 module.exports = {
   getClusters,
   getColumns,
+  getDescriptions,
   getDropdowns,
   getOffers
 }

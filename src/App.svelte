@@ -8,7 +8,7 @@
   import Progress from './Progress.svelte';
   import Select from './Select.svelte';
   import Results from './Results.svelte';
-  import { bundeslaender, gewerbe, rechtsformen, initialSelection, times } from './data.js';
+  import { bundeslaender, gewerbe, initialSelection } from './data.js';
 
   let currentStep = 0;
   let progress = tweened(currentStep);
