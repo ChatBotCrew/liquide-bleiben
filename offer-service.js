@@ -1,5 +1,18 @@
 var { getClusters, getColumns, getOffers } = require('./codebeamer.js');
 
+const FIELD_IDS = {
+  MIN_AGE: 10000,
+  MAX_AGE: 10010,
+  MIN_SALES: 10011,
+  MAX_SALES: 10012,
+  MIN_EMPLOYEES: 10013,
+  MAX_EMPLOYEES: 10014
+};
+
+/**
+ * Filter the complete list of funding programs based on the provided filterParams
+ * @param {FilterParams} filterParams parameters used for filtering the funding programs
+ */
 function filterOffers(filterParams) {
   let filteredOffers = getOffers();
 
@@ -20,20 +33,27 @@ function filterOffers(filterParams) {
   }
 
   if (filterParams.age) {
-    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, 10000, 10010, filterParams.age));
+    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, FIELD_IDS.MIN_AGE, FIELD_IDS.MAX_AGE, filterParams.age));
   }
 
   if (filterParams.sales) {
-    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, 10011, 10012, filterParams.sales));
+    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, FIELD_IDS.MIN_SALES, FIELD_IDS.MAX_SALES, filterParams.sales));
   }
 
   if (filterParams.employees) {
-    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, 10013, 10014, filterParams.employees));
+    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, FIELD_IDS.MIN_EMPLOYEES, FIELD_IDS.MAX_EMPLOYEES, filterParams.employees));
   }
 
   return filteredOffers;
 }
 
+/**
+ * Filter an by comparing a filter parameter integer value with the lower and upper bounds for a funding program
+ * @param {any[]} rowFields list of fields which includes the specified IDs
+ * @param {integer} minId field to be used as lower boundary
+ * @param {integer} maxId field to be used as upper boundary
+ * @param {integer} filterValue 
+ */
 function minMaxFilter(rowFields, minId, maxId, filterValue) {
   const minField = rowFields.find(field => field.fieldId === minId);
   const maxField = rowFields.find(field => field.fieldId === maxId);
@@ -43,6 +63,11 @@ function minMaxFilter(rowFields, minId, maxId, filterValue) {
   return minField.value <= filterValue && maxField.value >= filterValue;
 }
 
+/**
+ * Structure programs to be uniform
+ * @param {FundingProgram} offer
+ * @returns {FundingProgramFormatted}
+ */
 function formatOffer(offer) {
   return {
     id: offer.id,
@@ -54,6 +79,12 @@ function formatOffer(offer) {
   };
 }
 
+/**
+ * Filter fields for different section granularity (as specified in the codebeamer data base)
+ * @param {any} fields
+ * @param {'main' | 'details'} type
+ * @returns {any[]}
+ */
 function filterFieldsByDisplayType(fields, type) {
   return fields.filter(field => {
     const displayField = getColumns().find(col => col.id === field.fieldId)
@@ -61,7 +92,11 @@ function filterFieldsByDisplayType(fields, type) {
     return displayField.type === type;
   });
 }
-
+/**
+ * Transform codebeamer field format into uniform application field format
+ * @param {any} field Semi-structured field
+ * @returns {FundingProgramField}
+ */
 function formatField(field) {
   let value;
   if (field.value !== undefined) {
@@ -76,6 +111,11 @@ function formatField(field) {
   return { id: field.fieldId, name: field.name, value }
 }
 
+/**
+ * Structure funding programs into clusters
+ * @param {FundingProgram[]} offers
+ * @returns {FundingProgramCluster[]}
+ */
 function formatOffersClustered(offers) {
   return getClusters().map(clusterName => {
     return {
@@ -87,6 +127,10 @@ function formatOffersClustered(offers) {
   });
 }
 
+/**
+ * Process the retrieval of funding programs
+ * @param {FilterParams} filterParams
+ */
 function getOffersCtrl(filterParams) {
   return formatOffersClustered(filterOffers(filterParams));
 }

@@ -9,8 +9,16 @@ var HEADERS = {
 const SHOW_STATUS_ID = 8;
 const DETAILS_STATUS_ID = 10;
 
+/** @type {FundingProgram[]} */
 let offers = [];
+
+/** @type {string[]} */
 let clusters = [];
+
+/**
+ * List of columns which are to be shown to the end-user
+ * @type {{ id: number, name: string, type: 'main' | 'details' }[]}
+ */
 let displayedColumns = [];
 
 const dropdowns = [
@@ -98,10 +106,17 @@ async function retrieveDropdownOptions(fieldId) {
   return dropdownValues.options.splice(1).map(opt => ({ id: opt.id.toString(), name: opt.name }));
 }
 
+/**
+ * Return the full list of offers stored in the cache
+ * @returns {FundingProgram[]}
+ */
 function getOffers() {
   return offers;
 }
 
+/**
+ * Return the full list of selectable values stored in the cache
+ */
 function getDropdowns() {
   return dropdowns;
 }
@@ -118,6 +133,9 @@ function getDescriptions() {
   return wikiPages;
 }
 
+/**
+ * Query for all data which is stored in codebeamer to be saved in the in in-memory cache
+ */
 async function refreshData() {
   return Promise.all([
     retrieveOffers(),
