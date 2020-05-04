@@ -4,3 +4,6 @@ src
 log.txt
 rollup.config.js
 chatbot
+
+.env
+.idea

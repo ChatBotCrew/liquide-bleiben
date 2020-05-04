@@ -4,4 +4,6 @@
 .DS_Store
 log.txt
 
-.idea
+/.idea
+
+/.env

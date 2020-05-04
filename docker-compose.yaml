@@ -3,8 +3,7 @@ version: "3.3"
 services:
   liquide-bleiben:
     build: .
-    environment:
-      - CB_BASIC_AUTH=abc
+    env_file: .env
     image: liquide-bleiben:latest
     ports:
     - 8080:8080
