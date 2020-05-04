@@ -7,27 +7,32 @@ on:
     branches: [ master ]
 
 env:
-  IMAGE_NAME: liquide-bleiben
+  IMAGE_NAME_LIQUIDE_BLEIBEN: liquide-bleiben
+  IMAGE_NAME_CHATBOT: chatbot
 
 jobs:
 
-  build:
-
+  build_and_push:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        image: [$IMAGE_NAME_LIQUIDE_BLEIBEN, $IMAGE_NAME_CHATBOT]
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag $IMAGE_NAME
+    - name: Build the Docker image $IMAGE_NAME_LIQUIDE_BLEIBEN
+      run: docker build . --file Dockerfile --tag $IMAGE_NAME_LIQUIDE_BLEIBEN
+
+    - name: Build the Docker image $IMAGE_NAME_CHATBOT
+      run: docker build . --file chatbot/Dockerfile --tag $IMAGE_NAME_CHATBOT
       # :$(date +%s)
     - name: List all images
       run: docker images
-      # adapted from: https://github.com/actions/starter-workflows/blob/master/ci/docker-publish.yml
+    # adapted from: https://github.com/actions/starter-workflows/blob/master/ci/docker-publish.yml
     - name: Log into Github container registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Push image
       run: |
-        IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+        IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${{ matrix.image }}
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         # Strip git ref prefix from version
@@ -38,5 +43,5 @@ jobs:
         # [ "$VERSION" == "master" ] && VERSION=latest
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+        docker tag ${{ matrix.image }} $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
