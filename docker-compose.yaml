@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  liquide-bleiben:
+    build: .
+    environment:
+      - CB_BASIC_AUTH=abc
+    image: liquide-bleiben:latest
+    ports:
+    - 8080:8080
+
+  chatbot:
+    build:
+      context: ./chatbot
+      dockerfile: Dockerfile.foerderike
+    image: foerderike:latest
+    ports:
+      - 8085:80
