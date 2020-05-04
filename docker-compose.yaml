@@ -7,11 +7,15 @@ services:
     image: liquide-bleiben:latest
     ports:
     - 8080:8080
+    volumes:
+    - ./:/usr/src/app
 
   chatbot:
     build:
       context: ./chatbot
-      dockerfile: Dockerfile.foerderike
+      dockerfile: Dockerfile
     image: foerderike:latest
     ports:
       - 8085:80
+    volumes:
+    - ./chatbot:/usr/share/nginx/html
