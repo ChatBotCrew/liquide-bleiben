@@ -1,4 +1,4 @@
-name: Lint
+name: Linters
 
 on: push
 
@@ -16,15 +16,15 @@ jobs:
         with:
           node-version: 12
 
-      # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm install
-        #npm install prettier
 
-      - name: Run linters
+      - name: Run linters (eslint)
         uses: samuelmeuli/lint-action@v1
         with:
           github_token: ${{ secrets.github_token }}
           # Enable linters
           eslint: true
+          # TODO: Discuss application of prettier
+          #       --> add Prettier to `package.json`
           #prettier: true
