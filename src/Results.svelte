@@ -116,7 +116,7 @@
       {#if selectedTab === KURZARBEIT}
         {@html $descriptions.find(d => d.name === KURZARBEIT).html}
         <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a><br>
-        <a target="_blank" class="info-link button" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/">Weitere Informationen bei DATEV</a>
+        <a target="_blank" class="info-link button" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/">Weitere Informationen bei DATEV</a><br>
         <a target="_blank" href="https://kurzarbeit-einfach.de">Sie wollen einen Antrag stellen? Jetzt zu U:DO und Unterstützung erhalten!</a>
       {/if}
       {#if selectedTab === SOZIALBEITRAEGE}
@@ -132,10 +132,6 @@
     <p class="text-center">
       Speichern Sie den Link zu Ihrem persönlichen Ergebnis:<br>
       <a href={pageUrl} style="word-break: break-all;">{pageUrl}</a><br>
-    </p>
-    <p class="text-center">
-      Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a
-            href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a>
     </p>
   </div>
 </div>
