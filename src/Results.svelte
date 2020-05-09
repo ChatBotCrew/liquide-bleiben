@@ -10,7 +10,7 @@
   export let selection;
 
   const UEBERSICHT = 'Übersicht';
-  const STEUERSTUNDUNG = 'Steuerstundung';
+  const STEUERSTUNDUNG = 'Steuermaßnahmen';
   const KURZARBEIT = 'Kurzarbeit';
   const SOZIALBEITRAEGE = 'Sozialbeiträge';
   const ZIVILRECHT = 'Zivilrecht';

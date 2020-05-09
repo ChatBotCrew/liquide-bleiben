@@ -143,9 +143,17 @@
   {#if currentStep === 5}
     <div class="fullpage">
       <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
-        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Mitarbeiter:innen
+        Mein Unternehmen hat <input class="main-input" bind:value={selection.employees} style="width: 150px;" placeholder="XX" min="0" type="number" /> Beschäftigte (Vollzeitäquivalente, VZÄ)
         <div class="help-text">
-          Je nach Anzahl der Mitarbeiter:innen in Ihrem Unternehmen gibt es unterschiedliche Förderprogramme und Hilfen, lassen Sie uns die Anzahl Ihrer Mitarbeiter:innen wissen, damit wir die für Sie passenden Programmen finden können. Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
+          Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ:
+          <ol type="i">
+            <li>Mitarbeiter:innen auf 450 Euro-Basis = Faktor 0,3</li>
+            <li>Mitarbeiter:innen bis 20 Stunden = Faktor 0,5</li>
+            <li>Mitarbeiter:innen bis 30 Stunden = Faktor 0,75</li>
+            <li>Mitarbeiter:innen über 30 Stunden = Faktor 1</li>
+          </ol>
+          Sollten Sie keine Mitarbeiter:innen haben und ein:e Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
+          <b>Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden.</b>
         </div>
       </div>
       <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
@@ -225,7 +233,7 @@
     text-align: center;
     width: 100%;
     max-width: 880px;
-    margin-top: 60px;
+    margin-top: 30px;
     margin-bottom: 16px;
     display: flex;
     flex-direction: column;
