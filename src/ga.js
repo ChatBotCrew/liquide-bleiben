@@ -1,6 +1,6 @@
 import { cookiesAllowed } from './store.js';
 
-const gaProperty = 'UA-161472816-2';
+const gaProperty = 'UA-161472816-1';
 const gtmProperty = 'GTM-THC2RPB';
 const disableStr = 'ga-disable-' + gaProperty;
 
