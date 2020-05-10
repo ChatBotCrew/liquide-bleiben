@@ -1,10 +1,8 @@
 from __future__ import annotations
 from pathlib import Path
-import sys
-import re
-import requests
-import argparse
-
+from re import compile
+from requests import get
+from argparse import ArgumentParser
 
 class Response:
     url: str = ""
@@ -16,17 +14,17 @@ class Response:
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Check status codes of all links found in a given file.')
+    parser = ArgumentParser(description='Check status codes of all links found in a given file.')
     parser.add_argument('file_path', type=Path, metavar='file', help='Path to the file to be checked')
 
     args =parser.parse_args()
 
     try:
         with open(args.file_path, 'r') as data_js_file:
-            regex = re.compile(r'\b(?:https?|http):[\w/#~:.?+=&%@!\-.:?\\-]+?(?=[.:?\-]*(?:[^\w/#~:.?+=&%@!\-.:?\-]|$))')
+            regex = compile(r'\b(?:https?|http):[\w/#~:.?+=&%@!\-.:?\\-]+?(?=[.:?\-]*(?:[^\w/#~:.?+=&%@!\-.:?\-]|$))')
             urls = regex.findall(data_js_file.read())
 
-            responses = [Response(url, requests.get(url, timeout=10).status_code) for url in urls]
+            responses = [Response(url, get(url, timeout=10).status_code) for url in urls]
 
             erroneous_responses = filter(lambda response: str(response.code)[0] != '2', responses)
 
@@ -35,7 +33,7 @@ def main():
                 print("    {0}: {1}".format(response.url, response.code))
     except FileNotFoundError as e:
         print("Error: The given path does not point to a valid file.")
-        sys.exit(1)
+        exit(1)
 
 if __name__ == "__main__":
     main()
