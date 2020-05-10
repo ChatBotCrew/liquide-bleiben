@@ -28,11 +28,11 @@ def main():
 
             erroneous_responses = filter(lambda response: str(response.code)[0] != '2', responses)
 
-            print("The following links in `data.js` are not returning success status codes (2**):")
+            print("The following links in `{0}` are not returning success status codes (2**):".format(args.file_path))
             for  response in erroneous_responses:
                 print("    {0}: {1}".format(response.url, response.code))
     except FileNotFoundError as e:
-        print("Error: The given path does not point to a valid file.")
+        print("Error: \`{0}\` does not point to a valid file.".format(args.file_path))
         exit(1)
 
 if __name__ == "__main__":
