@@ -1,4 +1,4 @@
-
+// call this function at program start to initialize and start the chat
 // https://stackoverflow.com/questions/9899372/pure-javascript-equivalent-of-jquerys-ready-how-to-call-a-function-when-t
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
 r(function(){
@@ -7,6 +7,10 @@ r(function(){
 });
 
 // https://stackoverflow.com/questions/36127648/uploading-a-json-file-and-using-it/36198572
+/** download object as json
+ * @param {string} filename - default filename
+ * @param {Object.<string,string>} data - data dictionary
+ */
 function save(filename, data){
 
     if(!data) {
@@ -29,36 +33,37 @@ function save(filename, data){
     a.dispatchEvent(e)
 }
 
-// compare https://github.com/phihag/pdfform.js/blob/master/docs/demo.js
-var current_buffer;
-
+// call save function on when export button is clicked
 document.getElementById('export').onclick = function() {
-     save("virus.json", answers);
+    save("virus.json", answers);
 }
 
+//var current_buffer;
+
+/** upload answers as json and restart the chat bot
+ * @param {boolean} confirm - whether to confirm known results in the chat bot
+ */
 function load(confirm) {
     var files = document.getElementById('selectFiles').files;
     console.log(files);
     if (files.length <= 0) {
-      return false;
+      return;
     }
-  
     var fr = new FileReader();
-  
     fr.onload = function(e) { 
       console.log(e.target.result);
       answers = JSON.parse(e.target.result);
-      //var formatted = JSON.stringify(result, null, 2);
-      //document.getElementById('result').value = formatted;
     }
     fr.readAsText(files.item(0));
     startBot(confirm); // restart the bot (skipping over known values)  
 }
 
+// load and skip known answers in the chat bot
 document.getElementById('import').onclick = function() {
     load(false);
 }
 
+// load and confirm known answers in the chat bot
 document.getElementById('confirm').onclick = function() {
     load(true); // bearbeiten
 }

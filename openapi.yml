@@ -23,14 +23,13 @@ paths:
       - $ref: "#/components/parameters/legal"
       - $ref: "#/components/parameters/sales"
       - $ref: "#/components/parameters/employees"
-      - $ref: "#/components/parameters/time"
       responses:
         200:
           description: "Succesful"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/offers-response"
+                $ref: "#/components/schemas/response-offers"
         400:
           description: "Bad Input"
           content:
@@ -40,6 +39,28 @@ paths:
                 properties:
                   error:
                     type: "string"
+  /api/descriptions:
+    get:
+      summary: "Get easy to understand descriptions for different types of clusters"
+      operationId: "getDescriptions"
+      responses:
+        200:
+          description: "Succesful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/response-descriptions"
+  /api/selects:
+    get:
+      summary: "Get option values for selection"
+      operationId: "getSelects"
+      responses:
+        200:
+          description: "Succesful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/response-selects"
 components:
   parameters:
     state:
@@ -121,16 +142,6 @@ components:
       required: false
       schema:
         type: "integer"
-    time:
-      in: "query"
-      name: "time"
-      description: "german state the company is located in"
-      required: false
-      schema:
-        type: "string"
-        enum:
-        - "30 Tage"
-        - "6 Monate"
   schemas:
     cluster:
       type: "object"
@@ -164,9 +175,36 @@ components:
             type: "string"
           value:
             type: "string"
-    offers-response:
+    response-descriptions:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+          html:
+            type: "string"
+    response-offers:
       type: "array"
       items:
         $ref: "#/components/schemas/cluster"
+    response-selects:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          id:
+            type: "integer"
+          name:
+            type: "string"
+          options:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                name:
+                  type: "string"
 externalDocs:
   url: "https://devpost.com/software/liquiditat-fur-den-mittelstand"
