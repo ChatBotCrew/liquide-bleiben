@@ -10,7 +10,7 @@
   export let selection;
 
   const UEBERSICHT = 'Übersicht';
-  const STEUERSTUNDUNG = 'Steuerstundung';
+  const STEUERSTUNDUNG = 'Steuermaßnahmen';
   const KURZARBEIT = 'Kurzarbeit';
   const SOZIALBEITRAEGE = 'Sozialbeiträge';
   const ZIVILRECHT = 'Zivilrecht';
@@ -104,7 +104,7 @@
     {/await}
     <div class="info-text">
       {#if selectedTab === STEUERSTUNDUNG}
-        {@html $descriptions.find(d => d.name ==='Steuerstundung').html.replace('&lt;&lt;state&gt;&gt;', selection.state ? $bundeslaender.find(land => land.id == selection.state).name || '' : '')}<br>
+        {@html $descriptions.find(d => d.name === STEUERSTUNDUNG).html.replace('&lt;&lt;state&gt;&gt;', selection.state ? $bundeslaender.find(land => land.id == selection.state).name || '' : '')}<br>
         <div class="row">
           {#if selection.state}
             <a target="_blank" class="info-link col-12 col-lg-4" href={steuerstundungen[selection.state]}>Antragsformular</a>
