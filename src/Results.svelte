@@ -117,7 +117,6 @@
         {@html $descriptions.find(d => d.name === KURZARBEIT).html}
         <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a><br>
         <a target="_blank" class="info-link button" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/">Weitere Informationen bei DATEV</a><br>
-        <a target="_blank" href="https://kurzarbeit-einfach.de">Sie wollen einen Antrag stellen? Jetzt zu U:DO und Unterstützung erhalten!</a>
       {/if}
       {#if selectedTab === SOZIALBEITRAEGE}
         {@html $descriptions.find(d => d.name === SOZIALBEITRAEGE).html}
