@@ -1,3 +1,5 @@
+import { get } from 'svelte/store';
+
 import { cookiesAllowed } from './store.js';
 
 const gtmProperty = 'GTM-THC2RPB';
@@ -38,7 +40,7 @@ cookiesAllowed.subscribe(allowed => {
 });
 
 const sendGAEvent = (category, action, label) => {
-  window.ga(gtmTrackerName + '.send', 'event', category, action, label);
+  if (get(cookiesAllowed)) window.ga(gtmTrackerName + '.send', 'event', category, action, label);
 }
 
 export default {
