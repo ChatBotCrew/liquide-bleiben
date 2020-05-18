@@ -12,6 +12,24 @@ app.get('/api/offers', async (req, res) => {
   res.send(getOffers(req.query));
 });
 
+app.get('/api/countries', async (req, res) => {
+  res.send(JSON.parse(fs.readFileSync('./data/countries.json', 'utf8')));
+});
+
+app.get('/api/questions/:country', async (req, res) => {
+  switch (req.params.country) {
+    case 'de':
+      res.send(JSON.parse(fs.readFileSync('./data/germany.json', 'utf8')));
+      break;
+    case 'fr':
+      res.send(JSON.parse(fs.readFileSync('./data/france.json', 'utf8')));
+      break;
+    default:
+      break;
+  }
+  
+});
+
 app.get('/api/selects', async (req, res) => {
   res.send(getDropdowns())
 });

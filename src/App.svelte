@@ -1,33 +1,28 @@
 <script>
   import { tweened } from "svelte/motion";
-
-  import ga from "./ga.js";
-  import { cookiesAllowed, lastStep } from "./store.js";
-  import { send, receive } from "./animations/crossfade.js";
   import CookieBanner from "./components/cookie-banner.svelte";
   import Select from "./Select.svelte";
   import Results from "./Results.svelte";
   import Input from "./components/questionnaire/question/input/Input.svelte";
+  import Questionnaire from "./components/questionnaire/Questionnaire.svelte";
+  import httpService from "./services/http.service";
+
+  import ga from "./ga.js";
+  import { cookiesAllowed, lastStep } from "./store.js";
+  import { send, receive } from "./animations/crossfade.js";
   import { bundeslaender, gewerbe, initialSelection } from "./data/data.js";
 
-  import Questionnaire from "./components/questionnaire/Questionnaire.svelte";
-  import questionsDe from "./data/questions-de.js";
-  import questionsFr from "./data/questions-fr.js";
+  let countries = [];
+  httpService.sendGet("/api/countries").then(res => {
+    countries = res;
+  });
 
-  let countries = [
-    {
-      name: "Deutschland",
-      flag:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png",
-      questions: questionsDe
-    },
-    {
-      name: "France",
-      flag:
-        "https://upload.wikimedia.org/wikipedia/commons/6/62/Flag_of_France.png",
-      questions: questionsFr
-    }
-  ];
+  // load the questions of the selected country
+  let loadQuestions = country => {
+    httpService.sendGet(`/api/questions/${country}`).then(res => {
+      currentQuestions = res;
+    });
+  };
 
   let currentStep = 0;
   let progress = tweened(currentStep);
@@ -39,10 +34,6 @@
   initialSelection.subscribe(s => {
     selection = s;
   });
-
-  // setInterval(()=>{
-  //   console.log(selection);
-  // }, 1000);
 
   const next = () => {
     lastStep.set(1);
@@ -138,7 +129,7 @@
           <div class="selector-content">
             {#each countries as country}
               <div class="country">
-                <a on:click={() => (currentQuestions = country.questions)}>
+                <a on:click={loadQuestions(country.questions)}>
                   <img src={country.flag} alt={country.name} />
                   <span>{country.name}</span>
                 </a>
