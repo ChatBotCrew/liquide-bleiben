@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import httpService from './http.service';
+import httpService from '../services/http.service';
 
 export const initialSelection = writable(null);
 

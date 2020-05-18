@@ -1,6 +1,6 @@
 <script>
   import { fly } from 'svelte/transition';
-  import httpService from '../../../../http.service';  
+  import httpService from './../../../../services/http.service';  
 
   export let data;
   export let selects;

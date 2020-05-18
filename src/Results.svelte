@@ -4,7 +4,7 @@
   import ga from './ga.js';
   import { cookiesAllowed } from './store.js';
   import { send, receive } from './animations/crossfade.js';
-  import { bundeslaender, descriptions, help, finanzaemter, steuerstundungen, weitereInfos } from './data';
+  import { bundeslaender, descriptions, help, finanzaemter, steuerstundungen, weitereInfos } from './data/data';
   import Table from './Table.svelte';
 
   export let selection;
