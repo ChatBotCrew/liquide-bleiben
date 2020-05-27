@@ -97,6 +97,22 @@
               <a target="_blank" href={help[cluster.name] ? help[cluster.name].link : "https://wir-bleiben-liqui.de"}>
                 Sie wollen mehr wissen? Direkt zu unserem Blog
               </a>
+              {#if cluster.name === 'Zuschuss'}
+                <a target="_blank" href="https://www.datev.de/dnlexom/client/app/index.html#/document/5305736">
+                  Weitere Information bei DATEV im Elektronischen Wissen Buchungs-ABC
+                </a>
+                <a target="_blank" href="https://www.datev.de/dnlexom/client/app/index.html#/document/0382983">
+                  Weitere Informationen bei DATEV zu Fördermitteln
+                </a>
+              {/if}
+              {#if cluster.name === 'Darlehen'}
+                <a target="_blank" href="https://secure8.datev.de/dnlexom/client/app/index.html#/document/2400104">
+                  Weitere Information bei DATEV LEXinform (nur für Abonnenten)
+                </a>
+                <a target="_blank" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/weitere-unterstuetzungsangebote-von-datev">
+                  Weitere Informationen bei DATEV zur Beratung bei Kreditbeantragung für staatliche Förderdarlehen
+                </a>
+              {/if}
             </div>
           {/if}
         {/if}
@@ -107,16 +123,26 @@
         {@html $descriptions.find(d => d.name === STEUERSTUNDUNG).html.replace('&lt;&lt;state&gt;&gt;', selection.state ? $bundeslaender.find(land => land.id == selection.state).name || '' : '')}<br>
         <div class="row">
           {#if selection.state}
-            <a target="_blank" class="info-link col-12 col-lg-4" href={steuerstundungen[selection.state]}>Antragsformular</a>
-            <a target="_blank" class="info-link col-12 col-lg-4" href={finanzaemter[selection.state]}>Finanzamt</a>
+            <a target="_blank" class="info-link col-12 col-md-4" href={steuerstundungen[selection.state]}>Antragsformular</a>
+            <a target="_blank" class="info-link col-12 col-md-4" href={finanzaemter[selection.state]}>Finanzamt</a>
           {/if}
-          <a target="_blank" class="info-link col-sm-12 col-lg-4" href={weitereInfos.source}>Steuerliche Maßnahmen</a>
+          <a target="_blank" class="info-link col-sm-12 col-md-4" href={weitereInfos.source}>Steuerliche Maßnahmen</a>
         </div>
+        <br>
+        <b>Weitere Information bei DATEV LEXinform (nur für Abonnenten)</b>
+        <div class="row">
+          <a target="_blank" class="info-link col-12 col-md-6" href="https://secure8.datev.de/dnlexom/client/app/index.html#/document/0631203">Steuerliche Maßnahmen</a>
+          <a target="_blank" class="info-link col-12 col-md-6" href="https://secure8.datev.de/dnlexom/client/app/index.html#/document/0382198">Anpassung von Vorauszahlungen</a>
+        </div>
+        <br>
+        <a target="_blank" class="info-link" href="https://www.datev.de/dnlexom/client/app/index.html#/document/1008724">
+          Weitere Informationen bei DATEV zur Erstattung der Umsatzsteuer-Sondervorauszahlung 2020 aufgrund der Auswirkungen des Corona-Virus
+        </a>
       {/if}
       {#if selectedTab === KURZARBEIT}
         {@html $descriptions.find(d => d.name === KURZARBEIT).html}
         <a target="_blank" href={help["Kurzarbeit"].link}>Sie wollen mehr wissen? Weitere Informationen</a><br>
-        <a target="_blank" class="info-link button" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/">Weitere Informationen bei DATEV</a><br>
+        <a target="_blank" class="info-link button" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/sicherheit-bei-kurzarbeit-und-in-der-lohnabrechnung/">Weitere Informationen bei DATEV</a><br>
       {/if}
       {#if selectedTab === SOZIALBEITRAEGE}
         {@html $descriptions.find(d => d.name === SOZIALBEITRAEGE).html}
