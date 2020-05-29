@@ -98,17 +98,21 @@
                 Sie wollen mehr wissen? Direkt zu unserem Blog
               </a>
               {#if cluster.name === 'Zuschuss'}
+                <br>
                 <a target="_blank" href="https://www.datev.de/dnlexom/client/app/index.html#/document/5305736">
                   Weitere Information bei DATEV im Elektronischen Wissen Buchungs-ABC
                 </a>
+                <br>
                 <a target="_blank" href="https://www.datev.de/dnlexom/client/app/index.html#/document/0382983">
                   Weitere Informationen bei DATEV zu Fördermitteln
                 </a>
               {/if}
               {#if cluster.name === 'Darlehen'}
+                <br>
                 <a target="_blank" href="https://secure8.datev.de/dnlexom/client/app/index.html#/document/2400104">
                   Weitere Information bei DATEV LEXinform (nur für Abonnenten)
                 </a>
+                <br>
                 <a target="_blank" href="https://www.datev.de/web/de/aktuelles/informationsseite-zum-coronavirus/unterstuetzungsangebote-der-datev/weitere-unterstuetzungsangebote-von-datev">
                   Weitere Informationen bei DATEV zur Beratung bei Kreditbeantragung für staatliche Förderdarlehen
                 </a>
