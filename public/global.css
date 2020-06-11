@@ -90,6 +90,18 @@ button:focus {
   font-size: 0.8rem;
 }
 
+span[style="color:rgb(0, 0, 0);"] > a {
+  display: none;
+}
+
+.wikitable {
+  padding: 16px;
+}
+
+.wikitable td {
+  border: none;
+}
+
 @media(max-width: 660px) {
   html, body {
     font-size: 16px;

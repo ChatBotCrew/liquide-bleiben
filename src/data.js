@@ -32,10 +32,10 @@ export const finanzaemter = {
 
 export const steuerstundungen = {
   "1": "https://finanzamt-bw.fv-bwl.de/site/pbs-bw-fa2/get/documents_E2061130658/finanzaemter/Formulare/Steuerzahlung%20Lastschrifteinzug/sonstige/CORONA%20Steuererleichterungen%20aufgrund%20der%20Auswirkungen%20des%20Coronavirus.pdf",
-  "2": "https://www.finanzamt.bayern.de/Informationen/Formulare/Steuerzahlung/Steuererleichterungen_aufgrund_der_Auswirkungen_des_Coronavirus.pdf",
+  "2": "https://www.finanzamt.bayern.de/Informationen/download.php?url=Informationen/Steuerinfos/Weitere_Themen/Coronavirus/Anleitung_USt-SVZ.pdf",
   "3": "https://www.berlin.de/sen/finanzen/steuern/informationen-fuer-steuerzahler-/artikel.910208.php",
   "4": "https://mdfe.brandenburg.de/media_fast/4055/Steuererleichterungen_wegen_Auswirkungen_des_Coronavirus_25-03-2020.pdf",
-  "5": "https://www.finanzen.bremen.de/detail.php?gsid=bremen53.c.78075.de",
+  "5": "https://www.finanzen.bremen.de/sixcms/media.php/13/Antrag%20Steuererleichterung%20Coronavirus%20mit%20USt-VZFormular.pdf",
   "6": "https://www.hamburg.de/fb/formulare/",
   "7": "https://finanzen.hessen.de/sites/default/files/media/hmdf/faq_zum_thema_steuern_-_ergaenzende_antragshilfe.pdf",
   "8": "https://www.steuerportal-mv.de/static/Regierungsportal/Finanzministerium/Steuerportal/Inhalte/Formular%20Steuererleichterung%20-%20Steuerportal.pdf",
