@@ -134,7 +134,7 @@
     </p>
     <p class="text-center">
       Falls Sie glauben, dass ein Förderprogramm fehlt, wenden Sie sich bitte an unser Team: <a
-            href="mailto:wirbleibenliquide@gmail.com">wirbleibenliquide@gmail.com</a>
+            href="mailto:hallo@wir-bleiben-liqui.de">hallo@wir-bleiben-liqui.de</a>
     </p>
   </div>
 </div>
