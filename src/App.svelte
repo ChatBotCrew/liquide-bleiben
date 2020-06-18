@@ -163,7 +163,24 @@
       <Progress progress={$progress} />
     </div>
   {/if}
+  
   {#if currentStep === 6}
+    <div class="fullpage">
+      <div class="input-wrapper" in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
+        Mein Unternehmen hat eine Bilanzsumme von
+        <input class="main-input" bind:value={selection.totalAssets} style="width: 100px;" placeholder="XX" type="number" min="0" max="999" />€
+        <div class="help-text">
+          Sollte Ihr Unternehmen keine Bilanz aufstellen, tragen Sie bitte eine "0" ein.
+        </div>
+      </div>
+      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
+        <button class="next" on:click={back}>Zurück</button>
+        <button class="next" on:click={next} disabled={selection.totalAssets === null || selection.totalAssets < 0}>Weiter</button>
+      </div>
+      <Progress progress={$progress} />
+    </div>
+  {/if}
+  {#if currentStep === 7}
     <div in:fly={{ x: flyDirection(), duration: 1500 }} out:fly={{ x: -flyDirection(), duration: 1500 }}>
       <Results {selection} />
     </div>
