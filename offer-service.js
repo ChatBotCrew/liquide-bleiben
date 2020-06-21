@@ -6,7 +6,8 @@ const FIELD_IDS = {
   MIN_SALES: 10011,
   MAX_SALES: 10012,
   MIN_EMPLOYEES: 10013,
-  MAX_EMPLOYEES: 10014
+  MAX_EMPLOYEES: 10014,
+  MAX_TOTAL_ASSETS: 10015
 };
 
 /**
@@ -31,13 +32,16 @@ function filterOffers(filterParams) {
       return !tradeField.values.find(val => val.id == filterParams.trade)
     });
   }
-
+  
   if (filterParams.age) {
     filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, FIELD_IDS.MIN_AGE, FIELD_IDS.MAX_AGE, filterParams.age));
   }
 
   if (filterParams.sales) {
-    filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, FIELD_IDS.MIN_SALES, FIELD_IDS.MAX_SALES, filterParams.sales));
+    filteredOffers = filteredOffers.filter(off => {
+      return minMaxFilter(off.fields, FIELD_IDS.MIN_SALES, FIELD_IDS.MAX_SALES, filterParams.sales) ||
+      maxFilter(off.fields, FIELD_IDS.MAX_TOTAL_ASSETS, filterParams.totalAssets)
+    });
   }
 
   if (filterParams.employees) {
@@ -47,6 +51,11 @@ function filterOffers(filterParams) {
   return filteredOffers;
 }
 
+function maxFilter(rowFields, maxId, filterValue) {
+  const maxField = rowFields.find(field => field.fieldId === maxId);
+  if (!maxField) return false;
+  return maxField.value >= filterValue;
+}
 /**
  * Filter an by comparing a filter parameter integer value with the lower and upper bounds for a funding program
  * @param {any[]} rowFields list of fields which includes the specified IDs
