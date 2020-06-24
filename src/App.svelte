@@ -194,7 +194,7 @@
         <a on:click={optout} class="ga-optout">X</a>
       </div>
     {/if}
-    {#if currentStep !== 6}
+    {#if currentStep < 7}
       <a
         class="logo-link"
         out:send={{ duration: 1000, key: 'logo' }}
@@ -401,6 +401,7 @@
           Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig
           sind, damit wir Ihnen genauere Vorschläge machen können." /> -->
           <select class="main-input" value={selection.sales} on:change="{(e) => {selection.sales = +e.target.value}}">
+            <option disabled default value={null}>bitte wählen</option>
             {#each salesOptions as salesOption}
               <option value={salesOption.value}>{salesOption.text}</option>
             {/each}
@@ -443,6 +444,7 @@
           Mein Unternehmen hat eine Bilanzsumme von
           
           <select class="main-input" value={selection.totalAssets} on:change="{(e) => {selection.totalAssets = +e.target.value}}">
+            <option disabled default selected={!selection.totalAssets} value={null}>bitte wählen</option>
             {#each totalAssetsOptions as totalAssetsOption}
               <option value={totalAssetsOption.value}>{totalAssetsOption.text}</option>
             {/each}
