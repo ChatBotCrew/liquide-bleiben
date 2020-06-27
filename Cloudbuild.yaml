@@ -1,6 +1,11 @@
 steps:
+  # Get the codebeamer api token from the Google Cloud Secret Manager
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: 'bash'
+    args: [ '-c', 'gcloud secrets versions access latest --secret=CB_AUTH > cb_auth.txt' ]
+  # Build the Docker Container Image
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '--build-arg', 'CB_AUTH=CB_AUTH', '-t', 'gcr.io/$PROJECT_ID/finder', '.' ]
+    args: [ 'build', '--build-arg', 'CB_AUTH=$(cat cb_auth.txt)', '-t', 'gcr.io/$PROJECT_ID/finder', '.' ]
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
