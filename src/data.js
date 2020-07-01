@@ -56,13 +56,13 @@ export const weitereInfos = {
 
 export const help = {
   Darlehen: {
-    link: "https://wir-bleiben-liqui.de/tag/foerderkredit/"
+    link: "https://www.wir-bleiben-liquide.de/blog"
   },
   Zuschuss: {
-    link: "https://wir-bleiben-liqui.de/tag/zuschuss/",
+    link: "https://www.wir-bleiben-liquide.de/blog",
   },
   "Bürgschaft": {
-    link: "https://wir-bleiben-liqui.de/tag/buergschaft/"
+    link: "https://www.wir-bleiben-liquide.de/blog"
   },
   Kurzarbeit: {
     link: "https://www.arbeitsagentur.de/unternehmen/finanziell/kurzarbeitergeld-bei-entgeltausfall"
