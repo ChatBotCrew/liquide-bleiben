@@ -10,6 +10,11 @@ Diese App kann unter [finder.wir-bleiben-liqui.de](https://finder.wir-bleiben-li
 
 ## Get into development
 
+![Build Docker image](https://github.com/christoph-metzger/liquide-bleiben/workflows/Build%20Docker%20image/badge.svg)
+![Node.js Build](https://github.com/christoph-metzger/liquide-bleiben/workflows/Node.js%20CI/badge.svg)
+
+### Local development without Docker
+
 Install the dependencies...
 
 ```bash
@@ -48,6 +53,32 @@ Run the start command as follows to include those:
 ```bash
 CB_BASIC_AUTH=YOUR_AUTH_HERE npm run dev:server
 ```
+
+### Local development wit Docker
+
+Use the checked in `.env.template` file.
+```bash
+cp .env.template .env
+```
+Set up your environment variables in the `.env` file.
+
+Start the Docker compose setup.
+
+```bash
+docker-compose up --build -d
+```
+
+* liquide-bleiben: [localhost:8080](http://localhost:8080)
+* chatbot (foerderike): [localhost:8085/foerderike](http://localhost:8085/foerderike)
+
+There's a file mapping between the local repository and the Docker containers.
+For details see `docker-compose.yaml`
+Shutdown the docker environment with:
+
+```bash
+docker-compose down -v
+```
+
 
 ## Building and running in production mode
 

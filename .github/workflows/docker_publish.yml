@@ -1,0 +1,40 @@
+name: Build and publish Docker containers to GH registry.
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+env:
+  IMAGE_NAME_LIQUIDE_BLEIBEN: liquide-bleiben
+  IMAGE_NAME_CHATBOT: chatbot
+  TAGS: latest, ${{ github.GITHUB_SHA }}
+
+jobs:
+  liquide_bleiben_container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@2.14
+        with:
+          name: ${{ github.repository }}/liquide-bleiben
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: "${{ env.TAGS }}"
+
+  chatbot_container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@2.14
+        with:
+          name: ${{ github.repository }}/chatbot
+          context: chatbot
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: "${{ env.TAGS }}"

@@ -1,0 +1,42 @@
+name: Linters
+
+on: push
+
+jobs:
+  js-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Run linters (eslint)
+        uses: samuelmeuli/lint-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Enable linters
+          eslint: true
+          # TODO: Discuss application of prettier
+          #       --> add Prettier to `package.json`
+          #prettier: true
+
+  docker-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout out Git repository
+        uses: actions/checkout@v2
+
+      - name: Lint Dockerfiles
+        uses: luke142367/Docker-Lint-Action@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET: Dockerfile chatbot/Dockerfile

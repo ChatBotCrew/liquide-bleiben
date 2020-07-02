@@ -1,0 +1,16 @@
+name: Check and pdate Dockerfiles
+
+on:
+  schedule:
+    - cron:  '45 15 * * *'
+jobs:
+  deploy:
+    name: Update Dockerfiles
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@master
+      - name: Update Dockerfiles
+        uses: ludeeus/dockerfile-updater@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
