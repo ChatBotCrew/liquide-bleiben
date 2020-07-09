@@ -189,6 +189,33 @@
     justify-content: center;
   }
   }
+  /* .ol {
+    background-color: grey;
+  }
+  .ol li {
+    background-color: green;
+  } */
+  
+  .ol li span {
+    width: 20px;
+    display: inline-block;
+  }
+  .ol li span:first-child {
+    width: calc(50% - 10px);
+    display: inline-block;
+    text-align: right;
+  }
+  .ol li span:last-child {
+    width: calc(50% - 10px);
+    display: inline-block;
+    text-align: left;
+  }
+  .ol i {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    font-style: normal;
+  }
 </style>
 
 <header>
@@ -356,15 +383,14 @@
             type="number" />
           Beschäftigte (Vollzeitäquivalente, VZÄ)
           <div class="help-text">
-            Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ:
-            <ol type="i">
-              <li>Mitarbeiter:innen auf 450 Euro-Basis = Faktor 0,3</li>
-              <li>Mitarbeiter:innen bis 20 Stunden = Faktor 0,5</li>
-              <li>Mitarbeiter:innen bis 30 Stunden = Faktor 0,75</li>
-              <li>Mitarbeiter:innen über 30 Stunden = Faktor 1</li>
+            Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ für Mitarbeiter:innen:
+            <ol type="i" class="ol">
+              <li><span> 450 Euro-Basis</span><span class="equals">=</span><span>Faktor <i>0,3</i></span></li>
+              <li><span> bis 20 Stunden</span><span class="equals">=</span><span>Faktor <i>0,5</i></span></li>
+              <li><span> bis 30 Stunden</span><span class="equals">=</span><span>Faktor <i>0,75</i></span></li>
+              <li><span>über 30 Stunden</span><span class="equals">=</span><span>Faktor <i>1</i></span></li>
             </ol>
-            Solltest du keine Mitarbeiter:innen haben und ein:e
-            Solo-Unternehmer:in sein, trage bitte eine "0" ein.
+            Als Solo-Unternehmer:in ohne Mitarbeiter:innen, trage bitte eine "0" ein.<br>
             <b>Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden.</b>
           </div>
         </div>
