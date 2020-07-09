@@ -173,20 +173,29 @@
 
   header {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
   .logo {
     display: block;
-    width: 300px;
-    padding-top: 32px;
+    width: 200px;
+    padding: 16px;
   }
-  @media (max-width: 400px) {
+  @media (min-width: 660px) AND (min-height: 730px) {
     .logo {
-      width: 200px;
+      width: 300px;
+      padding: 32px;
     }
+    header {
+    justify-content: center;
+  }
   }
 </style>
 
+<header>
+  <a href="https://wir-bleiben-liqui.de" class="logo">
+    <img src="/logo.svg" alt="Wir bleiben liquide" />
+  </a>
+</header>
 {#if $initialSelection}
   <main>
     {#if $cookiesAllowed === null}
@@ -201,19 +210,14 @@
             .
           </div>
           <div>
-            Klicke auf "Ich stimme zu", um Cookies zu akzeptieren und
-            direkt unsere Website besuchen zu können.
+            Klicke auf "Ich stimme zu", um Cookies zu akzeptieren und direkt
+            unsere Website besuchen zu können.
           </div>
         </div>
         <button class="ga-optin" on:click={optin}>Ich stimme zu</button>
         <a on:click={optout} class="ga-optout">X</a>
       </div>
     {/if}
-    <header>
-      <a href="https://wir-bleiben-liqui.de" class="logo">
-        <img src="/logo.svg" alt="Wir bleiben liquide" />
-      </a>
-    </header>
     {#if currentStep === 0}
       <div class="fullpage">
         <p
@@ -257,8 +261,8 @@
           bind:value={selection.state}
           options={$bundeslaender}
           help="Hiermit können wir dir helfen die Programme aus deinem
-          Bundesland für dich zu finden. Bitte wähle das Bundesland aus, in
-          dem der Sitz deines Unternehmens ist." />
+          Bundesland für dich zu finden. Bitte wähle das Bundesland aus, in dem
+          der Sitz deines Unternehmens ist." />
         <div
           class="next-button-wrapper"
           out:send={{ duration: 500, key: 'buttons' }}
@@ -281,8 +285,8 @@
           bind:value={selection.trade}
           options={$gewerbe}
           help="Für einige Branchen gibt es spezielle Förder- und
-          Hilfsprogramme. Lass uns wissen in welcher Branche du tätig
-          bist, damit wir dir genauere Vorschläge machen können." />
+          Hilfsprogramme. Lass uns wissen in welcher Branche du tätig bist,
+          damit wir dir genauere Vorschläge machen können." />
         <div
           class="next-button-wrapper"
           out:send={{ duration: 500, key: 'buttons' }}
@@ -316,9 +320,9 @@
           Jahre alt
           <div class="help-text">
             Für junge und bereits etablierte Unternehmen gibt es oft
-            unterschiedliche Förderprogramme. Lass uns wissen seit
-            wie vielen Jahren es dein Unternehmen bereits gibt und wir suchen für
-            dich die passenden Angebote.
+            unterschiedliche Förderprogramme. Lass uns wissen seit wie vielen
+            Jahren es dein Unternehmen bereits gibt und wir suchen für dich die
+            passenden Angebote.
           </div>
         </div>
         <div
@@ -416,8 +420,8 @@
             type="number" /> -->
           <div class="help-text">
             Je nach Umsatz deines Unternehmens gibt es unterschiedliche
-            Förderprogramme, lass uns den Umsatz des letzten Jahres
-            wissen, damit wir die für dich passensten Programme finden können.
+            Förderprogramme, lass uns den Umsatz des letzten Jahres wissen,
+            damit wir die für dich passensten Programme finden können.
           </div>
         </div>
         <div
@@ -464,7 +468,8 @@
           </select>
           Millionen €
           <div class="help-text">
-            Sollte dein Unternehmen keine Bilanz aufstellen, wähle bitte "0 - 1".
+            Sollte dein Unternehmen keine Bilanz aufstellen, wähle bitte "0 -
+            1".
           </div>
         </div>
         <div
