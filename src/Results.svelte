@@ -65,8 +65,14 @@
 
 <style type="text/scss">
   .container-fluid {
-    height: calc(100vh - 75px);
+    height: calc(100vh - 160px);
     overflow-y: scroll;
+  }
+  @media (min-width: 660px) AND (min-height: 730px) {
+    .container-fluid {
+      height: calc(100vh - 234px);
+      overflow-y: scroll;
+    }
   }
 
   .nav {
@@ -123,8 +129,8 @@
       </p>
       <button on:click={copyToClipboard(pageUrl)}>Link speichern</button>
       <p class="text-center">
-        Falls du glaubst, dass ein Förderprogramm fehlt, wenden dich bitte
-        an unser Team:
+        Falls du glaubst, dass ein Förderprogramm fehlt, wenden dich bitte an
+        unser Team:
         <br />
         <a href="mailto:hallo@wir-bleiben-liqui.de">
           hallo@wir-bleiben-liqui.de
