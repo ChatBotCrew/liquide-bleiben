@@ -13,7 +13,7 @@ var foerderike_steps = [
         {"id": "legal",
         "ui_type": "selection_single",
         "text": "Ist dein Unternehmen eine Personen- oder Kapitalgesellschaft?",
-        "hint": "Sie sind eine Kapitalgesellschaft, wenn Sie die Rechtsform einer GmbH, UG, AG oder KGaA innehaben. Andernfalls sind Sie den Personengesellschaften zuzuordnen.",
+        "hint": "Du bist eine Kapitalgesellschaft, wenn du die Rechtsform einer GmbH, UG, AG oder KGaA innehast. Andernfalls bist du den Personengesellschaften zuzuordnen.",
         "answers": ["Kapitalgesellschaft", "Personengesellschaft"],
         "next_step": {"Kapitalgesellschaft": "documents_corporation", "Personengesellschaft": "documents_partnership"}},
         

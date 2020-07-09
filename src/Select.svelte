@@ -9,7 +9,7 @@
   export let categoryName;
 </script>
 
-<div class="select-wrapper" in:fly={{ x: 1000 * $lastStep, duration: 1500 }} out:fly={{ x: -1000 * $lastStep , duration: 1500 }}>
+<div class="select-wrapper" in:fly={{ x: 1000 * $lastStep, duration: 500 }} out:fly={{ x: -1000 * $lastStep , duration: 500 }}>
   <select class="main-input" bind:value>
     <option disabled selected={!value} value={null}>{categoryName} wählen</option>
     {#each options as option}

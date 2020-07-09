@@ -16,21 +16,21 @@
   let selection = null;
 
   let salesOptions = [
-    {text: '0 - 2', value: 1000000},
-    {text: '2 - 5', value: 3500000},
-    {text: '5 - 10', value: 7500000},
-    {text: '10 - 50', value: 30000000},
-    {text: '50 - 500', value: 275000000},
-    {text: 'mehr als 500', value: 6000000},
+    { text: "0 - 2", value: 1000000 },
+    { text: "2 - 5", value: 3500000 },
+    { text: "5 - 10", value: 7500000 },
+    { text: "10 - 50", value: 30000000 },
+    { text: "50 - 500", value: 275000000 },
+    { text: "mehr als 500", value: 6000000 }
   ];
   let totalAssetsOptions = [
-    {text: '0 - 1', value: 500000},
-    {text: '1 - 2', value: 1500000},
-    {text: '2 - 10', value: 600000},
-    {text: '10 - 20', value: 15000000},
-    {text: '20 - 43', value: 31500000},
-    {text: 'mehr als 43', value: 50000000},
-  ]//1,2,10,20,43, unendlich
+    { text: "0 - 1", value: 500000 },
+    { text: "1 - 2", value: 1500000 },
+    { text: "2 - 10", value: 600000 },
+    { text: "10 - 20", value: 15000000 },
+    { text: "20 - 43", value: 31500000 },
+    { text: "mehr als 43", value: 50000000 }
+  ]; //1,2,10,20,43, unendlich
   initialSelection.subscribe(s => {
     selection = s;
   });
@@ -170,23 +170,38 @@
   .ga-optout {
     cursor: pointer;
   }
+
+  header {
+    display: flex;
+    justify-content: center;
+  }
+  .logo {
+    display: block;
+    width: 300px;
+    padding-top: 32px;
+  }
+  @media (max-width: 400px) {
+    .logo {
+      width: 200px;
+    }
+  }
 </style>
 
 {#if $initialSelection}
   <main>
     {#if $cookiesAllowed === null}
-      <div class="cookies-banner" transition:fly={{ y: 100, duration: 1500 }}>
+      <div class="cookies-banner" transition:fly={{ y: 100, duration: 500 }}>
         <div>
           <div>
             Diese Website verwendet Cookies – nähere Informationen dazu und zu
-            Ihren Rechten als Benutzer finden Sie in unserer
+            deinen Rechten als Benutzer findest du in unserer
             <a href="https://wir-bleiben-liqui.de/datenschutz/">
               Datenschutzerklärung
             </a>
             .
           </div>
           <div>
-            Klicken Sie auf "Ich stimme zu", um Cookies zu akzeptieren und
+            Klicke auf "Ich stimme zu", um Cookies zu akzeptieren und
             direkt unsere Website besuchen zu können.
           </div>
         </div>
@@ -194,21 +209,17 @@
         <a on:click={optout} class="ga-optout">X</a>
       </div>
     {/if}
-    {#if currentStep < 7}
-      <a
-        class="logo-link"
-        out:send={{ duration: 1000, key: 'logo' }}
-        in:receive={{ duration: 1000, key: 'logo' }}
-        href="https://wir-bleiben-liqui.de">
-        <img class="logo" src="/logo.png" alt="Wir bleiben liquide" />
+    <header>
+      <a href="https://wir-bleiben-liqui.de" class="logo">
+        <img src="/logo.svg" alt="Wir bleiben liquide" />
       </a>
-    {/if}
+    </header>
     {#if currentStep === 0}
       <div class="fullpage">
         <p
           class="input-wrapper disclaimer"
-          in:fly={{ x: flyDirection(), duration: 1500 }}
-          out:fly={{ x: -flyDirection(), duration: 1500 }}>
+          in:fly={{ x: flyDirection(), duration: 500 }}
+          out:fly={{ x: -flyDirection(), duration: 500 }}>
           <a target="_blank" href="wir-bleiben-liqui.de">
             wir-bleiben-liqui.de
           </a>
@@ -228,8 +239,8 @@
         </p>
         <div
           class="next-button-wrapper wide-buttons"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           {#if Object.entries(selection).filter(([k, v]) => v !== null).length}
             <button on:click={seeResults}>Akzeptieren</button>
             <button on:click={next}>Akzeptieren & Kriterien anpassen</button>
@@ -245,13 +256,13 @@
           categoryName="Bundesland"
           bind:value={selection.state}
           options={$bundeslaender}
-          help="Hiermit können wir Ihnen helfen die Programme aus Ihrem
-          Bundesland für Sie zu finden. Bitte wählen Sie das Bundesland aus, in
-          dem der Sitz Ihres Unternehmens ist." />
+          help="Hiermit können wir dir helfen die Programme aus deinem
+          Bundesland für dich zu finden. Bitte wähle das Bundesland aus, in
+          dem der Sitz deines Unternehmens ist." />
         <div
           class="next-button-wrapper"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           <button class="next" on:click={back}>Zurück</button>
           <button
             class="next"
@@ -270,12 +281,12 @@
           bind:value={selection.trade}
           options={$gewerbe}
           help="Für einige Branchen gibt es spezielle Förder- und
-          Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig
-          sind, damit wir Ihnen genauere Vorschläge machen können." />
+          Hilfsprogramme. Lass uns wissen in welcher Branche du tätig
+          bist, damit wir dir genauere Vorschläge machen können." />
         <div
           class="next-button-wrapper"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           <button class="next" on:click={back}>Zurück</button>
           <button
             class="next"
@@ -291,8 +302,8 @@
       <div class="fullpage">
         <div
           class="input-wrapper"
-          in:fly={{ x: flyDirection(), duration: 1500 }}
-          out:fly={{ x: -flyDirection(), duration: 1500 }}>
+          in:fly={{ x: flyDirection(), duration: 500 }}
+          out:fly={{ x: -flyDirection(), duration: 500 }}>
           Mein Unternehmen ist
           <input
             class="main-input"
@@ -305,15 +316,15 @@
           Jahre alt
           <div class="help-text">
             Für junge und bereits etablierte Unternehmen gibt es oft
-            unterschiedliche Förderprogramme. Lassen Sie uns wissen seit
-            wievielen Jahren es Ihr Unternehmen bereits gibt und wir suchen für
-            Sie die passenden Angebote.
+            unterschiedliche Förderprogramme. Lass uns wissen seit
+            wie vielen Jahren es dein Unternehmen bereits gibt und wir suchen für
+            dich die passenden Angebote.
           </div>
         </div>
         <div
           class="next-button-wrapper"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           <button class="next" on:click={back}>Zurück</button>
           <button
             class="next"
@@ -325,28 +336,12 @@
         <Progress progress={$progress} />
       </div>
     {/if}
-    <!-- Temporarily remove legal question during rework -->
-    <!-- {#if currentStep === 4}
-    <div class="fullpage">
-      <Select
-        categoryName="Rechtsform"
-        bind:value={selection.legal}
-        options={$rechtsformen}
-        help="Je nach Rechtsform Ihres Unternehmen werden Sie unterschiedliche Unterlagen benötigen. Sollten Sie sich nicht sicher sein, sind Sie wahrscheinlich ein:e Einzelunternehmer:in oder wenn Sie mit mehreren Personen ein Unternehmen gegründet haben, sind Sie wahrscheinlich eine GbR."
-      />
-      <div class="next-button-wrapper" out:send="{{ duration: 1000, key: 'buttons' }}" in:receive="{{ duration: 1000, key: 'buttons' }}">
-        <button class="next" on:click={back}>Zurück</button>
-        <button class="next" on:click={next} disabled={!selection.legal}>Weiter</button>
-      </div>
-      <Progress progress={$progress} />
-    </div>
-  {/if} -->
     {#if currentStep === 4}
       <div class="fullpage">
         <div
           class="input-wrapper"
-          in:fly={{ x: flyDirection(), duration: 1500 }}
-          out:fly={{ x: -flyDirection(), duration: 1500 }}>
+          in:fly={{ x: flyDirection(), duration: 500 }}
+          out:fly={{ x: -flyDirection(), duration: 500 }}>
           Mein Unternehmen hat
           <input
             class="main-input"
@@ -364,15 +359,15 @@
               <li>Mitarbeiter:innen bis 30 Stunden = Faktor 0,75</li>
               <li>Mitarbeiter:innen über 30 Stunden = Faktor 1</li>
             </ol>
-            Sollten Sie keine Mitarbeiter:innen haben und ein:e
-            Solo-Unternehmer:in sein, tragen Sie bitte eine "0" ein.
+            Solltest du keine Mitarbeiter:innen haben und ein:e
+            Solo-Unternehmer:in sein, trage bitte eine "0" ein.
             <b>Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden.</b>
           </div>
         </div>
         <div
           class="next-button-wrapper"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           <button class="next" on:click={back}>Zurück</button>
           <button
             class="next"
@@ -388,8 +383,8 @@
       <div class="fullpage">
         <div
           class="input-wrapper"
-          in:fly={{ x: flyDirection(), duration: 1500 }}
-          out:fly={{ x: -flyDirection(), duration: 1500 }}>
+          in:fly={{ x: flyDirection(), duration: 500 }}
+          out:fly={{ x: -flyDirection(), duration: 500 }}>
           Mein Unternehmen hatte 2019
           <br />
           einen Umsatz von
@@ -400,12 +395,18 @@
           help="Für einige Branchen gibt es spezielle Förder- und
           Hilfsprogramme. Lassen Sie uns wissen in welcher Branche Sie tätig
           sind, damit wir Ihnen genauere Vorschläge machen können." /> -->
-          <select class="main-input" value={selection.sales} on:change="{(e) => {selection.sales = +e.target.value}}">
+          <select
+            class="main-input"
+            value={selection.sales}
+            on:change={e => {
+              selection.sales = +e.target.value;
+            }}>
             <option disabled default value={null}>bitte wählen</option>
             {#each salesOptions as salesOption}
               <option value={salesOption.value}>{salesOption.text}</option>
             {/each}
-          </select> Millionen €
+          </select>
+          Millionen €
           <!-- <input
             class="main-input"
             bind:value={selection.sales}
@@ -414,15 +415,15 @@
             min="0"
             type="number" /> -->
           <div class="help-text">
-            Je nach Umsatz Ihres Unternehmens gibt es unterschiedliche
-            Förderprogramme, lassen Sie uns den Umsatz des letzten Jahres
-            wissen, damit wir die für Sie passenden Programme finden können.
+            Je nach Umsatz deines Unternehmens gibt es unterschiedliche
+            Förderprogramme, lass uns den Umsatz des letzten Jahres
+            wissen, damit wir die für dich passensten Programme finden können.
           </div>
         </div>
         <div
           class="next-button-wrapper"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           <button class="next" on:click={back}>Zurück</button>
           <button
             class="next"
@@ -439,34 +440,37 @@
       <div class="fullpage">
         <div
           class="input-wrapper"
-          in:fly={{ x: flyDirection(), duration: 1500 }}
-          out:fly={{ x: -flyDirection(), duration: 1500 }}>
+          in:fly={{ x: flyDirection(), duration: 500 }}
+          out:fly={{ x: -flyDirection(), duration: 500 }}>
           Mein Unternehmen hat eine Bilanzsumme von
-          
-          <select class="main-input" value={selection.totalAssets} on:change="{(e) => {selection.totalAssets = +e.target.value}}">
-            <option disabled default selected={!selection.totalAssets} value={null}>bitte wählen</option>
+          <select
+            class="main-input"
+            value={selection.totalAssets}
+            on:change={e => {
+              selection.totalAssets = +e.target.value;
+            }}>
+            <option
+              disabled
+              default
+              selected={!selection.totalAssets}
+              value={null}>
+              bitte wählen
+            </option>
             {#each totalAssetsOptions as totalAssetsOption}
-              <option value={totalAssetsOption.value}>{totalAssetsOption.text}</option>
+              <option value={totalAssetsOption.value}>
+                {totalAssetsOption.text}
+              </option>
             {/each}
           </select>
-          <!-- <input
-            class="main-input"
-            bind:value={selection.totalAssets}
-            style="width: 300px;"
-            placeholder="XX"
-            type="number"
-            min="0"
-            max="999" /> -->
           Millionen €
           <div class="help-text">
-            Sollte Ihr Unternehmen keine Bilanz aufstellen, tragen Sie bitte
-            eine "0" ein.
+            Sollte dein Unternehmen keine Bilanz aufstellen, wähle bitte "0 - 1".
           </div>
         </div>
         <div
           class="next-button-wrapper"
-          out:send={{ duration: 1000, key: 'buttons' }}
-          in:receive={{ duration: 1000, key: 'buttons' }}>
+          out:send={{ duration: 500, key: 'buttons' }}
+          in:receive={{ duration: 500, key: 'buttons' }}>
           <button class="next" on:click={back}>Zurück</button>
           <button
             class="next"
@@ -480,15 +484,15 @@
     {/if}
     {#if currentStep === 7}
       <div
-        in:fly={{ x: flyDirection(), duration: 1500 }}
-        out:fly={{ x: -flyDirection(), duration: 1500 }}>
+        in:fly={{ x: flyDirection(), duration: 500 }}
+        out:fly={{ x: -flyDirection(), duration: 500 }}>
         <Results {selection} />
       </div>
       <button
         class="change-inputs"
         on:click={toFirstStep}
-        out:send={{ duration: 1000, key: 'buttons' }}
-        in:receive={{ duration: 1000, key: 'buttons' }}>
+        out:send={{ duration: 500, key: 'buttons' }}
+        in:receive={{ duration: 500, key: 'buttons' }}>
         Zurück zum Finder
       </button>
     {/if}

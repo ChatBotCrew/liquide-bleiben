@@ -80,7 +80,7 @@
   }
 
   .divider {
-    border-bottom: #2CFFA2 2px solid;
+    border-bottom: #007d8c 2px solid;
     width: 33%;
     margin-top: 0.5rem;
   }
@@ -115,5 +115,9 @@
     .key {
       display: block;
     }
+  }
+  
+  button:focus {
+    outline: none;
   }
 </style>
