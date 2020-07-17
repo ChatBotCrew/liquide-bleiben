@@ -14,6 +14,18 @@
   let progress = tweened(currentStep);
 
   let selection = null;
+  let calculatorVisible = false;
+  let calculatorContent = [null, null, null, null];
+  const nullIs0 = val => (val == null ? 0 : val);
+  const changeCalculator = () => {
+    selection.employees = Math.ceil(
+      nullIs0(calculatorContent[0]) * 0.3 +
+        nullIs0(calculatorContent[1]) * 0.5 +
+        nullIs0(calculatorContent[2]) * 0.75 +
+        nullIs0(calculatorContent[3])
+    );
+    calculatorVisible = false;
+  };
 
   let salesOptions = [
     { text: "0 - 2", value: 1000000 },
@@ -180,14 +192,14 @@
     width: 200px;
     padding: 16px;
   }
-  @media (min-width: 660px) AND (min-height: 730px) {
+  @media (min-width: 660px) AND (min-height: 820px) {
     .logo {
       width: 300px;
       padding: 32px;
     }
     header {
-    justify-content: center;
-  }
+      justify-content: center;
+    }
   }
   /* .ol {
     background-color: grey;
@@ -195,26 +207,88 @@
   .ol li {
     background-color: green;
   } */
-  
-  .ol li span {
+  .calculator {
+    position: relative;
+    padding: 16px;
+    background-color: #e2edef;
+    border-radius: 8px;
+  }
+  .calculator ul {
+    list-style: none;
+    padding: 0;
+  }
+  .calculator li.input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .calculator input {
+    width: 50%;
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+  .calculator button:not(.cancel) {
+    width: 100%;
+  }
+  .calculator button.cancel {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    background: none;
+    border: none;
+  }
+  .calculator button.cancel img {
+    height: 24px;
+  }
+  .calculator li b {
+    margin-bottom: 16px;
+    display: block;
+  }
+  .factor-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  .factor-list li span.equals {
     width: 20px;
     display: inline-block;
   }
-  .ol li span:first-child {
-    width: calc(50% - 10px);
+  .factor-list span:first-child {
+    width: calc(50% - 16px);
     display: inline-block;
     text-align: right;
   }
-  .ol li span:last-child {
-    width: calc(50% - 10px);
+  .factor-list span:last-child {
+    width: calc(50% - 16px);
     display: inline-block;
     text-align: left;
   }
-  .ol i {
+  .factor-list i {
     display: inline-block;
     width: 30px;
     text-align: center;
     font-style: normal;
+  }
+  @media (max-width: 659px) {
+    .calculator {
+      width: 100%;
+      padding: 0;
+    }
+    .calculator li {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .calculator input {
+      margin-bottom: 0px;
+    }
+    .calculator span {
+      display: block;
+      margin: 8px 0 16px 0;
+      width: 100%;
+    }
+
+    .calculator li b {
+      text-align: left;
+    }
   }
 </style>
 
@@ -373,26 +447,126 @@
           class="input-wrapper"
           in:fly={{ x: flyDirection(), duration: 500 }}
           out:fly={{ x: -flyDirection(), duration: 500 }}>
-          Mein Unternehmen hat
-          <input
-            class="main-input"
-            bind:value={selection.employees}
-            style="width: 150px;"
-            placeholder="XX"
-            min="0"
-            type="number" />
-          Beschäftigte (Vollzeitäquivalente, VZÄ)
-          <div class="help-text">
-            Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ für Mitarbeiter:innen:
-            <ol type="i" class="ol">
-              <li><span> 450 Euro-Basis</span><span class="equals">=</span><span>Faktor <i>0,3</i></span></li>
+          {#if !calculatorVisible}
+            Mein Unternehmen hat
+            <input
+              class="main-input"
+              bind:value={selection.employees}
+              style="width: 150px;"
+              placeholder="XX"
+              min="0"
+              type="number" />
+            Beschäftigte (Vollzeitäquivalente, VZÄ)
+            <div class="help-text">
+              Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ für
+              Mitarbeiter:innen:
+              <ol class="factor-list">
+                <li>
+                  <span>450 Euro-Basis</span>
+                  <span class="equals">=</span>
+                  <span>
+                    Faktor
+                    <i>0,3</i>
+                  </span>
+                </li>
+                <li>
+                  <span>bis 20 Stunden</span>
+                  <span class="equals">=</span>
+                  <span>
+                    Faktor
+                    <i>0,5</i>
+                  </span>
+                </li>
+                <li>
+                  <span>bis 30 Stunden</span>
+                  <span class="equals">=</span>
+                  <span>
+                    Faktor
+                    <i>0,75</i>
+                  </span>
+                </li>
+                <li>
+                  <span>über 30 Stunden</span>
+                  <span class="equals">=</span>
+                  <span>
+                    Faktor
+                    <i>1</i>
+                  </span>
+                </li>
+              </ol>
+              <b>
+                Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden
+                <br />
+                und als Solo-Unternehmer:in ohne Mitarbeiter:innen 0 eintragen
+              </b>
+            </div>
+            <button
+              on:click={() => {
+                calculatorVisible = true;
+              }}>
+              VZÄ-Hilfsrechner öffnen
+            </button>
+          {/if}
+          {#if calculatorVisible}
+            <div class="calculator">
+              <ul>
+                <li>
+                  <b>Anzahl der Beschäftigten:</b>
+                </li>
+                <li class="input">
+                  <input
+                    class="main-input"
+                    min="0"
+                    type="number"
+                    placeholder="0"
+                    bind:value={calculatorContent[0]} />
+                  <span>450 Euro-Basis</span>
+                </li>
+                <li class="input">
+                  <input
+                    class="main-input"
+                    min="0"
+                    type="number"
+                    placeholder="0"
+                    bind:value={calculatorContent[1]} />
+                  <span>bis 20 Stunden</span>
+                </li>
+                <li class="input">
+                  <input
+                    class="main-input"
+                    min="0"
+                    type="number"
+                    placeholder="0"
+                    bind:value={calculatorContent[2]} />
+                  <span>bis 30 Stunden</span>
+                </li>
+                <li class="input">
+                  <input
+                    class="main-input"
+                    min="0"
+                    type="number"
+                    placeholder="0"
+                    bind:value={calculatorContent[3]} />
+                  <span>über 30 Stunden</span>
+                </li>
+                <li>
+                  <button on:click={changeCalculator}>Berechnen</button>
+                </li>
+                <!-- <li><span> 450 Euro-Basis</span><span class="equals">=</span><span>Faktor <i>0,3</i></span></li>
               <li><span> bis 20 Stunden</span><span class="equals">=</span><span>Faktor <i>0,5</i></span></li>
               <li><span> bis 30 Stunden</span><span class="equals">=</span><span>Faktor <i>0,75</i></span></li>
-              <li><span>über 30 Stunden</span><span class="equals">=</span><span>Faktor <i>1</i></span></li>
-            </ol>
-            Als Solo-Unternehmer:in ohne Mitarbeiter:innen, trage bitte eine "0" ein.<br>
-            <b>Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden.</b>
-          </div>
+              <li><span>über 30 Stunden</span><span class="equals">=</span><span>Faktor <i>1</i></span></li> -->
+              </ul>
+
+              <button
+                class="cancel"
+                on:click={() => {
+                  calculatorVisible = false;
+                }}>
+                <img src="/close.svg" alt="schließen" />
+              </button>
+            </div>
+          {/if}
         </div>
         <div
           class="next-button-wrapper"
