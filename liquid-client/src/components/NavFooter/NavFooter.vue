@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { NavFooterService, ButtonConfig } from "./NavFooter.service";
+import { ButtonConfig } from "./ButtonConfig.class";
 
 @Component
 export default class NavFooter extends Vue {

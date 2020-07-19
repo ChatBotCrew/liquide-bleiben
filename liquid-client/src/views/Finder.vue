@@ -18,10 +18,9 @@
 
 <script lang="ts">
 // @ is an alias to /src
-import ActionFooter from "../components/ActionFooter/ActionFooter.vue";
 import {
   ButtonConfig
-} from "../components/NavFooter/NavFooter.service";
+} from "../components/NavFooter/ButtonConfig.class";
 import DynamicForm from "../components/DynamicForm.vue";
 import Progress from "../components/Progress.vue";
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
@@ -31,7 +30,6 @@ import URLService from "../shared/services/url.service";
 
 @Component({
   components: {
-    ActionFooter,
     DynamicForm,
     Progress
   }

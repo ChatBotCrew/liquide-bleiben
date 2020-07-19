@@ -15,13 +15,12 @@
         oder die Finanzinstitute selbst konsultiert werden.
       </p>
     </article>
-    <!-- <ActionFooter v-bind:buttons="buttons" v-on:event="action"></ActionFooter> -->
   </div>
 </template>
 
 <script lang="ts">
 // @ is an alias to /src
-import { ButtonConfig } from "../components/NavFooter/NavFooter.service";
+import { ButtonConfig } from "../components/NavFooter/ButtonConfig.class";
 import Progress from "../components/Progress.vue";
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FinderService } from "../shared/services/finder.service";
