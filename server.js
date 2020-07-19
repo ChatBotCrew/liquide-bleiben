@@ -11,7 +11,9 @@ const PORT = process.env.PORT || 8080;
  * Serve the directory "public" statically
  * The directory includes the frontend build
  */
-app.use(express.static('public'));
+app.use('/',express.static('./liquid-client/dist'));
+app.use('/finder',express.static('./liquid-client/dist'));
+app.use('/results',express.static('./liquid-client/dist'));
 
 /**
  * Provide funding programs.
