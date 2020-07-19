@@ -1,0 +1,31 @@
+button.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 16px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: var(--white);
+  background-color: var(--secondary);
+  font-size: 1.5rem;
+  outline: none !important;
+  &:disabled {
+    background-color: var(--grey);
+  }
+  &:hover:not(:disabled) {
+    background-color: var(--dark-secondary);
+  }
+  &:active:not(:disabled) {
+    background-color: var(--darkest-secondary);
+  }
+  &.outline {
+    background-color: var(--white);
+    color: var(--secondary);
+    box-shadow: var(--secondary) inset 0 0 0 2px;
+
+    &:disabled {
+      background-color: var(--lightest-grey);
+      color: var(--grey);
+      box-shadow: var(--grey) inset 0 0 0 2px;
+    }
+  }
+}

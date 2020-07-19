@@ -1,0 +1,15 @@
+#app {
+  font-family: "Fira Sans", sans-serif;
+}
+
+h1 {
+  font-size: var(--h1);
+  font-weight: 400;
+  text-align: center;
+}
+h2 {
+  font-size: calc(var(--h1) * 0.6);
+  font-weight: 400;
+  text-align: center;
+  margin: 0 0 32px 0;
+}
