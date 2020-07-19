@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home container-xs">
     <h1>{{$router.currentRoute.meta.title}}</h1>
     <article>
       <h2>
@@ -15,44 +15,60 @@
         oder die Finanzinstitute selbst konsultiert werden.
       </p>
     </article>
-    <ActionFooter v-bind:buttons="buttons" v-on:event="action"></ActionFooter>
+    <!-- <ActionFooter v-bind:buttons="buttons" v-on:event="action"></ActionFooter> -->
   </div>
 </template>
 
 <script lang="ts">
 // @ is an alias to /src
-import ActionFooter from "../components/ActionFooter/ActionFooter.vue";
+import { ButtonConfig } from "../components/NavFooter/NavFooter.service";
 import Progress from "../components/Progress.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FinderService } from "../shared/services/finder.service";
 
 @Component({
   components: {
-    ActionFooter,
     Progress
   }
 })
 export default class Start extends Vue {
-  public buttons: { name: string; disabled: boolean }[] = [
-    { name: "Akzeptieren", disabled: false },
-    { name: "Akzeptieren & Kriterien anpassen", disabled: false }
+  public buttonsConfig: ButtonConfig[] = [
+    new ButtonConfig("Akzeptieren", false, () => {
+      this.toFinder();
+    })
   ];
-  public action(i: number) {
-    if (i == 0) {
-      FinderService.updateValue("index", null, false);
-      this.$router.push({
-        path: "/results" + FinderService.parseValueToUrl()
-      });
-    } else {
-      FinderService.updateValue("index", 0, false);
-      this.$router.push({
-        path: "/finder" + FinderService.parseValueToUrl()
-      });
-    }
+
+  @Emit("updateStatus")
+  updateStatus(): ButtonConfig[] {
+    return this.buttonsConfig;
+  }
+
+  public toResults(): void {
+    FinderService.updateValue("index", null, false);
+    this.$router.push({
+      path: "/results" + FinderService.parseValueToUrl()
+    });
+  }
+  public toFinder(): void {
+    FinderService.updateValue("index", 0, false);
+    this.$router.push({
+      path: "/finder" + FinderService.parseValueToUrl()
+    });
   }
 
   mounted() {
     FinderService.loadStatusFromUrl();
+    if (FinderService.allValuesExist()) {
+      this.buttonsConfig = [
+        new ButtonConfig("Akzeptieren", false, () => {
+          this.toResults();
+        }),
+        new ButtonConfig("Akzeptieren & Kriterien anpassen", false, () => {
+          this.toFinder();
+        })
+      ];
+    }
+    this.updateStatus();
   }
 }
 </script>
@@ -67,9 +83,6 @@ article {
   padding: 16px;
   box-sizing: border-box;
   margin-bottom: 32px;
-  h2 {
-    text-align: center;
-  }
 }
 @media (min-width: 768px + 20px) {
   // .home {

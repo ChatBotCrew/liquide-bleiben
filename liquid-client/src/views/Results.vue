@@ -8,7 +8,7 @@
 <script lang="ts">
 // @ is an alias to /src
 import ResultList from "../components/ResultList.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FinderService } from "../shared/services/finder.service";
 
 @Component({
@@ -20,6 +20,12 @@ export default class Results extends Vue {
   @Prop() private msg!: string;
   public categories: any[] = [];
   public descriptions: any[] = [];
+
+  @Emit("updateStatus")
+  updateStatus(): [] {
+    return [];
+  }
+
   mounted() {
     FinderService.loadStatusFromUrl();
     let results: any;

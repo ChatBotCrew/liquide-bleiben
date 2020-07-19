@@ -32,7 +32,17 @@ export class FinderService {
   }
   public static getValue(key: string): any {
     return this.values[key];
-
+  }
+  public static allValuesExist() {
+    let condition = true;
+    FinderService.config.forEach( element => {
+      let key = element.config.key;
+      if(FinderService.values[key] == null || FinderService.values[key] == undefined){
+        // TODO: früher abbrechen
+        condition = false;
+      }
+    });
+    return condition;
   }
   public static updateValue(key: string, value: any, doReload: boolean = true) {
     this.values[key] = value;

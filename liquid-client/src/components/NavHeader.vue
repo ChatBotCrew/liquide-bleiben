@@ -50,7 +50,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Navbar extends Vue {
+export default class NavHeader extends Vue {
   $refs: any;
   public isOpen = false;
   public isHidden = false;
