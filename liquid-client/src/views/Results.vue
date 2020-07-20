@@ -10,6 +10,7 @@
 import ResultList from "../components/ResultList.vue";
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FinderService } from "../shared/services/finder.service";
+import { ButtonConfig } from "../components/NavFooter/ButtonConfig.class";
 
 @Component({
   components: {
@@ -21,12 +22,21 @@ export default class Results extends Vue {
   public categories: any[] = [];
   public descriptions: any[] = [];
 
+  backToResults() {
+    FinderService.updateValue("index", 0, false);
+    this.$router.push({
+      path: "/finder" + FinderService.parseValueToUrl()
+    });
+  }
   @Emit("updateStatus")
-  updateStatus(): [] {
-    return [];
+  updateStatus(): ButtonConfig[] {
+    return [new ButtonConfig("Zurück zum Finder", false, () => {
+      this.backToResults();
+    })];
   }
 
   mounted() {
+    this.updateStatus();
     FinderService.loadStatusFromUrl();
     let results: any;
     let descriptions: any;

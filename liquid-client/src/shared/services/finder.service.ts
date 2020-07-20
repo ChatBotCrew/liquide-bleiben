@@ -31,13 +31,16 @@ export class FinderService {
     return '';
   }
   public static getValue(key: string): any {
+    if (!Object.keys(this.values).length) {
+      this.loadStatusFromUrl();
+    }
     return this.values[key];
   }
   public static allValuesExist() {
     let condition = true;
-    FinderService.config.forEach( element => {
+    FinderService.config.forEach(element => {
       let key = element.config.key;
-      if(FinderService.values[key] == null || FinderService.values[key] == undefined){
+      if (FinderService.values[key] == null || FinderService.values[key] == undefined) {
         // TODO: früher abbrechen
         condition = false;
       }
@@ -60,7 +63,7 @@ export class FinderService {
             //throw error
             throw new Error(value + ' ' + key);
           } else {
-            if(!!config.config.transform){
+            if (!!config.config.transform) {
               tmpValues[key] = config.config.transform(value);
             } else {
               tmpValues[key] = value;
@@ -79,15 +82,13 @@ export class FinderService {
   public static getResults(): any {
     let tmpValues = this.transformValues();
     if (tmpValues != null) {
-      return axios.get(location.origin + '/api/offers'+this.parseValueToUrl(tmpValues))
-      // https://finder.wir-bleiben-liqui.de/api/offers?state=4&trade=8&age=2&sales=7500000&employees=3&totalAssets=15000000&lok=false
-
+      return axios.get(location.origin + '/api/offers' + this.parseValueToUrl(tmpValues))
     } else {
       console.log('error');
       return null;
     }
   }
   public static getDescriptions(): any {
-      return axios.get(location.origin + '/api/descriptions');
+    return axios.get(location.origin + '/api/descriptions');
   }
 }

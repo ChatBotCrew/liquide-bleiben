@@ -1,10 +1,10 @@
 <template>
   <div class="dynamic-form">
-    <!-- <VerticalSelect
-      v-if="!!config && config.type == 'select'"
+    <GridSelect
+      v-if="!!config && config.type == 'grid-select'"
       v-bind:config="config"
       v-on:status="getStatus"
-    ></VerticalSelect> -->
+    ></GridSelect>
     <DropDown
       v-if="!!config && config.type == 'select'"
       v-bind:config="config"
@@ -20,13 +20,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import VerticalSelect from "./DynamicForm/VerticalSelect.vue";
+import GridSelect from "./DynamicForm/GridSelect.vue";
 import Input from "./DynamicForm/Input.vue";
 import DropDown from "./DynamicForm/DropDown.vue";
 
 @Component({
   components: {
-    VerticalSelect,
+    GridSelect,
     Input,
     DropDown
   }

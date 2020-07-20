@@ -4,7 +4,7 @@ export default abstract class QuestionRequestService {
       {
         title: "Wo liegt dein Hauptfirmensitz?",
         config: {
-          type: "select",
+          type: "grid-select",
           key: "state",
           options: [
             { key: "Baden-Württemberg", value: 1 },

@@ -27,6 +27,7 @@ export default class NavFooter extends Vue {
   position: sticky;
   bottom: 0;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: stretch;
   background-color: white;

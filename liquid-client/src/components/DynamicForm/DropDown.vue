@@ -50,13 +50,6 @@ export default class DropDown extends Vue {
     this.open = !this.open;
   }
 
-  loadValueFromStatus() {
-    if (!!this.status) {
-      return this.status.value;
-    }
-    return null;
-  }
-
   setActive(val: boolean) {
     this.status.isActive = val;
     this.validate(this.value);
