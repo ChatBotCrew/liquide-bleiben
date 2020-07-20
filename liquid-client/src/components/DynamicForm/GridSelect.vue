@@ -20,6 +20,7 @@ export default class GridSelect extends Vue {
   mounted() {
     this.status = {};
     this.value = FinderService.getValue(this.config.key);
+    this.valueChanged(this.value);
   }
 
   setActive(val: boolean) {

@@ -29,20 +29,20 @@ export default class App extends Vue {
   }
 
   onResize() {
-      this.scrollMode = this.$refs.container.clientHeight < this.$refs.container.scrollHeight;
+    this.scrollMode =
+      this.$refs.container.clientHeight < this.$refs.container.scrollHeight;
   }
 
   mounted() {
-    window.addEventListener('resize', ()=>{
+    window.addEventListener("resize", () => {
       this.onResize();
-    })
+    });
     this.onResize();
     FinderService.loadStatusFromUrl();
     // this.$refs.addEventListener('onresize', ()=>{
     //   console.log(123);
-      
+
     // })
-    
   }
   beforeUpdate() {
     // console.log(this.$refs.container.clientHeight);
@@ -57,19 +57,21 @@ export default class App extends Vue {
   display: flex;
   flex-direction: column;
   .container {
-    margin-top: 120px;
-    height: calc(100vh - 120px);
+    margin-top: 86px;
+    height: calc(100vh - 86px);
     overflow-y: auto;
     margin-right: 17px;
     margin-left: 17px;
+    transition: 0.5s margin-top, 0.5s height;
     &.onscroll {
       // width: calc(100vw - 100%);
       margin-right: calc(100vw - 100%);
     }
     // max-width: $extra-small;
-    // @media (max-width: 1000px) {
-
-    // }
+    @media (min-width: 700px) {
+      margin-top: 120px;
+      height: calc(100vh - 120px);
+    }
   }
 }
 // $extra-small: 700px; xs

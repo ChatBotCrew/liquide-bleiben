@@ -39,7 +39,7 @@ export default class Finder extends Vue {
     new ButtonConfig("Zurück", false, () => {
       this.previous();
     }),
-    new ButtonConfig("Weiter", false, () => {
+    new ButtonConfig("Weiter", true, () => {
       this.next();
     })
   ];
@@ -90,7 +90,7 @@ export default class Finder extends Vue {
   getStatus(status: any) {
     this.status = status;
 
-    if (status.isValid) {
+    if (!status.isValide) {
       this.buttonsConfig[1].disabled = true;
     } else {
       this.buttonsConfig[1].disabled = false;

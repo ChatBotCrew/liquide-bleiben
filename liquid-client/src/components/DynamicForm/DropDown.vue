@@ -18,8 +18,7 @@
       >
         <!-- v-bind:class="{closed: true}" -->
         <input type="radio" :id="config.key+'_'+index" :value="option.value" v-model="value" />
-        <span v-html="option.key"
-         v-on:click="toggle()"></span>
+        <span v-html="option.key" v-on:click="toggle()"></span>
       </label>
       <!-- </div> -->
     </div>
@@ -42,6 +41,7 @@ export default class DropDown extends Vue {
     this.status = {};
     this.value = FinderService.getValue(this.config.key);
     this.open = false;
+    this.valueChanged(this.value);
   }
 
   public open: boolean = false;
@@ -100,9 +100,8 @@ export default class DropDown extends Vue {
   &.open {
     height: 300px;
     button .arrow-box .arrow {
-            transform: scale(0.4)translateY(28px)rotate(-180deg);
+      transform: scale(0.4) translateY(28px) rotate(-180deg);
     }
-
   }
 
   .options {
@@ -114,7 +113,7 @@ export default class DropDown extends Vue {
     display: block;
     box-sizing: border-box;
     width: 100%;
-    padding: 16px;
+    padding: 16px 80px 16px 16px;
   }
   label {
     transition: 0.5s color, 0.5s background-color;
@@ -144,7 +143,7 @@ export default class DropDown extends Vue {
       background-color: var(--secondary);
       .arrow {
         transition: 0.5s transform;
-            transform: scale(0.4)translateY(40px);
+        transform: scale(0.4) translateY(40px);
       }
     }
   }
