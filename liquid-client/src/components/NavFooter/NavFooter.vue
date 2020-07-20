@@ -1,10 +1,12 @@
 <template>
   <nav id="action-footer">
-    <ul>
-      <li v-for="(button, index) in buttons" :key="index">
-        <button class="btn" :disabled="button.disabled" v-on:click="button.listener">{{button.name}}</button>
-      </li>
-    </ul>
+    <button
+      class="btn"
+      v-for="(button, index) in buttons"
+      :key="index"
+      :disabled="button.disabled"
+      v-on:click="button.listener"
+    >{{button.name}}</button>
   </nav>
 </template>
 
@@ -16,30 +18,35 @@ import { ButtonConfig } from "./ButtonConfig.class";
 export default class NavFooter extends Vue {
   @Prop()
   public buttons!: ButtonConfig[];
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-  #action-footer {
-    ul {
-      position: relative;
-      // width: 100%;
-      display: flex;
-      list-style: none;
-      justify-content: center;
-      padding: 0;
+<style lang="scss">
+#action-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: white;
+  padding: 16px 0;
+  max-width: 1024px;
+  button {
+    margin-bottom: 16px;
+    &:last-child {
       margin: 0;
-      li {
-        margin-right: 32px;
-        &:last-child {
-          margin-right: 0;
-        }
-        button {
-          max-width: 300px;
-        }
-      }
     }
   }
+  @media (min-width: 700px) {
+    flex-direction: row;
+    button {
+      width: calc(50% - 8px);
+      margin: 0 16px 0 0;
+    }
+  }
+  @media (min-width: 1024px) {
+    margin-left: calc(50% - 0.5 * 1024px);
+  }
+}
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <NavHeader></NavHeader>
-    <div class="container" ref="container">
+    <div class="container" v-bind:class="{ 'onscroll': scrollMode }" ref="container">
       <router-view @updateStatus="updateStatus" />
+      <NavFooter v-bind:buttons="buttons"></NavFooter>
     </div>
-    <NavFooter v-bind:buttons="buttons"></NavFooter>
   </div>
 </template>
 
@@ -20,6 +20,7 @@ import { FinderService } from "./shared/services/finder.service";
 })
 export default class App extends Vue {
   public buttons: ButtonConfig[] = [];
+  public scrollMode: boolean = true;
 
   $refs: any;
 
@@ -27,8 +28,21 @@ export default class App extends Vue {
     this.buttons = buttons;
   }
 
+  onResize() {
+      this.scrollMode = this.$refs.container.clientHeight < this.$refs.container.scrollHeight;
+  }
+
   mounted() {
+    window.addEventListener('resize', ()=>{
+      this.onResize();
+    })
+    this.onResize();
     FinderService.loadStatusFromUrl();
+    // this.$refs.addEventListener('onresize', ()=>{
+    //   console.log(123);
+      
+    // })
+    
   }
   beforeUpdate() {
     // console.log(this.$refs.container.clientHeight);
@@ -45,7 +59,13 @@ export default class App extends Vue {
   .container {
     margin-top: 120px;
     height: calc(100vh - 120px);
-    overflow: auto;
+    overflow-y: auto;
+    margin-right: 17px;
+    margin-left: 17px;
+    &.onscroll {
+      // width: calc(100vw - 100%);
+      margin-right: calc(100vw - 100%);
+    }
     // max-width: $extra-small;
     // @media (max-width: 1000px) {
 
