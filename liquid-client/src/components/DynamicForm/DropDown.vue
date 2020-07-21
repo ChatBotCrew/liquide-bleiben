@@ -138,7 +138,7 @@ export default class DropDown extends Vue {
     cursor: pointer;
     &.active {
       color: var(--white);
-      background-color: var(--secondary);
+      background-color: var(--prim-700);
     }
   }
   input {

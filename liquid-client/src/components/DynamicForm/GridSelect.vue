@@ -86,7 +86,7 @@ export default class GridSelect extends Vue {
         margin-right: 8px;
       }
       &.active::before {
-        background-color: var(--secondary);
+        background-color: var(--prim-700);
       }
     }
   }

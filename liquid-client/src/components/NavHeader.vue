@@ -110,7 +110,7 @@ header.navbar {
   .contact {
     min-height: 16px;
     width: 100%;
-    background-color: var(--secondary);
+    background-color: var(--prim-700);
     display: flex;
     justify-content: space-between;
     letter-spacing: 2px;
@@ -130,7 +130,7 @@ header.navbar {
     .sozial-media {
       .fa {
         display: inline-block;
-        color: var(--secondary);
+        color: var(--prim-700);
         background-color: white;
         padding: 4px;
         width: 24px;
@@ -141,11 +141,11 @@ header.navbar {
         text-align: center;
         cursor: pointer;
         &:active {
-          color: var(--darkest-secondary);
-          background-color: var(--primary);
+          color: var(--prim-900);
+          background-color: var(--prim-300);
         }
         &:hover {
-          color: var(--darkest-secondary);
+          color: var(--prim-900);
         }
       }
     }
@@ -154,7 +154,7 @@ header.navbar {
         color: var(--white);
         margin-left: 8px;
         &:active {
-          color: var(--primary);
+          color: var(--prim-300);
         }
       }
     }
@@ -174,10 +174,10 @@ header.navbar {
       background: none;
       padding: 17px 21px 17px 21px;
       font-size: 32px;
-      color: var(--secondary);
+      color: var(--prim-700);
       outline: none;
       &:hover {
-        color: var(--dark-secondary);
+        color: var(--prim-800);
       }
     }
     ul {
@@ -206,7 +206,7 @@ header.navbar {
           text-decoration: none;
           color: black;
           &.active {
-            color: var(--secondary);
+            color: var(--prim-700);
           }
         }
         &.logo {

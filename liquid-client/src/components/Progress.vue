@@ -42,7 +42,7 @@ export default class Progress extends Vue {
   //     position: absolute;
   //     width: 40%;
   //     height: 100%;
-  //     background-color: var(--secondary);
+  //     background-color: var(--prim-700);
   //     border-radius: 12px;
   //     transition: 0.5s width;
   //   }

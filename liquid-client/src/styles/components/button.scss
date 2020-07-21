@@ -5,22 +5,22 @@ button.btn {
   letter-spacing: 1px;
   font-weight: 500;
   color: var(--white);
-  background-color: var(--secondary);
+  background-color: var(--prim-700);
   font-size: 1.5rem;
   outline: none !important;
   &:disabled {
     background-color: var(--grey);
   }
   &:hover:not(:disabled) {
-    background-color: var(--dark-secondary);
+    background-color: var(--prim-800);
   }
   &:active:not(:disabled) {
-    background-color: var(--darkest-secondary);
+    background-color: var(--prim-900);
   }
   &.outline {
     background-color: var(--white);
-    color: var(--secondary);
-    box-shadow: var(--secondary) inset 0 0 0 2px;
+    color: var(--prim-700);
+    box-shadow: var(--prim-700) inset 0 0 0 2px;
 
     &:disabled {
       background-color: var(--lightest-grey);

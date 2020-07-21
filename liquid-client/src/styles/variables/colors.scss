@@ -1,10 +1,4 @@
 #app {
-  --primary: #00ecd9;
-  --dark-primary: #027e6c;
-
-  --secondary: #007d8c;
-  --dark-secondary: #006672;
-  --darkest-secondary: #005761;
 
   --light-brown: #fffdf9;
   --brown: #f9f6f2;
@@ -16,6 +10,17 @@
   --light-grey: #d9d9d9;
   --grey: #9b9b9b;
   --dark-grey: #5e5e5e;
-
   --black: #000;
+
+  --prim-1000: #003e46;
+  --prim-900: #00535d;
+  --prim-800: #006875;
+  --prim-700: #007d8c; //main
+  --prim-600: #00999f;
+  --prim-500: #00b5b3;
+  --prim-400: #00d0c6;
+  --prim-300: #00ecd9; //main
+  --prim-200: #68f4e8;
+  --prim-100: #b0f8f0;
+  --prim-50: #d0fcf7;
 }
