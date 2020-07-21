@@ -1,67 +1,101 @@
 <template>
-  <div class="dropdown" v-bind:class="{open: open}">
+  <div class="dropdown">
     <!-- <div class="content"> -->
-    <button class="selector" v-bind:class="{active: value != null}" v-on:click="toggle()">
+    <button
+      class="toggle btn"
+      v-bind:class="{active: value != null}"
+      v-on:click="setInnerHeight(!open)"
+    >
       <span class="content" v-html="buttonText"></span>
-      <div class="arrow-box">
+      <div class="arrow-box" v-bind:class="{ open: open }">
         <div class="arrow">
           <img src="@/assets/arrow.svg" alt />
         </div>
       </div>
     </button>
-    <div class="options">
-      <!-- <button v-on:click="toggle()" class="select">{{value? config.options[value-1].key: 'bitte wählen'}}</button> -->
+    <!-- <OverlayScrollbarsComponent class="options"> -->
+    <!-- <button v-on:click="toggle()" class="select">{{value? config.options[value-1].key: 'bitte wählen'}}</button> -->
+    <div
+      class="options"
+      v-bind:style="{height: height}"
+      v-bind:class="{ open: open }"
+      ref="options"
+    >
       <label
         v-for="(option, index) in config.options"
         :key="index"
-        v-bind:class="{ active: option.value == value }"
+        v-bind:class="{ active: index == value }"
+         v-on:click="setInnerHeight(false)"
       >
         <!-- v-bind:class="{closed: true}" -->
-        <input type="radio" :id="config.key+'_'+index" :value="option.value" v-model="value" />
-        <span v-html="option.key" v-on:click="toggle()"></span>
+        <input type="radio" :id="config.key+'_'+index" :value="index" v-model="value" />
+        <span v-html="option.key"></span>
       </label>
-      <!-- </div> -->
     </div>
+    <!-- </OverlayScrollbarsComponent> -->
+    <!-- </div> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { FinderService } from "../../shared/services/finder.service";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
 
-@Component
+@Component({
+  components: {
+    OverlayScrollbarsComponent
+  }
+})
 export default class DropDown extends Vue {
   private status: any;
   @Prop() private config!: any;
   private value: any = null;
+  private height = "0";
 
   public buttonText: string = "bitte wählen";
 
+  setInnerHeight(open: boolean) {
+    this.open = open;
+    this.height = !this.open
+      ? "0px"
+      : this.$refs.options["scrollHeight"] + "px";
+    console.log(this.height);
+  }
+
   mounted() {
     this.status = {};
-    this.value = FinderService.getValue(this.config.key);
+    this.value = this.findOptionIndex(FinderService.getValue(this.config.key));
     this.open = false;
     this.valueChanged(this.value);
+    window.addEventListener("resize", () => {
+      this.setInnerHeight(this.open);
+    });
+  }
+
+  public findOptionIndex(value: any): number {
+    for (let i = 0; i < this.config.options.length; i++) {
+      if (this.config.options[i].value == value) {
+        return i;
+      }
+    }
+    return null;
   }
 
   public open: boolean = false;
 
-  toggle() {
-    this.open = !this.open;
-  }
-
   setActive(val: boolean) {
     this.status.isActive = val;
+
     this.validate(this.value);
     this.emitStatusChange(this.status);
   }
   @Watch("value")
-  valueChanged(newVal: any) {
-    this.buttonText = newVal
-      ? this.config.options[newVal - 1].key
-      : "bitte wählen";
+  valueChanged(id: number) {
+    let option = this.config.options[id];
+    this.buttonText = id != null ? option.key : "bitte wählen";
 
-    this.validate(newVal);
+    this.validate(id != null ? option.value : null);
     this.emitStatusChange(this.status);
   }
   @Emit("status")
@@ -87,68 +121,48 @@ export default class DropDown extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .dropdown {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: 80px auto;
-  font-size: 20px;
-  background-color: var(--white);
-  border: 2px solid var(--secondary);
-  border-radius: 8px;
-  height: 80px;
-  transition: 0.5s height;
-  overflow: hidden;
-  &.open {
-    height: 300px;
-    button .arrow-box .arrow {
-      transform: scale(0.4) translateY(28px) rotate(-180deg);
-    }
-  }
-
-  .options {
-    overflow: auto;
-    border-top: 2px #007d8c solid;
-  }
-  .options > *,
-  button {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 16px 80px 16px 16px;
-  }
+  display: flex;
+  flex-direction: column;
   label {
-    transition: 0.5s color, 0.5s background-color;
-    font-size: 18px;
-    &.active {
-      background-color: var(--secondary);
-      color: var(--white);
-    }
-  }
-  button {
-    position: relative;
-    background: none;
     border: none;
+    border-radius: 6px;
+    padding: 16px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: black;
+    background-color: #ffffff;
+    font-size: 1.5rem;
     outline: none !important;
-    height: 80px;
-    transition: 0.5s color, 0.5s background-color;
+    margin-top: 8px;
+    text-align: center;
+    cursor: pointer;
     &.active {
-      background-color: var(--secondary);
       color: var(--white);
-    }
-    .arrow-box {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 80px;
-      height: 80px;
       background-color: var(--secondary);
-      .arrow {
-        transition: 0.5s transform;
-        transform: scale(0.4) translateY(40px);
-      }
     }
   }
   input {
     display: none;
   }
+  .btn {
+    display: grid;
+    grid-template-columns: auto 24px;
+    .arrow-box {
+      .arrow {
+        transform: rotate(360deg);
+        transition: transform 0.5s;
+      }
+      &.open .arrow {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  // height: 0;
+  overflow: hidden;
+  transition: 0.5s height;
 }
 </style>

@@ -6,9 +6,10 @@
       :options="{ scrollbars: { autoHide: 'scroll' } }"
       :extensions="[]"
     >
-    <div class="contend"></div>
-      <router-view @updateStatus="updateStatus" />
-      <NavFooter v-bind:buttons="buttons"></NavFooter>
+      <div class="contend">
+        <router-view @updateStatus="updateStatus" />
+        <NavFooter v-bind:buttons="buttons"></NavFooter>
+      </div>
     </OverlayScrollbarsComponent>
     <!-- <div class="container" v-bind:class="{ 'onscroll': scrollMode }" ref="container">
       
