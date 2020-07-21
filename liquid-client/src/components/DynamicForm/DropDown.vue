@@ -52,6 +52,7 @@ export default class DropDown extends Vue {
   @Prop() private config!: any;
   private value: any = null;
   private height = "0";
+  public $refs: any;
 
   public buttonText: string = "bitte wählen";
 
@@ -59,8 +60,7 @@ export default class DropDown extends Vue {
     this.open = open;
     this.height = !this.open
       ? "0px"
-      : this.$refs.options["scrollHeight"] + "px";
-    console.log(this.height);
+      : this.$refs.options.scrollHeight + "px";
   }
 
   mounted() {
@@ -73,7 +73,7 @@ export default class DropDown extends Vue {
     });
   }
 
-  public findOptionIndex(value: any): number {
+  public findOptionIndex(value: any): any {
     for (let i = 0; i < this.config.options.length; i++) {
       if (this.config.options[i].value == value) {
         return i;
