@@ -1,10 +1,18 @@
 <template>
   <div id="app">
     <NavHeader></NavHeader>
-    <div class="container" v-bind:class="{ 'onscroll': scrollMode }" ref="container">
+    <OverlayScrollbarsComponent
+      class="view"
+      :options="{ scrollbars: { autoHide: 'scroll' } }"
+      :extensions="[]"
+    >
+    <div class="contend"></div>
       <router-view @updateStatus="updateStatus" />
       <NavFooter v-bind:buttons="buttons"></NavFooter>
-    </div>
+    </OverlayScrollbarsComponent>
+    <!-- <div class="container" v-bind:class="{ 'onscroll': scrollMode }" ref="container">
+      
+    </div>-->
   </div>
 </template>
 
@@ -14,9 +22,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import NavHeader from "./components/NavHeader.vue";
 import NavFooter from "./components/NavFooter/NavFooter.vue";
 import { FinderService } from "./shared/services/finder.service";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
 
 @Component({
-  components: { NavHeader, NavFooter }
+  components: { NavHeader, NavFooter, OverlayScrollbarsComponent }
 })
 export default class App extends Vue {
   public buttons: ButtonConfig[] = [];
@@ -28,25 +37,8 @@ export default class App extends Vue {
     this.buttons = buttons;
   }
 
-  onResize() {
-    this.scrollMode =
-      this.$refs.container.clientHeight < this.$refs.container.scrollHeight;
-  }
-
   mounted() {
-    window.addEventListener("resize", () => {
-      this.onResize();
-    });
-    this.onResize();
     FinderService.loadStatusFromUrl();
-    // this.$refs.addEventListener('onresize', ()=>{
-    //   console.log(123);
-
-    // })
-  }
-  beforeUpdate() {
-    // console.log(this.$refs.container.clientHeight);
-    // console.log(this.$refs.container.scrollHeight);
   }
 }
 </script>
@@ -56,18 +48,13 @@ export default class App extends Vue {
 #app {
   display: flex;
   flex-direction: column;
-  .container {
+  .view {
+    // TODO: custom styling https://kingsora.github.io/OverlayScrollbars/#!documentation/styling
     margin-top: 86px;
     height: calc(100vh - 86px);
-    overflow-y: auto;
-    margin-right: 17px;
-    margin-left: 17px;
-    transition: 0.5s margin-top, 0.5s height;
     &.onscroll {
-      // width: calc(100vw - 100%);
       margin-right: calc(100vw - 100%);
     }
-    // max-width: $extra-small;
     @media (min-width: 700px) {
       margin-top: 120px;
       height: calc(100vh - 120px);
