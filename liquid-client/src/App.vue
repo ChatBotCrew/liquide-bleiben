@@ -53,12 +53,31 @@ export default class App extends Vue {
     // TODO: custom styling https://kingsora.github.io/OverlayScrollbars/#!documentation/styling
     margin-top: 86px;
     height: calc(100vh - 86px);
+    padding: 0;
     &.onscroll {
       margin-right: calc(100vw - 100%);
     }
     @media (min-width: 700px) {
       margin-top: 120px;
       height: calc(100vh - 120px);
+    }
+    @media (min-width: 1024px) {
+      // padding: 0 64px;
+    }
+    .contend {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      > * {
+        width: 100%;
+      }
+      @media (min-width: 700px) {
+        > * {
+          width: calc(100% - 32px);
+          max-width: 900px;
+        }
+      }
     }
   }
 }

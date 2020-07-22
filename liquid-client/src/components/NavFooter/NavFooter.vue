@@ -46,8 +46,5 @@ export default class NavFooter extends Vue {
       margin: 0 16px 0 0;
     }
   }
-  @media (min-width: 1024px) {
-    margin-left: calc(50% - 0.5 * 1024px);
-  }
 }
 </style>
