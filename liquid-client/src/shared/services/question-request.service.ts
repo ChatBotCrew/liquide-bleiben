@@ -4,7 +4,7 @@ export default abstract class QuestionRequestService {
       {
         title: "Wo liegt dein Hauptfirmensitz?",
         config: {
-          type: "grid-select",
+          type: "select",
           key: "state",
           options: [
             { key: "Baden-Württemberg", value: 1 },
@@ -50,14 +50,16 @@ export default abstract class QuestionRequestService {
                 "Land- und Forstwirtschaft<br>(inkl. Aquakultur und Fischerei)",
               value: 1
             },
-            { key: "Bergbau und Gewinnung von Steinen und Erden", value: 2 },
+            { key: "Bergbau und Gewinnung<br>von Steinen und Erden", value: 2 },
             { key: "Handel", value: 3 },
             { key: "Hotel- und Gaststättengewerbe", value: 4 },
             { key: "Handwerk", value: 5 },
             { key: "Garten- und Landschaftsbau", value: 6 },
-            { key: "Künstler", value: 7 },
+            { key: "Künstler:in", value: 7 },
             { key: "Heilberufe", value: 8 },
-            { key: "Sonstiges", value: 9 }
+            { key: "Gemeinnützig", value: 9 },
+            { key: "Verein", value: 10 },
+            { key: "Sonstiges", value: 11 }
           ],
           validators: [
             {
@@ -72,6 +74,56 @@ export default abstract class QuestionRequestService {
           Für einige Branchen gibt es spezielle Förder- und Hilfsprogramme.
           Lass uns wissen in welcher Branche du tätig bist,
           damit wir dir genauere Vorschläge machen können.
+        `
+      },
+      {
+        title: "Welche Rechtsform hat dein Unternehmen?",
+        config: {
+          type: "select",
+          key: "legal",
+          options: [
+            { key: "Personen(gesellschaften)", value: null },
+
+            { key: "Eingetragener Kaufmann (e.K.)", value: 5 },
+            { key: "e.V. mit wirtschaftlichem Geschäftsbetrieb", value: 12 },
+            { key: "Einzelunternehmer:in", value: 8 },
+            { key: "Freiberufler", value: 20 },
+            { key: "GbR (BGB-Gesellschaft)", value: 4 },
+            { key: "OHG", value: 7 },
+            { key: "Partnergesellschaft", value: 22 },
+
+            { key: "Kapitalgesellschaften", value: null },
+
+            { key: "AG", value: 14 },
+            { key: "AG & Co KG", value: 21 },
+            { key: "Genossenschaft (eingetragen)", value: 10 },
+            { key: "Genossenschaft (nicht eingetragen)", value: 10 },
+            { key: "GmbH", value: 1 },
+            { key: "gGmbH", value: 23 },
+            { key: "GmbH & Co KG", value: 6 },
+            { key: "GmbH & Co OHG", value: 18 },
+            { key: "KG", value: 11 },
+            { key: "KGaA", value: 15 },
+            { key: "Stille Gesellschaft", value: 13 },
+            { key: "UG", value: 2 },
+            { key: "gUG", value: 26 },
+            { key: "Venture Capital Gesellschaft", value: 16 },
+
+            { key: "Sonstige", value: null },
+
+            { key: "Sonstige", value: 25 },
+          ],
+          validators: [
+            {
+              isValide: (value: any) => {
+                return value !== null && value !== undefined && value !== '';
+              },
+              message: 'bitte das Feld füllen'
+            }
+          ]
+        },
+        description: `
+        Die Rechtsform ist der durch Gesetze zwingend vorgeschriebene rechtliche Rahmen von Gesellschaften, mit dem einige gesetzlich vorgegebene Strukturmerkmale verbunden sind und mit dem Gesellschaften am Wirtschaftsleben teilnehmen.
         `
       },
       {
@@ -99,7 +151,7 @@ export default abstract class QuestionRequestService {
       {
         title: "Wieviele Beschäftigte hat dein Unternehmen?",
         config: {
-          type: "input",
+          type: "employees",
           key: "employees",
           options: [],
           unit: "Mitarbeiter",
@@ -113,14 +165,19 @@ export default abstract class QuestionRequestService {
             }
           ]
         },
+        factorsTitle: 'Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ für Mitarbeiter:innen:',
+        factors: [{
+          time: '450 Euro-Basis', value: 0.3
+        }, {
+          time: 'bis 20 Stunden', value: 0.5
+        }, {
+          time: 'bis 30 Stunden', value: 0.75
+        }, {
+          time: 'über 30 Stunden', value: 1
+        }],
         description: `
-          Umrechnung von Teilzeitkräften und 450 Euro-Jobs in VZÄ für Mitarbeiter:innen:
-          450 Euro-Basis=Faktor 0,3
-          bis 20 Stunden=Faktor 0,5
-          bis 30 Stunden=Faktor 0,75
-          über 30 Stunden=Faktor 1
-          Als Solo-Unternehmer:in ohne Mitarbeiter:innen, trage bitte eine "0" ein.
-          Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden.
+        <b>Bitte das Ergebnis auf die nächsthöhere Zahl aufrunden
+        und als Solo-Unternehmer:in ohne Mitarbeiter:innen 0 eintragen</b>
         `
       },
       {
@@ -145,7 +202,7 @@ export default abstract class QuestionRequestService {
             }
           ],
           transform: (value: number) => [
-            (0+2)/2,(2+5)/2,(5+10)/2,(10+50)/2,(50+500)/2,600
+            (0 + 2) / 2, (2 + 5) / 2, (5 + 10) / 2, (10 + 50) / 2, (50 + 500) / 2, 600
           ][value] * 1000000
         },
         description: `
@@ -176,11 +233,11 @@ export default abstract class QuestionRequestService {
             }
           ],
           transform: (value: number) => [
-            (0+1)/2,(1+2)/2,(2+10)/2,(10+20)/2,(20+43)/2,44
+            (0 + 1) / 2, (1 + 2) / 2, (2 + 10) / 2, (10 + 20) / 2, (20 + 43) / 2, 44
           ][value] * 1000000
         },
         description: `
-          Sollte dein Unternehmen keine Bilanz aufstellen, wähle bitte "0 - 1".
+          Sollte dein Unternehmen keine Bilanz aufstellen,<br>wähle bitte <b>"0 - 1 Million"</b>.
         `
       }
     ];

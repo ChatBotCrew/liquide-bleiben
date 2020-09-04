@@ -3,8 +3,8 @@
     <div class="contact">
       <span class="sozial-media">
         <span class="text">Teile, was Dir hilft:</span>
-        <a class="fa fa-facebook"></a>
-        <a class="fa fa-twitter"></a>
+        <a class="fa fa-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=linkedin.com/company/wir-bleiben-liqui-de&title=%23liquidebleiben&summary=&source="></a>
+        <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text=https%3A//twitter.com/liquidebleiben"></a>
         <!-- <a class="fa fa-envelope"></a> -->
         <!-- TODO: Icon + Link -->
       </span>
@@ -17,26 +17,29 @@
     <nav>
       <ul ref="navlist">
         <li class="logo">
-          <a href>
+          <a href="https://www.wir-bleiben-liquide.de/">
             <img src="@/assets/logo.svg" alt />
           </a>
         </li>
         <li>
-          <a href>Home</a>
+          <a href="https://www.wir-bleiben-liquide.de/">Home</a>
         </li>
         <li>
-          <a href>Blog</a>
+          <a href="https://www.wir-bleiben-liquide.de/presse">Presse</a>
         </li>
         <li>
-          <a href>Team</a>
+          <a href="https://www.wir-bleiben-liquide.de/partner">Partner</a>
         </li>
         <li>
-          <a class="active" href>Förderfinder</a>
+          <a href="https://www.wir-bleiben-liquide.de/copy-of-team-1">Team</a>
+        </li>
+        <li>
+          <a class="active" href="">Förderfinder</a>
         </li>
         <li class="sozial-links">
-          <a class="fa fa-facebook"></a>
-          <a class="fa fa-twitter"></a>
-          <a class="fa fa-envelope"></a>
+          <a class="fa fa-linkedin" target="blank" href="https://www.linkedin.com/shareArticle?mini=true&url=linkedin.com/company/wir-bleiben-liqui-de&title=%23liquidebleiben&summary=&source="></a>
+          <a class="fa fa-twitter" target="blank" href="https://twitter.com/intent/tweet?text=https%3A//twitter.com/liquidebleiben"></a>
+          <a class="fa fa-envelope" target="blank" href="mailto:hallo@wir-bleiben-liqui.de"></a>
         </li>
       </ul>
       <button class="menu" v-on:click="toggle()">
@@ -132,6 +135,8 @@ header.navbar {
         display: inline-block;
         color: var(--prim-700);
         background-color: white;
+        
+        text-decoration: none;
         padding: 4px;
         width: 24px;
         height: 24px;

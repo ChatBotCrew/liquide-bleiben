@@ -4,6 +4,12 @@ import axios from "axios";
 export class FinderService {
   static config: any[] = [];
   static values: any = {};
+  static currentOffer: any = null;
+  static currentOfferListeners: ((offer: any) => void)[] = [];
+
+  public static addCurrentOfferListener(listener: (offer: any) => void) {
+    this.currentOfferListeners.push(listener);
+  }
 
   public static loadStatusFromUrl() {
     this.config = QuestionRequestService.getQuestions();
@@ -14,6 +20,23 @@ export class FinderService {
     this.config.forEach(element => {
       let v = queryParams.get(element.config.key);
       this.values[element.config.key] = v == null ? null : parseInt(v);
+    });
+
+  }
+  public static updateCurrentOffer(offers: any[]) {
+    let queryParams = new URLSearchParams(window.location.search);
+    let offerId = queryParams.get('offer');
+    if (offerId != null) {
+      for (let i = 0; i < offers.length; i++) {
+        if (offers[i].id == parseInt(offerId)) {
+          this.currentOffer = offers[i];
+        }
+      }
+    } else {
+      this.currentOffer = null;
+    }
+    this.currentOfferListeners.forEach(listener => {
+      listener(this.currentOffer);
     });
   }
   public static parseValueToUrl(values = this.values): string {
@@ -58,7 +81,6 @@ export class FinderService {
         if (Object.prototype.hasOwnProperty.call(this.values, config.config.key)) {
           let value = this.values[config.config.key];
           let key = config.config.key;
-          console.log(key, value);
           if (value == null || value == undefined) {
             //throw error
             throw new Error(value + ' ' + key);
@@ -81,12 +103,16 @@ export class FinderService {
   }
   public static getResults(): any {
     let tmpValues = this.transformValues();
+
     if (tmpValues != null) {
       return axios.get(location.origin + '/api/offers' + this.parseValueToUrl(tmpValues))
     } else {
       console.log('error');
       return null;
     }
+  }
+  public static getTestResults(): any {
+      return axios.get(location.origin + '/api/offers');
   }
   public static getDescriptions(): any {
     return axios.get(location.origin + '/api/descriptions');

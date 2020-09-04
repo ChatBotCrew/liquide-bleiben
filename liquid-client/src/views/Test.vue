@@ -1,6 +1,6 @@
 <template>
-  <div class="results">
-    <h1>Deine Resultate</h1>
+  <div class="test">
+    <h1>Alle Resultate</h1>
     <!-- <h1>{{$router.currentRoute.meta.title}}</h1> -->
     <!-- {{$route.params.cathegorie}} -->
     <div class="list">
@@ -8,7 +8,7 @@
         <ul>
           <li v-for="(category, index) in categories" :key="index">
             <router-link
-              :to="'/results/'+category.name+''+query"
+              :to="'/test/'+category.name+''+query"
               v-bind:class="{active: $route.params.cathegorie == category.name || !$route.params.cathegorie && index == 0}"
             >{{category.name}}</router-link>
           </li>
@@ -24,12 +24,21 @@
             v-bind:text="category.description"
             v-bind:resultsExist="!!category.offers && category.offers.length > 0"
           ></Description>
-          <div class="offers">
+          <div class="offers" v-if="indexFilter != null">
+            <div v-for="(offer, index) in category.offers" :key="index">
+              <ResultCard
+                v-if="offer.id == indexFilter"
+                v-bind:offer="offer"
+                v-bind:link="'/test/'+category.name+'?offer='+offer.id"
+              />
+            </div>
+          </div>
+          <div class="offers" v-if="indexFilter == null">
             <ResultCard
               v-for="(offer, index) in category.offers"
               :key="index"
               v-bind:offer="offer"
-              v-bind:link="'/results/'+category.name+''+query+'&offer='+offer.id"
+              v-bind:link="'/test/'+category.name+'?offer='+offer.id"
             />
           </div>
           <!-- <ResultList v-if="!!categories && categories.length>0" v-bind:categories="categories" v-bind:current="current" /> -->
@@ -61,6 +70,7 @@ export default class Results extends Vue {
   public descriptions: any[] = [];
   public current: any = null;
   public query: string = "";
+  public indexFilter: any = null;
 
   backToResults() {
     FinderService.updateValue("index", 0, false);
@@ -97,11 +107,14 @@ export default class Results extends Vue {
   mounted() {
     this.updateStatus();
     FinderService.loadStatusFromUrl();
-
     FinderService.updateValue("index", null, false);
     this.query = FinderService.parseValueToUrl();
     let categories: any[] = [];
-    FinderService.getResults().then((results: any) => {
+
+    let queryParams = new URLSearchParams(window.location.search);
+    this.indexFilter = queryParams.get("id");
+
+    FinderService.getTestResults().then((results: any) => {
       FinderService.getDescriptions().then((descriptions: any) => {
         descriptions.data.forEach((description: any) => {
           let category = {
@@ -129,7 +142,7 @@ export default class Results extends Vue {
 
 
 <style lang="scss">
-.results {
+.test {
   .list {
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.6));
     main > div {

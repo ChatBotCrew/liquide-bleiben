@@ -9,11 +9,37 @@
       <div class="contend">
         <router-view @updateStatus="updateStatus" />
         <NavFooter v-bind:buttons="buttons"></NavFooter>
+        <footer>
+          ©2020 taxy.io GmbH |
+          <a href="https://www.taxy.io/impressum">Impressum</a> |
+          <a href="https://www.wir-bleiben-liquide.de/datenschutz">Datenschutz</a> |
+          <a href="mailto:hallo@wir-bleiben-liqui.de">hallo@wir-bleiben-liqui.de</a>
+        </footer>
       </div>
     </OverlayScrollbarsComponent>
-    <!-- <div class="container" v-bind:class="{ 'onscroll': scrollMode }" ref="container">
-      
-    </div>-->
+    <transition name="fscard">
+      <FullscreenResultCard v-if="!!offer" v-bind:offer="offer"></FullscreenResultCard>
+    </transition>
+    <transition name="cookies">
+      <div class="cookies-banner" v-if="cookieBannerVisible">
+        <div>
+          <div>
+            Diese Website verwendet Cookies – nähere Informationen dazu und zu
+            deinen Rechten als Benutzer findest du in unserer
+            <a
+              href="https://wir-bleiben-liqui.de/datenschutz/"
+            >Datenschutzerklärung</a>
+            .
+          </div>
+          <div>
+            Klicke auf "Ich stimme zu", um Cookies zu akzeptieren und direkt
+            unsere Website besuchen zu können.
+          </div>
+        </div>
+        <button class="btn small" v-on:click="enableCookies">Ich lehne ab</button>
+        <button class="btn small" v-on:click="disableCookies">Ich stimme zu</button>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -22,24 +48,68 @@ import { ButtonConfig } from "./components/NavFooter/ButtonConfig.class";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import NavHeader from "./components/NavHeader.vue";
 import NavFooter from "./components/NavFooter/NavFooter.vue";
+import FullscreenResultCard from "./components/results/FullscreenResultCard.vue";
 import { FinderService } from "./shared/services/finder.service";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
+import AnalyticsService from "./shared/services/analytics.service";
 
 @Component({
-  components: { NavHeader, NavFooter, OverlayScrollbarsComponent }
+  components: {
+    NavHeader,
+    NavFooter,
+    OverlayScrollbarsComponent,
+    FullscreenResultCard,
+  },
 })
 export default class App extends Vue {
   public buttons: ButtonConfig[] = [];
   public scrollMode: boolean = true;
+  public offer: any = false;
+  public cookieBannerVisible: boolean = true;
+  public gtmProperty = "GTM-THC2RPB";
+
+  public gtmTrackerName = "gtmDefaultTracker";
 
   $refs: any;
 
   updateStatus(buttons: ButtonConfig[]) {
     this.buttons = buttons;
   }
-
   mounted() {
     FinderService.loadStatusFromUrl();
+    FinderService.addCurrentOfferListener((offer: any) => {
+      this.offer = offer;
+    });
+    // AnalyticsService.init(this.$cookies);
+    this.cookieBannerVisible = this.$cookies.get("allow") == null;
+    AnalyticsService.allowed = this.$cookies.get("allow");
+  }
+
+  disableCookies() {
+    this.cookieBannerVisible = false;
+    // AnalyticsService.disableCookies();
+    this.$cookies.set("allow", true, { expires: "1d" });
+    AnalyticsService.allowed = true;
+    console.log(this.$cookies.get("allow"));
+  }
+  enableCookies() {
+    this.cookieBannerVisible = false;
+    // AnalyticsService.enableCookies();
+    this.$cookies.set("allow", false, { expires: "1d" });
+    AnalyticsService.allowed = false;
+    (function (w: any, d: any, s: any, l: any, i: any) {
+      w[l] = w[l] || [];
+      w[l].push({
+        "gtm.start": new Date().getTime(),
+        event: "gtm.js",
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", this.gtmProperty);
   }
 }
 </script>
@@ -72,6 +142,12 @@ export default class App extends Vue {
       > * {
         width: 100%;
       }
+      footer {
+        text-align: center;
+        a {
+          padding: 16px;
+        }
+      }
       @media (min-width: 700px) {
         > * {
           width: calc(100% - 32px);
@@ -79,6 +155,25 @@ export default class App extends Vue {
         }
       }
     }
+  }
+}
+.cookies-banner {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  font-size: 20px;
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  opacity: 1;
+  background-color: white;
+  &.fscard-enter-active,
+  &.fscard-leave-active {
+    transition: opacity 0.3s;
+  }
+  &.fscard-enter, &.fscard-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 }
 // $extra-small: 700px; xs

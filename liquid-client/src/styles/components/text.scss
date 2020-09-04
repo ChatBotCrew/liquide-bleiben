@@ -6,15 +6,47 @@ h1 {
   font-size: 32px;
   font-weight: 400;
   text-align: center;
+  margin-top: 100px;
 }
 h2 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 400;
   text-align: center;
   margin: 0 0 32px 0;
 }
 
 p {
-  margin: 0;
+  margin: 0 0 16px 0;
   font-size: 24px;
+  b {
+    font-weight: 500;
+  }
+}
+
+a {
+  color: var(--prim-700);
+  &:hover {
+    color: var(--prim-900);
+  }
+}
+
+.wikiContent {
+  // color: red;
+  font-size: 20px;
+  font-weight: 400;
+  p {
+    font-size: 20px;
+    b {
+      // color: green;
+      font-weight: 500;
+    }
+  }
+  ul {
+    text-align: left;
+    list-style-type: disc;
+    margin: 16px 0;
+    li {
+      margin-bottom: 8px;
+    }
+  }
 }

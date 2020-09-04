@@ -15,6 +15,8 @@
     "overlayscrollbars-vue": "^0.2.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-cookies": "^1.7.3",
+    "vue-cookies-ts": "^1.5.19",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0",

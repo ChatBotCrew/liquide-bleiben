@@ -38,8 +38,6 @@ export default class GridSelect extends Vue {
     this.status = status;
   }
   public validate(val: any) {
-    console.log(this.status);
-
     this.status.errors = [];
 
     this.config.validators.forEach((v: any) => {

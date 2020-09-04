@@ -15,6 +15,11 @@
       v-bind:config="config"
       v-on:status="getStatus"
     />
+    <Input
+      v-if="!!config && config.type == 'employees'"
+      v-bind:config="config"
+      v-on:status="getStatus"
+    />
   </div>
 </template>
 
@@ -22,13 +27,15 @@
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import GridSelect from "./DynamicForm/GridSelect.vue";
 import Input from "./DynamicForm/Input.vue";
+import EmployeesInput from "./DynamicForm/EmployeesInput.vue";
 import DropDown from "./DynamicForm/DropDown.vue";
 
 @Component({
   components: {
     GridSelect,
     Input,
-    DropDown
+    DropDown,
+    EmployeesInput
   }
 })
 export default class DynamicForm extends Vue {
@@ -45,5 +52,6 @@ export default class DynamicForm extends Vue {
 <style scoped lang="scss">
 .dynamic-form {
   padding: 0 32px;
+  margin-bottom: 8px;
 }
 </style>

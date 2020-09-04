@@ -18,7 +18,7 @@ import { Component, Prop, Vue, Watch, Emit } from "vue-property-decorator";
 import { FinderService } from "../../shared/services/finder.service";
 
 @Component
-export default class Input extends Vue {
+export default class EmployeesInput extends Vue {
   private status: any;
   @Prop() private config!: any;
   private value: any = null;
@@ -65,7 +65,8 @@ export default class Input extends Vue {
 .input {
   position: relative;
   display: flex;
-  flex-direction: column-reverse;
+  border: 2px solid #007d8c;
+  border-radius: 6px;
   overflow: hidden;
   input {
     width: 100%;
@@ -74,11 +75,8 @@ export default class Input extends Vue {
     font-size: 24px;
     letter-spacing: 1px;
     color: black;
-
-    border: 2px solid #007d8c;
-    border-radius: 6px;
-
-    text-align: center;
+    border: none;
+      text-align: center;
     outline: none !important;
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
@@ -90,30 +88,18 @@ export default class Input extends Vue {
     }
   }
   .unit {
-    font-size: 24px;
-    margin-bottom: 8px;
-    &::after {
-      content: ":";
-    }
+    display: none;
   }
   @media (min-width: 500px) {
-    border: 2px solid #007d8c;
-    border-radius: 6px;
-    flex-direction: row;
     .unit {
-      font-size: 24px;
-      display: block;
-      padding: 16px 24px;
-      background: #007d8c;
-      color: white;
-      margin-bottom: 0;
-      &::after {
-        display: none;
-      }
+    font-size: 24px;
+    display: block;
+    padding: 16px 24px;
+    background: #007d8c;
+    color: white;
     }
     input {
       text-align: left;
-      border: none;
     }
   }
 }

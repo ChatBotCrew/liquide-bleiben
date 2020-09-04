@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Finder from '../views/Finder.vue';
 import Results from '../views/Results.vue';
+import Test from '../views/Test.vue';
 import Start from '../views/Start.vue';
 
 Vue.use(VueRouter);
@@ -29,7 +30,29 @@ const routes: Array<RouteConfig> = [
     component: Results,
     meta: {
       title: 'Deine Resultate'
-    }
+    },
+    children: [{
+      path: '/results/:cathegorie',
+      component: Results,
+      meta: {
+        title: 'Deine Resultate'
+      }
+    }]
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+    meta: {
+      title: 'Testtitle'
+    },
+    children: [{
+      path: '/test/:cathegorie',
+      component: Test,
+      meta: {
+        title: 'Test'
+      }
+    }]
   },
 ];
 

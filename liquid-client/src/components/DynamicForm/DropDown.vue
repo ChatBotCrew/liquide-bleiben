@@ -21,16 +21,20 @@
       v-bind:class="{ open: open }"
       ref="options"
     >
-      <label
-        v-for="(option, index) in config.options"
-        :key="index"
-        v-bind:class="{ active: index == value }"
-         v-on:click="setInnerHeight(false)"
-      >
-        <!-- v-bind:class="{closed: true}" -->
-        <input type="radio" :id="config.key+'_'+index" :value="index" v-model="value" />
-        <span v-html="option.key"></span>
-      </label>
+      <div v-for="(option, index) in config.options" :key="index">
+        <div class="category-title" v-if="option.value == null">
+          <span v-html="option.key"></span>
+        </div>
+        <label
+          v-if="option.value != null"
+          v-bind:class="{ active: index == value }"
+          v-on:click="setInnerHeight(false)"
+        >
+          <!-- v-bind:class="{closed: true}" -->
+          <input type="radio" :id="config.key+'_'+index" :value="index" v-model="value" />
+          <span v-html="option.key"></span>
+        </label>
+      </div>
     </div>
     <!-- </OverlayScrollbarsComponent> -->
     <!-- </div> -->
@@ -44,8 +48,8 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
 
 @Component({
   components: {
-    OverlayScrollbarsComponent
-  }
+    OverlayScrollbarsComponent,
+  },
 })
 export default class DropDown extends Vue {
   private status: any;
@@ -58,15 +62,15 @@ export default class DropDown extends Vue {
 
   setInnerHeight(open: boolean) {
     this.open = open;
-    this.height = !this.open
-      ? "0px"
-      : this.$refs.options.scrollHeight + "px";
+    this.height = !this.open ? "0px" : this.$refs.options.scrollHeight + "px";
   }
 
   mounted() {
     this.status = {};
-    this.value = this.findOptionIndex(FinderService.getValue(this.config.key));
+    let index: any = FinderService.getValue(this.config.key);
+    this.value = index == null? null: this.findOptionIndex(index);
     this.open = false;
+    
     this.valueChanged(this.value);
     window.addEventListener("resize", () => {
       this.setInnerHeight(this.open);
@@ -108,7 +112,7 @@ export default class DropDown extends Vue {
     this.config.validators.forEach((v: any) => {
       if (!v.isValide(val)) {
         this.status.errors.push({
-          message: v.message
+          message: v.message,
         });
       }
     });
@@ -123,30 +127,12 @@ export default class DropDown extends Vue {
 .dropdown {
   display: flex;
   flex-direction: column;
-  label {
-    border: none;
-    border-radius: 6px;
-    padding: 16px;
-    letter-spacing: 1px;
-    font-weight: 500;
-    color: black;
-    background-color: #ffffff;
-    font-size: 1.5rem;
-    outline: none !important;
-    margin-top: 8px;
-    text-align: center;
-    cursor: pointer;
-    &.active {
-      color: var(--white);
-      background-color: var(--prim-700);
-    }
-  }
-  input {
-    display: none;
-  }
   .btn {
     display: grid;
     grid-template-columns: auto 24px;
+    .content {
+      padding: 0 24px;
+    }
     .arrow-box {
       .arrow {
         transform: rotate(360deg);
@@ -161,8 +147,37 @@ export default class DropDown extends Vue {
 .options {
   display: flex;
   flex-direction: column;
-  // height: 0;
   overflow: hidden;
   transition: 0.5s height;
+  div {
+    margin-top: 8px;
+    .category-title,
+    label {
+      display: block;
+      background: none;
+      padding: 16px;
+      font-size: 1.5rem;
+      color: black;
+      letter-spacing: 1px;
+      font-weight: 400;
+      text-align: center;
+    }
+    label {
+      border: none;
+      border-radius: 6px;
+      box-sizing: content-box;
+      background-color: #ffffff;
+      outline: none !important;
+      cursor: pointer;
+
+      &.active {
+        color: var(--white);
+        background-color: var(--prim-700);
+      }
+    }
+    input {
+      display: none;
+    }
+  }
 }
 </style>

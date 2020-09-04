@@ -33,6 +33,7 @@ export default class NavFooter extends Vue {
   background-color: white;
   padding: 16px;
   max-width: 1024px;
+  box-sizing: border-box;
   button {
     margin-bottom: 16px;
     &:last-child {
