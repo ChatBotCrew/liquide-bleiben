@@ -5,7 +5,7 @@ button.btn {
   letter-spacing: 1px;
   font-weight: 400;
   color: var(--white);
-  background-color: var(--prim-700);
+  background-color: var(--secondary);
   font-size: 1.5rem;
   outline: none !important;
   &.small {
@@ -15,15 +15,15 @@ button.btn {
     background-color: var(--grey);
   }
   &:hover:not(:disabled) {
-    background-color: var(--prim-800);
+    background-color: var(--secondary-dark);
   }
   &:active:not(:disabled) {
-    background-color: var(--prim-900);
+    background-color: var(--secondary-darkest);
   }
   &.outline {
     background-color: var(--white);
-    color: var(--prim-700);
-    box-shadow: var(--prim-700) inset 0 0 0 2px;
+    color: var(--secondary);
+    box-shadow: var(--secondary) inset 0 0 0 2px;
 
     &:disabled {
       background-color: var(--lightest-grey);

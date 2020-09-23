@@ -1,40 +1,44 @@
 <template>
-  <div class="results">
+  <div class="results max-screen">
     <h1>Deine Resultate</h1>
     <!-- <h1>{{$router.currentRoute.meta.title}}</h1> -->
     <!-- {{$route.params.cathegorie}} -->
-    <div class="list">
-      <nav v-if="categories.length > 0">
-        <ul>
-          <li v-for="(category, index) in categories" :key="index">
+    <div class="list" :class="{'vertical': type}">
+      <div class="nav-box" ref="nav">
+        <ResultNav
+          v-if="categories.length > 0"
+          v-bind:categories="categories"
+          v-bind:query="query"
+          v-on:type="checkNavType"
+        ></ResultNav>
+      </div>
+      <div class="main-box">
+        <article v-if="current">
+          <h2 v-html="current.name"></h2>
+          <p class="description-box" v-if="current.description" v-html="current.description"></p>
+          <div class="details">
             <router-link
-              :to="'/results/'+category.name+''+query"
-              v-bind:class="{active: $route.params.cathegorie == category.name || !$route.params.cathegorie && index == 0}"
-            >{{category.name}}</router-link>
-          </li>
-        </ul>
-      </nav>
-      <main v-for="(category, index) in categories" :key="index">
-        <div
-          v-if="$route.params.cathegorie == category.name || !$route.params.cathegorie && index == 0"
-        >
-          <h2>{{category.name}}</h2>
-          <Description
-            v-if="!!category.description"
-            v-bind:text="category.description"
-            v-bind:resultsExist="!!category.offers && category.offers.length > 0"
-          ></Description>
-          <div class="offers">
-            <ResultCard
-              v-for="(offer, index) in category.offers"
-              :key="index"
-              v-bind:offer="offer"
-              v-bind:link="'/results/'+category.name+''+query+'&offer='+offer.id"
-            />
+              class="max-article"
+              v-if="current.description"
+              :to="'/results/'+current.name+''+query+'&description=true'"
+            >Details anzeigen</router-link>
           </div>
-          <!-- <ResultList v-if="!!categories && categories.length>0" v-bind:categories="categories" v-bind:current="current" /> -->
-        </div>
-      </main>
+        </article>
+        <main v-for="(category, index) in categories" :key="index">
+          <div
+            v-if="$route.params.cathegorie == category.name || !$route.params.cathegorie && index == 0"
+          >
+            <div class="offers">
+              <ResultCard
+                v-for="(offer, index) in category.offers"
+                :key="index"
+                v-bind:offer="offer"
+                v-bind:link="'/results/'+category.name+''+query+'&offer='+offer.id"
+              />
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   </div>
 </template>
@@ -47,12 +51,14 @@ import { FinderService } from "../shared/services/finder.service";
 import { ButtonConfig } from "../components/NavFooter/ButtonConfig.class";
 import Description from "../components/results/Description.vue";
 import ResultCard from "../components/results/ResultCard.vue";
+import ResultNav from "../components/results/ResultNav.vue";
 
 @Component({
   components: {
     ResultList,
     Description,
     ResultCard,
+    ResultNav,
   },
 })
 export default class Results extends Vue {
@@ -61,6 +67,9 @@ export default class Results extends Vue {
   public descriptions: any[] = [];
   public current: any = null;
   public query: string = "";
+
+  $refs: any;
+  public type: boolean = false;
 
   backToResults() {
     FinderService.updateValue("index", 0, false);
@@ -86,18 +95,27 @@ export default class Results extends Vue {
     }
     if (!!this.current) {
       FinderService.updateCurrentOffer(this.current.offers);
+      FinderService.updateCurrentDescription(this.current);
     }
   }
   updated() {
     if (!!this.current) {
       FinderService.updateCurrentOffer(this.current.offers);
+      FinderService.updateCurrentDescription(this.current);
     }
+    console.log(this.current);
   }
+  checkNavType(type: string): void {
+    // setTimeout(() => {
+    this.type = type == "vertical";
 
+    // console.log(this.$refs["nav"].offsetHeight);
+    // this.verticalNav = this.$refs["nav"].offsetHeight > 58;
+    // }, 100);
+  }
   mounted() {
     this.updateStatus();
     FinderService.loadStatusFromUrl();
-
     FinderService.updateValue("index", null, false);
     this.query = FinderService.parseValueToUrl();
     let categories: any[] = [];
@@ -106,7 +124,7 @@ export default class Results extends Vue {
         descriptions.data.forEach((description: any) => {
           let category = {
             name: description.name,
-            description: description.html,
+            description: FinderService.filterText(description.html),
             offers: [],
           };
           results.data.forEach((result: any) => {
@@ -120,6 +138,7 @@ export default class Results extends Vue {
 
         if (!!this.current) {
           FinderService.updateCurrentOffer(this.current.offers);
+          FinderService.updateCurrentDescription(this.current);
         }
       });
     });
@@ -130,75 +149,82 @@ export default class Results extends Vue {
 
 <style lang="scss">
 .results {
+  article {
+    display: block;
+    position: relative;
+    text-align: left;
+    p {
+    max-height: 300px;
+    overflow: hidden;
+    }
+    button {
+    }
+    .details {
+        // position: absolute;
+        // bottom: 8px;
+        // left: 0;
+        text-align: center;width: 100%;
+    display: block;
+
+      a.max-article {
+
+        background-color: var(--prim-700);
+        text-transform: uppercase;
+        padding: 9px 16px;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        display: inline-block;
+      }
+    }
+  }
   .list {
-    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.6));
-    main > div {
-      padding: 32px 16px 0 16px;
-      background-color: #ebe7db;
-      @media (min-width: 500px) {
-        border-radius: 16px;
-        margin-bottom: 128px;
-      }
+    display: flex;
+    flex-wrap: wrap;
+    .main-box {
+      background-color: var(--brown);
     }
-    border-radius: 8px;
-    nav {
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 16px 0 0 0;
-        @media (min-width: 500px) {
-          padding: 16px 16px 0px 16px;
+    @media (min-width: 701px) {
+      &.vertical {
+        .nav-box {
+          width: 200px;
         }
-        overflow: hidden;
-        margin: 0;
-        li {
-          flex-grow: 1;
-          @media (max-width: 499px) {
-            width: 100%;
-          }
-          a {
-            display: inline-block;
-            color: #007d8c;
-            text-decoration: none;
-            background-color: #f7f3ed;
-            border-radius: 20px 20px 0 0;
-            padding: 16px 16px 32px 16px;
-            text-transform: uppercase;
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: -16px;
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
-            box-shadow: 0 -2px 2px #00000026;
-            &:hover {
-              background-color: #fffdf9;
-            }
-            &.active {
-              background: #ebe7db;
-              color: #29454e;
-            }
+        .main-box {
+          width: calc(100% - 200px);
+        }
+        .offers {
+          @media (max-width: 1100px) {
+            --card-width: 100%;
           }
         }
       }
     }
+
+    @media (max-width: 700px) {
+      .nav-box,
+      .main-box {
+        width: 100%;
+      }
+    }
+  }
+  main > div {
+    padding: 20px;
+    @media (max-width: 700px) {
+      padding: 0;
+    }
+    display: flex;
+    flex-wrap: wrap;
     .offers {
       display: flex;
       flex-wrap: wrap;
-      & > * {
-        width: 100%;
+      gap: 20px;
+      --card-width: 50%;
+      @media (max-width: 900px) {
+        --card-width: 100%;
+      }
+      > * {
+        width: calc(var(--card-width) - 10px);
         box-sizing: border-box;
-        margin-bottom: 16px;
-
-        @media (min-width: 700px) {
-          width: calc(50% - 8px);
-          box-sizing: border-box;
-          &:nth-child(2n) {
-            margin-left: 16px;
-          }
-        }
       }
     }
   }

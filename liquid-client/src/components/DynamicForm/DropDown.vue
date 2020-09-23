@@ -130,6 +130,13 @@ export default class DropDown extends Vue {
   .btn {
     display: grid;
     grid-template-columns: auto 24px;
+    background-color: var(--prim-700);
+    &:hover {
+      background-color: var(--prim-800);
+    }
+    &:active {
+      background-color: var(--prim-900);
+    }
     .content {
       padding: 0 24px;
     }

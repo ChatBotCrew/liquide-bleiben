@@ -5,11 +5,15 @@
       <h2>Was bieten wir?</h2>
       <p>Wir bieten weder Rechts- noch Steuerberatung an.</p>
       <p>
-        Bei diesem <b>Angebot</b> handelt es sich lediglich um einen <b>kostenfreien und unverbindlichen Informationszugang</b> für alle,
-        die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.</p>
+        Bei diesem
+        <b>Angebot</b> handelt es sich lediglich um einen
+        <b>kostenfreien und unverbindlichen Informationszugang</b> für alle,
+        die aufgrund (drohender) Liquiditätsengpässe finanzielle Unterstützung benötigen.
+      </p>
       <p>
         Die Plattform bietet diese Unterstützung nicht selbst an,
-        hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.</p>
+        hilft aber dabei, passende Angebote von Finanzinstituten einzugrenzen.
+      </p>
       <p>
         Bei Fragen rechtlicher, steuerlicher oder finanzplanerischer Natur sollten Experten der jeweiligen Themenfelder
         oder die Finanzinstitute selbst konsultiert werden.
@@ -76,6 +80,12 @@ export default class Start extends Vue {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+}
+article {
+  text-align: left;
+  p {
+    width: 100%;
+  }
 }
 // article {
 //   background-color: var(--brown);

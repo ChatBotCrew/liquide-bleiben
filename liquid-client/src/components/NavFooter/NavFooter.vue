@@ -29,13 +29,15 @@ export default class NavFooter extends Vue {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   background-color: white;
   padding: 16px;
-  max-width: 1024px;
+  // max-width: 1024px;
   box-sizing: border-box;
   button {
     margin-bottom: 16px;
+    max-width: 320px;
+    width: 100%;
     &:last-child {
       margin: 0;
     }
@@ -45,6 +47,7 @@ export default class NavFooter extends Vue {
     button {
       width: calc(50% - 8px);
       margin: 0 16px 0 0;
+      // width: 100%;
     }
   }
 }

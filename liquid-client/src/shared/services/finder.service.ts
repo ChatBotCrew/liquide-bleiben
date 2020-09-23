@@ -6,9 +6,13 @@ export class FinderService {
   static values: any = {};
   static currentOffer: any = null;
   static currentOfferListeners: ((offer: any) => void)[] = [];
+  static currentDescriptionListeners: ((description: any) => void)[] = [];
 
   public static addCurrentOfferListener(listener: (offer: any) => void) {
     this.currentOfferListeners.push(listener);
+  }
+  public static addCurrentDescriptionListener(listener: (description: any) => void) {
+    this.currentDescriptionListeners.push(listener);
   }
 
   public static loadStatusFromUrl() {
@@ -38,6 +42,24 @@ export class FinderService {
     this.currentOfferListeners.forEach(listener => {
       listener(this.currentOffer);
     });
+  }
+  public static updateCurrentDescription(current: any) {
+    let queryParams = new URLSearchParams(window.location.search);
+    let descriptionFlag = !!queryParams.get('description');
+    if(descriptionFlag){
+      console.log({name: current.name, text: current.description});
+      
+      this.currentDescriptionListeners.forEach(listener => {
+        listener({name: current.name, text: current.description});
+      });
+    } else {
+      this.currentDescriptionListeners.forEach(listener => {
+        listener(null);
+      });
+    }
+    // console.log(descriptionFlag);
+    
+    
   }
   public static parseValueToUrl(values = this.values): string {
     let params = []
@@ -116,5 +138,24 @@ export class FinderService {
   }
   public static getDescriptions(): any {
     return axios.get(location.origin + '/api/descriptions');
+  }
+  public static filterText(text: string): string{
+    let replacedText = text;
+    this.config.forEach(con => {
+      if(con.config.type === 'select'){
+        let replacement = '';
+        con.config.options.forEach((option:any) => {
+          if(option.value === this.values[con.config.key]){
+            replacement = option.key
+          }
+        });
+        replacedText = replacedText.replaceAll('&lt;&lt;'+con.config.key+'&gt;&gt;', replacement);
+        
+      } else {
+        replacedText = replacedText.replaceAll('&lt;&lt;'+con.config.key+'&gt;&gt;', this.values[con.config.key]);
+      }
+    });
+    
+    return replacedText;
   }
 }

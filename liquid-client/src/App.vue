@@ -20,6 +20,9 @@
     <transition name="fscard">
       <FullscreenResultCard v-if="!!offer" v-bind:offer="offer"></FullscreenResultCard>
     </transition>
+    <transition name="fscard">
+      <FullscreenDescriptionCard v-if="!!description" v-bind:name="description.name" v-bind:text="description.text"></FullscreenDescriptionCard>
+    </transition>
     <transition name="cookies">
       <div class="cookies-banner" v-if="cookieBannerVisible">
         <div>
@@ -49,6 +52,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import NavHeader from "./components/NavHeader.vue";
 import NavFooter from "./components/NavFooter/NavFooter.vue";
 import FullscreenResultCard from "./components/results/FullscreenResultCard.vue";
+import FullscreenDescriptionCard from "./components/results/FullscreenDescriptionCard.vue";
 import { FinderService } from "./shared/services/finder.service";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
 import AnalyticsService from "./shared/services/analytics.service";
@@ -59,12 +63,14 @@ import AnalyticsService from "./shared/services/analytics.service";
     NavFooter,
     OverlayScrollbarsComponent,
     FullscreenResultCard,
+    FullscreenDescriptionCard,
   },
 })
 export default class App extends Vue {
   public buttons: ButtonConfig[] = [];
   public scrollMode: boolean = true;
   public offer: any = false;
+  public description: any = false;
   public cookieBannerVisible: boolean = true;
   public gtmProperty = "GTM-THC2RPB";
 
@@ -79,6 +85,9 @@ export default class App extends Vue {
     FinderService.loadStatusFromUrl();
     FinderService.addCurrentOfferListener((offer: any) => {
       this.offer = offer;
+    });
+    FinderService.addCurrentDescriptionListener((description: any) => {
+      this.description = description;
     });
     // AnalyticsService.init(this.$cookies);
     this.cookieBannerVisible = this.$cookies.get("allow") == null;
@@ -150,7 +159,15 @@ export default class App extends Vue {
       }
       @media (min-width: 700px) {
         > * {
+          // width: calc(100% - 32px);
+          // max-width: 900px;
+          // padding: 0;
+        }
+        > .max-screen {
           width: calc(100% - 32px);
+          max-width: 1770px;
+        }
+        > :not(.max-screen) {
           max-width: 900px;
         }
       }

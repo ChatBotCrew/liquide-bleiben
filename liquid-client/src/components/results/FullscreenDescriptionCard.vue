@@ -1,5 +1,5 @@
 <template>
-  <div class="fs-result-card">
+  <div class="fs-description-card">
     <div class="background"></div>
     <OverlayScrollbarsComponent
       class="full-view"
@@ -8,25 +8,8 @@
     >
       <div class="content">
         <div class="result-card">
-          <h3>{{offer.name}}</h3>
-          <ul>
-            <li v-for="(field, i) in offer.fields.main" :key="'main'+i">
-              <span class="name">{{field.name}}:</span>
-              <span class="value" v-if="!isLink(field.value)" v-html="field.value"></span>
-              <span class="value" v-if="isLink(field.value)">
-                <a :href="field.value">Link</a>
-              </span>
-            </li>
-          </ul>
-          <ul>
-            <li v-for="(field, index) in offer.fields.details" :key="'details'+index">
-              <span class="name">{{field.name}}:</span>
-              <span class="value" v-if="!isLink(field.value)" v-html="field.value"></span>
-              <span class="value" v-if="isLink(field.value)">
-                <a :href="field.value">Link zu {{field.name}}</a>
-              </span>
-            </li>
-          </ul>
+          <h3>{{name}}</h3>
+          <div v-html="text"></div>
         </div>
       </div>
     </OverlayScrollbarsComponent>
@@ -45,8 +28,9 @@ import { FinderService } from "../../shared/services/finder.service";
     OverlayScrollbarsComponent,
   },
 })
-export default class FullscreenResultCard extends Vue {
-  @Prop() public offer!: any;
+export default class FullscreenDescriptionCard extends Vue {
+  @Prop() public name!: string;
+  @Prop() public text!: any;
   // @Prop() public link!: string;
   close() {
     // FinderService.updateCurrentOffer(null);
@@ -64,7 +48,7 @@ export default class FullscreenResultCard extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.fs-result-card {
+.fs-description-card {
   &.fscard-enter-active,
   &.fscard-leave-active {
     transition: opacity 0.3s;
@@ -132,29 +116,6 @@ export default class FullscreenResultCard extends Vue {
       margin: 0 0 24px 0;
       padding: 0 0 16px 0;
       overflow-wrap: anywhere;
-    }
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      li {
-        span {
-          display: block;
-          width: 100%;
-          &.name {
-            color: var(--secondary);
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-          }
-          &.value {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 32px;
-            color: black;
-          }
-        }
-      }
     }
     .details {
     }

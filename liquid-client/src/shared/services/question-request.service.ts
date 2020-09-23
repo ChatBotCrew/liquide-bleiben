@@ -57,8 +57,8 @@ export default abstract class QuestionRequestService {
             { key: "Garten- und Landschaftsbau", value: 6 },
             { key: "Künstler:in", value: 7 },
             { key: "Heilberufe", value: 8 },
-            { key: "Gemeinnützig", value: 9 },
-            { key: "Verein", value: 10 },
+            { key: "Venture Capital Gesellschaft", value: 12 },
+            { key: "Technologie", value: 13 },
             { key: "Sonstiges", value: 11 }
           ],
           validators: [
@@ -84,33 +84,33 @@ export default abstract class QuestionRequestService {
           options: [
             { key: "Personen(gesellschaften)", value: null },
 
-            { key: "Eingetragener Kaufmann (e.K.)", value: 5 },
-            { key: "e.V. mit wirtschaftlichem Geschäftsbetrieb", value: 12 },
             { key: "Einzelunternehmer:in", value: 8 },
-            { key: "Freiberufler", value: 20 },
+            { key: "Freiberufler & Heilberufler", value: 20 },
             { key: "GbR (BGB-Gesellschaft)", value: 4 },
             { key: "OHG", value: 7 },
-            { key: "Partnergesellschaft", value: 22 },
-
-            { key: "Kapitalgesellschaften", value: null },
-
-            { key: "AG", value: 14 },
-            { key: "AG & Co KG", value: 21 },
-            { key: "Genossenschaft (eingetragen)", value: 10 },
-            { key: "Genossenschaft (nicht eingetragen)", value: 10 },
-            { key: "GmbH", value: 1 },
-            { key: "gGmbH", value: 23 },
-            { key: "GmbH & Co KG", value: 6 },
             { key: "GmbH & Co OHG", value: 18 },
+            { key: "Partnergesellschaft", value: 22 },
             { key: "KG", value: 11 },
-            { key: "KGaA", value: 15 },
-            { key: "Stille Gesellschaft", value: 13 },
+            { key: "GmbH & Co KG", value: 6 },
+            { key: "AG & Co KG", value: 21 },
+            { key: "Eingetragener Kaufmann (e.K.)", value: 5 },
+            
+            { key: "Kapitalgesellschaften", value: null },
+            
+            { key: "GmbH", value: 1 },
+            { key: "gGmbH (gemeinnützig)", value: 23 },
             { key: "UG", value: 2 },
             { key: "gUG", value: 26 },
-            { key: "Venture Capital Gesellschaft", value: 16 },
-
+            { key: "Verein", value: 27 },
+            { key: "e.V. mit wirtschaftlichem Geschäftsbetrieb", value: 12 },
+            { key: "eingetragen Genossenschaft (eG)", value: 10 },
+            { key: "Genossenschaft (nicht eingetragen)", value: 10 },
+            { key: "AG", value: 14 },
+            { key: "KGaA", value: 15 },
+            
+            
             { key: "Sonstige", value: null },
-
+            
             { key: "Sonstige", value: 25 },
           ],
           validators: [

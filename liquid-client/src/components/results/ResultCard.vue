@@ -10,10 +10,12 @@
         {{field}}
       </li>-->
     </ul>
-    <span class="details">
-      Details:
-      <router-link :to="link">ansehen</router-link>
-    </span>
+    <div class="details">
+      <router-link :to="link">
+        <!-- <span class="fa fa-plus"></span> -->
+        Details anzeigen
+      </router-link>
+    </div>
     <!-- {{offer}} -->
   </div>
 </template>
@@ -32,19 +34,22 @@ export default class ResultCard extends Vue {
 <style scoped lang="scss">
 .result-card {
   background-color: var(--brown);
-  border: 2px white solid;
   border-radius: 8px;
-  padding: 32px 16px 16px 16px;
-  text-align: center;
+  padding: 26px 30px 30px 30px;
+  text-align: left;
   display: flex;
   flex-direction: column;
+  box-shadow: #00000029 0 1px 8px;
   justify-content: space-between;
+  background: white;
+  @media (max-width: 700px) {
+    border-radius: 0;
+  }
   h3 {
-    font-weight: 400;
-    font-size: 24px;
-    border-bottom: white 2px solid;
-    margin: 0 0 32px 0;
-    padding: 0 0 32px 0;
+    border-bottom: var(--prim-700) 2px solid;
+    margin: 0 0 24px 0;
+    padding: 0 0 16px 0;
+    overflow-wrap: anywhere;
   }
   ul {
     list-style: none;
@@ -55,19 +60,33 @@ export default class ResultCard extends Vue {
         display: block;
         width: 100%;
         &.name {
-          font-size: 20px;
-          font-weight: 300;
+          color: var(--secondary);
+          font-size: 18px;
+          font-weight: 600;
           margin-bottom: 8px;
+          overflow-wrap: anywhere;
         }
         &.value {
-          font-size: 20px;
-          font-weight: 400;
-          margin-bottom: 32px;
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 16px;
+          color: black;
+          overflow-wrap: anywhere;
         }
       }
     }
   }
   .details {
+    text-align: right;
+    a {
+      background-color: var(--prim-700);
+      text-transform: uppercase;
+      padding: 9px 16px;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-block;
+    }
   }
 }
 </style>

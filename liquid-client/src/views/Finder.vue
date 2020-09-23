@@ -14,7 +14,7 @@
           ></DynamicForm>
         </article>
         <article>
-          <h2>Anmerkungen:</h2>
+          <h3>Anmerkungen:</h3>
           <p class="factors-title" v-if="!!question.factorsTitle">{{question.factorsTitle}}</p>
           <table class="factors-table" v-if="!!question.factors">
             <tr>
