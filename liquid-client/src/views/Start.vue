@@ -1,5 +1,5 @@
 <template>
-  <div class="home container-xs">
+  <div class="home container-xs screen">
     <h1>{{$router.currentRoute.meta.title}}</h1>
     <article>
       <h2>Was bieten wir?</h2>

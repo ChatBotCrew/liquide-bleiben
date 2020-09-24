@@ -159,15 +159,12 @@ export default class App extends Vue {
       }
       @media (min-width: 700px) {
         > * {
-          // width: calc(100% - 32px);
-          // max-width: 900px;
-          // padding: 0;
+          width: calc(100% - 32px);
         }
         > .max-screen {
-          width: calc(100% - 32px);
           max-width: 1770px;
         }
-        > :not(.max-screen) {
+        > .screen {
           max-width: 900px;
         }
       }

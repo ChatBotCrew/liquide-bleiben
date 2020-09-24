@@ -1,5 +1,5 @@
 <template>
-  <div class="finder">
+  <div class="finder screen">
     <h1>{{$router.currentRoute.meta.title}}</h1>
     <Progress v-bind:values="progressValues" />
     <!-- <transition :name="'direction'" v-for="(question, index) in questions" :key="index"> -->
