@@ -45,13 +45,11 @@ document.getElementById('export').onclick = function() {
  */
 function load(confirm) {
     var files = document.getElementById('selectFiles').files;
-    console.log(files);
     if (files.length <= 0) {
       return;
     }
     var fr = new FileReader();
     fr.onload = function(e) { 
-      console.log(e.target.result);
       answers = JSON.parse(e.target.result);
     }
     fr.readAsText(files.item(0));

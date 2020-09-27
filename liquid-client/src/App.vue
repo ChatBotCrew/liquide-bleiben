@@ -97,14 +97,13 @@ export default class App extends Vue {
   disableCookies() {
     this.cookieBannerVisible = false;
     // AnalyticsService.disableCookies();
-    this.$cookies.set("allow", true, { expires: "1d" });
+    this.$cookies.set("allow", true, { expires: "365d" });
     AnalyticsService.allowed = true;
-    console.log(this.$cookies.get("allow"));
   }
   enableCookies() {
     this.cookieBannerVisible = false;
     // AnalyticsService.enableCookies();
-    this.$cookies.set("allow", false, { expires: "1d" });
+    this.$cookies.set("allow", false, { expires: "365d" });
     AnalyticsService.allowed = false;
     (function (w: any, d: any, s: any, l: any, i: any) {
       w[l] = w[l] || [];

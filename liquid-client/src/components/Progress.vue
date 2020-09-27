@@ -1,7 +1,7 @@
 <template>
   <div class="progress">
     <div class="progressbar">
-      <div class="value" v-bind:style="{ 'width': progress + '%' }"></div>
+      <div class="value" v-bind:style="{ width: progress + '%' }"></div>
     </div>
     <!-- {{values}} -->
     <!-- TODO: Add answers -->
@@ -17,7 +17,10 @@ export default class Progress extends Vue {
   private startZero = 0;
 
   public get progress() {
-    return this.startZero * 100*(this.values.index+1)/(Object.keys(this.values).length-1)
+    return (
+      (this.startZero * 100 * (this.values.index + 1)) /
+      (Object.keys(this.values).length - 1)
+    );
   }
   mounted() {
     setTimeout(() => {
@@ -37,16 +40,20 @@ export default class Progress extends Vue {
     position: relative;
     width: 100%;
     height: 24px;
-    border-radius: 12px;
     background-color: var(--light-grey);
-  }
-    .value {
-      position: absolute;
-      width: 0%;
-      height: 100%;
-      background-color: var(--prim-700);
+    @media (min-width: 700px) {
       border-radius: 12px;
-      transition: 0.5s width;
     }
+  }
+  .value {
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    background-color: var(--prim-700);
+    transition: 0.5s width;
+    @media (min-width: 700px) {
+      border-radius: 12px;
+    }
+  }
 }
 </style>

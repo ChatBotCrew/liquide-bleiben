@@ -16,14 +16,20 @@
               <span class="value" v-if="isLink(field.value)">
                 <a :href="field.value">Link</a>
               </span>
+              <span class="value" v-if="field.value == '≤ 2,147,483,647 €'">
+                Egal
+              </span>
             </li>
           </ul>
           <ul>
             <li v-for="(field, index) in offer.fields.details" :key="'details'+index">
               <span class="name">{{field.name}}:</span>
-              <span class="value" v-if="!isLink(field.value)" v-html="field.value"></span>
+              <span class="value" v-if="!isLink(field.value) && field.value != '≤ 2,147,483,647 €'" v-html="field.value"></span>
               <span class="value" v-if="isLink(field.value)">
                 <a :href="field.value">Link zu {{field.name}}</a>
+              </span>
+              <span class="value" v-if="field.value == '≤ 2,147,483,647 €'">
+                Beliebig
               </span>
             </li>
           </ul>

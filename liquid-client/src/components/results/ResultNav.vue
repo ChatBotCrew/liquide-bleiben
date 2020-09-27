@@ -41,7 +41,6 @@ export default class ResultNav extends Vue {
       this.type = "vertical";
     }
     return this.type;
-    // console.log(this.type);
   }
 
   mounted() {
@@ -78,7 +77,7 @@ export default class ResultNav extends Vue {
         font-weight: 500;
         color: var(--prim-700);
         text-decoration: none;
-        text-transform: uppercase;
+        // text-transform: uppercase;
         padding: 20px;
         display: block;
         border-radius: 7px 7px 0 0;

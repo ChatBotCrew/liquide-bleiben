@@ -144,6 +144,9 @@ export default class DropDown extends Vue {
       .arrow {
         transform: rotate(360deg);
         transition: transform 0.5s;
+        img {
+          width: 24px;
+        }
       }
       &.open .arrow {
         transform: rotate(180deg);

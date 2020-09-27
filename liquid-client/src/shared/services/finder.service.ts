@@ -47,8 +47,6 @@ export class FinderService {
     let queryParams = new URLSearchParams(window.location.search);
     let descriptionFlag = !!queryParams.get('description');
     if(descriptionFlag){
-      console.log({name: current.name, text: current.description});
-      
       this.currentDescriptionListeners.forEach(listener => {
         listener({name: current.name, text: current.description});
       });
@@ -57,7 +55,6 @@ export class FinderService {
         listener(null);
       });
     }
-    // console.log(descriptionFlag);
     
     
   }
@@ -129,7 +126,6 @@ export class FinderService {
     if (tmpValues != null) {
       return axios.get(location.origin + '/api/offers' + this.parseValueToUrl(tmpValues))
     } else {
-      console.log('error');
       return null;
     }
   }

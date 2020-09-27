@@ -1,9 +1,13 @@
 <template>
   <div class="results max-screen">
     <h1>Deine Resultate</h1>
-    <!-- <h1>{{$router.currentRoute.meta.title}}</h1> -->
-    <!-- {{$route.params.cathegorie}} -->
-    <div class="list" :class="{'vertical': type}">
+    <h2>
+      <button :class="{'btn': true, 'outline': !isCopied, 'small': true}" v-on:click="copyToClipboard()">
+        Link kopieren
+        <!-- <i class="fa fa-copy"></i> -->
+      </button>
+    </h2>
+    <div class="list" :class="{ vertical: type }">
       <div class="nav-box" ref="nav">
         <ResultNav
           v-if="categories.length > 0"
@@ -15,25 +19,42 @@
       <div class="main-box">
         <article v-if="current">
           <h2 v-html="current.name"></h2>
-          <p class="description-box" v-if="current.description" v-html="current.description"></p>
+          <p
+            class="description-box"
+            v-if="current.description"
+            v-html="current.description"
+          ></p>
           <div class="details">
             <router-link
               class="max-article"
               v-if="current.description"
-              :to="'/results/'+current.name+''+query+'&description=true'"
-            >Details anzeigen</router-link>
+              :to="
+                '/results/' + current.name + '' + query + '&description=true'
+              "
+              >Details anzeigen</router-link
+            >
           </div>
         </article>
         <main v-for="(category, index) in categories" :key="index">
           <div
-            v-if="$route.params.cathegorie == category.name || !$route.params.cathegorie && index == 0"
+            v-if="
+              $route.params.cathegorie == category.name ||
+              (!$route.params.cathegorie && index == 0)
+            "
           >
             <div class="offers">
               <ResultCard
                 v-for="(offer, index) in category.offers"
                 :key="index"
                 v-bind:offer="offer"
-                v-bind:link="'/results/'+category.name+''+query+'&offer='+offer.id"
+                v-bind:link="
+                  '/results/' +
+                  category.name +
+                  '' +
+                  query +
+                  '&offer=' +
+                  offer.id
+                "
               />
             </div>
           </div>
@@ -67,6 +88,7 @@ export default class Results extends Vue {
   public descriptions: any[] = [];
   public current: any = null;
   public query: string = "";
+  public isCopied: boolean = false;
 
   $refs: any;
   public type: boolean = false;
@@ -77,6 +99,21 @@ export default class Results extends Vue {
       path: "/finder" + this.query,
     });
   }
+
+  copyToClipboard(str: string = window.location.href) {
+    const el = document.createElement("textarea");
+    el.value = str;
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+
+    this.isCopied = true;
+  }
+
   @Emit("updateStatus")
   updateStatus(): ButtonConfig[] {
     return [
@@ -96,6 +133,8 @@ export default class Results extends Vue {
     if (!!this.current) {
       FinderService.updateCurrentOffer(this.current.offers);
       FinderService.updateCurrentDescription(this.current);
+    } else if (!!this.categories) {
+      this.current = this.categories[0];
     }
   }
   updated() {
@@ -103,15 +142,9 @@ export default class Results extends Vue {
       FinderService.updateCurrentOffer(this.current.offers);
       FinderService.updateCurrentDescription(this.current);
     }
-    console.log(this.current);
   }
   checkNavType(type: string): void {
-    // setTimeout(() => {
     this.type = type == "vertical";
-
-    // console.log(this.$refs["nav"].offsetHeight);
-    // this.verticalNav = this.$refs["nav"].offsetHeight > 58;
-    // }, 100);
   }
   mounted() {
     this.updateStatus();
@@ -154,20 +187,20 @@ export default class Results extends Vue {
     position: relative;
     text-align: left;
     p {
-    max-height: 300px;
-    overflow: hidden;
+      max-height: 300px;
+      overflow: hidden;
     }
     button {
     }
     .details {
-        // position: absolute;
-        // bottom: 8px;
-        // left: 0;
-        text-align: center;width: 100%;
-    display: block;
+      // position: absolute;
+      // bottom: 8px;
+      // left: 0;
+      text-align: center;
+      width: 100%;
+      display: block;
 
       a.max-article {
-
         background-color: var(--prim-700);
         text-transform: uppercase;
         padding: 9px 16px;
