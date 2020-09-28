@@ -31,7 +31,7 @@
           <a href="https://www.wir-bleiben-liquide.de/partner">Partner</a>
         </li>
         <li>
-          <a href="https://www.wir-bleiben-liquide.de/copy-of-team-1">Team</a>
+          <a href="https://www.wir-bleiben-liquide.de/team">Team</a>
         </li>
         <li>
           <a class="active" href="">Förderfinder</a>
