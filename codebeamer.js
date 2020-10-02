@@ -21,24 +21,6 @@ let clusters = [];
  */
 let displayedColumns = [];
 
-const dropdowns = [
-  {
-    id: 1000,
-    name: 'state',
-    options: []
-  },
-  {
-    id: 1001,
-    name: 'trade',
-    options: []
-  },
-  {
-    id: 1004,
-    name: 'legal',
-    options: []
-  },
-]
-
 const wikiIndizes = [3136, 3140, 3144, 3146, 3149, 3153, 3192, 3240]
 const wikiPages = []
 
@@ -114,13 +96,6 @@ function getOffers() {
   return offers;
 }
 
-/**
- * Return the full list of selectable values stored in the cache
- */
-function getDropdowns() {
-  return dropdowns;
-}
-
 function getColumns() {
   return displayedColumns;
 }
@@ -136,19 +111,16 @@ function getDescriptions() {
 /**
  * Query for all data which is stored in codebeamer to be saved in the in in-memory cache
  */
-async function refreshData() {
-  return Promise.all([
+function refreshData() {
+  Promise.all([
     retrieveOffers(),
-    retrieveColumnsAndClusters(),
-    Promise.all(dropdowns.map(async dd => {
-      const ddOptions = await retrieveDropdownOptions(dd.id);
-      if(dd.name === 'state') ddOptions.pop();
-      dd.options = ddOptions;
-    })),
-    Promise.all(wikiIndizes.map(async (wp, idx) => {
-      wikiPages[idx] = await retrieveWikiNameAndText(wp);
-    }))
-  ]);
+    retrieveColumnsAndClusters()
+  ]).catch(err=> {
+    console.log('err');
+  })
+  Promise.all(wikiIndizes.map(async (wp, idx) => {
+    wikiPages[idx] = await retrieveWikiNameAndText(wp);
+  }))
 }
 
 setInterval(refreshData, 1800000);
@@ -158,6 +130,5 @@ module.exports = {
   getClusters,
   getColumns,
   getDescriptions,
-  getDropdowns,
   getOffers
 }

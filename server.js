@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var { getDescriptions } = require('./description-service');
-var { getDropdowns } = require('./meta-service');
 var { getOffers } = require('./offer-service');
 
 const PORT = process.env.PORT || 8080;
@@ -11,7 +10,12 @@ const PORT = process.env.PORT || 8080;
  * Serve the directory "public" statically
  * The directory includes the frontend build
  */
-app.use(express.static('public'));
+app.use('/',express.static('./liquid-client/dist'));
+app.use('/finder',express.static('./liquid-client/dist'));
+app.use('/results',express.static('./liquid-client/dist'));
+app.use('/results/*',express.static('./liquid-client/dist'));
+app.use('/test',express.static('./liquid-client/dist'));
+app.use('/test/*',express.static('./liquid-client/dist'));
 
 /**
  * Provide funding programs.
@@ -24,14 +28,6 @@ app.get('/api/offers', async (req, res) => {
   res.send(getOffers(req.query));
 });
 
-/**
- * Return possible options for the different filter parameters 
- * @param {e.Response} req
- * @param {e.Response} res
- */
-app.get('/api/selects', async (req, res) => {
-  res.send(getDropdowns())
-});
 
 /**
  * Return all descriptions for the different types of funding programs

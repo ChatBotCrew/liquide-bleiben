@@ -7,7 +7,8 @@ const FIELD_IDS = {
   MAX_SALES: 10012,
   MIN_EMPLOYEES: 10013,
   MAX_EMPLOYEES: 10014,
-  MAX_TOTAL_ASSETS: 10015
+  MAX_TOTAL_ASSETS: 10015,
+  LEGAL: 1004,
 };
 
 /**
@@ -43,6 +44,20 @@ function filterOffers(filterParams) {
       maxFilter(off.fields, FIELD_IDS.MAX_TOTAL_ASSETS, filterParams.totalAssets)
     });
   }
+  
+  const getLegalFilter = (offer) => {
+    return offer.fields.find(f=>f.fieldId == FIELD_IDS.LEGAL);
+  }
+
+  if (filterParams.legal) {
+    filteredOffers = filteredOffers.filter(offer=>{
+      let legalFilter = getLegalFilter(offer);
+      if(legalFilter == undefined) {
+        return true;
+      }
+      return !!legalFilter.values.find(value=>value.id==filterParams.legal);
+    });
+  }
 
   if (filterParams.employees) {
     filteredOffers = filteredOffers.filter(off => minMaxFilter(off.fields, FIELD_IDS.MIN_EMPLOYEES, FIELD_IDS.MAX_EMPLOYEES, filterParams.employees));
@@ -52,6 +67,12 @@ function filterOffers(filterParams) {
 }
 
 function maxFilter(rowFields, maxId, filterValue) {
+  const maxField = rowFields.find(field => field.fieldId === maxId);
+  if (!maxField) return false;
+  return maxField.value >= filterValue;
+}
+
+function selectFilter(rowFields, maxId, filterValue) {
   const maxField = rowFields.find(field => field.fieldId === maxId);
   if (!maxField) return false;
   return maxField.value >= filterValue;

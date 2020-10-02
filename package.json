@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "dev:server": "npm run build && nodemon server.js",
-    "start": "sirv public --port=8080",
-    "start:server": "npm run build && node server.js"
+    "dev:server": "nodemon server.js",
+    "start:server": "node server.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
