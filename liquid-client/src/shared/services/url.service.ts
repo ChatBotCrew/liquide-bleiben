@@ -12,6 +12,8 @@ export default abstract class URLService {
   public static changeOneParam(key: string, value: any) {
     let params = URLService.getCurrentParams();
     params[key] = value;
+    console.log(key);
+    
   }
   public paramsToString(params: any) {
     // window.history.pushState({}, "", "?index=" + this.currentQuestion);

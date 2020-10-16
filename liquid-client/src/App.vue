@@ -23,7 +23,7 @@
     <transition name="fscard">
       <FullscreenDescriptionCard v-if="!!description" v-bind:name="description.name" v-bind:text="description.text"></FullscreenDescriptionCard>
     </transition>
-    <transition name="cookies">
+    <!-- <transition name="cookies">
       <div class="cookies-banner" v-if="cookieBannerVisible">
         <div>
           <div>
@@ -42,7 +42,7 @@
         <button class="btn small" v-on:click="enableCookies">Ich lehne ab</button>
         <button class="btn small" v-on:click="disableCookies">Ich stimme zu</button>
       </div>
-    </transition>
+    </transition> -->
   </div>
 </template>
 
@@ -72,7 +72,7 @@ export default class App extends Vue {
   public offer: any = false;
   public description: any = false;
   public cookieBannerVisible: boolean = true;
-  public gtmProperty = "GTM-THC2RPB";
+  public gtmProperty = "UA-180130811-1";
 
   public gtmTrackerName = "gtmDefaultTracker";
 
@@ -90,35 +90,39 @@ export default class App extends Vue {
       this.description = description;
     });
     // AnalyticsService.init(this.$cookies);
-    this.cookieBannerVisible = this.$cookies.get("allow") == null;
-    AnalyticsService.allowed = this.$cookies.get("allow");
+    // this.cookieBannerVisible = this.$cookies.get("allow") == null;
+    // AnalyticsService.allowed = this.$cookies.get("allow");
+    // console.log();
+    
   }
 
-  disableCookies() {
-    this.cookieBannerVisible = false;
-    // AnalyticsService.disableCookies();
-    this.$cookies.set("allow", true, { expires: "365d" });
-    AnalyticsService.allowed = true;
-  }
-  enableCookies() {
-    this.cookieBannerVisible = false;
-    // AnalyticsService.enableCookies();
-    this.$cookies.set("allow", false, { expires: "365d" });
-    AnalyticsService.allowed = false;
-    (function (w: any, d: any, s: any, l: any, i: any) {
-      w[l] = w[l] || [];
-      w[l].push({
-        "gtm.start": new Date().getTime(),
-        event: "gtm.js",
-      });
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != "dataLayer" ? "&l=" + l : "";
-      j.async = true;
-      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, "script", "dataLayer", this.gtmProperty);
-  }
+  // disableCookies() {
+  //   this.cookieBannerVisible = false;
+  //   // AnalyticsService.disableCookies();
+  //   this.$cookies.set("allow", true, { expires: "365d" });
+  //   AnalyticsService.allowed = true;
+  // }
+  // enableCookies() {
+  //   this.cookieBannerVisible = false;
+  //   // AnalyticsService.enableCookies();
+  //   this.$cookies.set("allow", false, { expires: "365d" });
+  //   AnalyticsService.allowed = false;
+  //   let g = (function (w: any, d: any, s: any, l: any, i: any) {
+  //     w[l] = w[l] || [];
+  //     w[l].push({
+  //       "gtm.start": new Date().getTime(),
+  //       event: "gtm.js",
+  //     });
+  //     var f = d.getElementsByTagName(s)[0],
+  //       j = d.createElement(s),
+  //       dl = l != "dataLayer" ? "&l=" + l : "";
+  //     j.async = true;
+  //     j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+  //     f.parentNode.insertBefore(j, f);
+  //   })(window, document, "script", "dataLayer", this.gtmProperty);
+  //   console.log(g);
+    
+  // }
 }
 </script>
 
