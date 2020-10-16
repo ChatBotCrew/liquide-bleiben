@@ -11,6 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@200;300;500;400;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180130811-1"></script>
+    <button styles="z-index:100; position: fixed" onclick="ga('send', 'event', 'videos', 'Play', 'Chappy', 55)">Example Button Text</button>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-180130811-1');
+    </script>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>

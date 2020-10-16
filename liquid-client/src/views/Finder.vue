@@ -1,12 +1,16 @@
 <template>
   <div class="finder screen">
-    <h1>{{$router.currentRoute.meta.title}}</h1>
+    <h1>{{ $router.currentRoute.meta.title }}</h1>
     <Progress v-bind:values="progressValues" />
     <!-- <transition :name="'direction'" v-for="(question, index) in questions" :key="index"> -->
-    <div :name="'direction'" v-for="(question, index) in questions" :key="index">
+    <div
+      :name="'direction'"
+      v-for="(question, index) in questions"
+      :key="index"
+    >
       <div v-if="index === currentQuestion">
         <article>
-          <h2>{{question.title}}</h2>
+          <h2>{{ question.title }}</h2>
           <DynamicForm
             v-if="renderComponent"
             v-bind:config="question.config"
@@ -15,21 +19,29 @@
         </article>
         <article>
           <h3>Anmerkungen:</h3>
-          <p class="factors-title" v-if="!!question.factorsTitle">{{question.factorsTitle}}</p>
+          <p class="factors-title" v-if="!!question.factorsTitle">
+            {{ question.factorsTitle }}
+          </p>
           <table class="factors-table" v-if="!!question.factors">
             <tr>
               <th>Arbeitszeit</th>
               <th>Faktor</th>
             </tr>
             <tr v-for="(factor, i) in question.factors" :key="i">
-              <td>{{factor.time}}</td>
-              <td>{{factor.value}}</td>
+              <td>{{ factor.time }}</td>
+              <td>{{ factor.value }}</td>
             </tr>
           </table>
           <p v-html="question.description"></p>
-          <button class="btn" v-if="question.config.key=='employees'" v-on:click="calcIsOpen = true">VZÄ-Hilfsrechner öffnen</button>
+          <button
+            class="btn"
+            v-if="question.config.key == 'employees'"
+            v-on:click="calcIsOpen = true"
+          >
+            VZÄ-Hilfsrechner öffnen
+          </button>
           <EmployeesCalculator
-            v-if="question.config.key=='employees' && calcIsOpen"
+            v-if="question.config.key == 'employees' && calcIsOpen"
             v-bind:question="question"
             v-on:status="setEmployees"
           ></EmployeesCalculator>
@@ -92,12 +104,20 @@ export default class Finder extends Vue {
       FinderService.updateValue("index", --this.currentQuestion);
     } else {
       FinderService.updateValue("index", null, false);
+      
       this.$router.push({
         path: "/" + FinderService.parseValueToUrl(),
       });
     }
     this.progressValues = FinderService.values;
     this.calcIsOpen = false;
+    
+      // let w:any = window;
+      //   w.gtag("event", "Click", {
+      //     event_category: "Button",
+      //     event_label: "Previous",
+      //     event_value: FinderService.values,
+      //   })
   }
   public next() {
     let key = this.questions[this.currentQuestion].config.key;
@@ -114,6 +134,14 @@ export default class Finder extends Vue {
     }
     this.progressValues = FinderService.values;
     this.calcIsOpen = false;
+
+    
+      // let w:any = window;
+      //   w.gtag("event", "Click", {
+      //     event_category: "Button",
+      //     event_label: "Next",
+      //     event_value: FinderService.values,
+      //   });
   }
 
   public setEmployees(bla: any) {

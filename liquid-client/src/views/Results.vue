@@ -93,7 +93,7 @@ export default class Results extends Vue {
   $refs: any;
   public type: boolean = false;
 
-  backToResults() {
+  backToFinder() {
     FinderService.updateValue("index", 0, false);
     this.$router.push({
       path: "/finder" + this.query,
@@ -118,7 +118,7 @@ export default class Results extends Vue {
   updateStatus(): ButtonConfig[] {
     return [
       new ButtonConfig("Zurück zum Finder", false, () => {
-        this.backToResults();
+        this.backToFinder();
       }),
     ];
   }
