@@ -2,7 +2,10 @@
   <div class="results max-screen">
     <h1>Deine Resultate</h1>
     <h2>
-      <button :class="{'btn': true, 'outline': !isCopied, 'small': true}" v-on:click="copyToClipboard()">
+      <button
+        :class="{ btn: true, outline: !isCopied, small: true }"
+        v-on:click="copyToClipboard()"
+      >
         Link kopieren
         <!-- <i class="fa fa-copy"></i> -->
       </button>
@@ -67,12 +70,15 @@
 <script lang="ts">
 // @ is an alias to /src
 import ResultList from "../components/ResultList.vue";
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import { FinderService } from "../shared/services/finder.service";
+import { NotificationService } from "../shared/services/notfication.service";
 import { ButtonConfig } from "../components/NavFooter/ButtonConfig.class";
 import Description from "../components/results/Description.vue";
 import ResultCard from "../components/results/ResultCard.vue";
 import ResultNav from "../components/results/ResultNav.vue";
+import { Route } from "vue-router";
+import AnalyticsService from "../shared/services/analytics.service";
 
 @Component({
   components: {
@@ -175,6 +181,17 @@ export default class Results extends Vue {
         }
       });
     });
+    // NotificationService.main();
+  }
+
+  @Watch("$route", { immediate: true, deep: true })
+  onUrlChange(newVal: Route) {
+    AnalyticsService.sendGAEvent(
+      "Load",
+      "Results",
+      "Navigate",
+      FinderService.values
+    );
   }
 }
 </script>

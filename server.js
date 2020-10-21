@@ -16,6 +16,7 @@ app.use('/results',express.static('./liquid-client/dist'));
 app.use('/results/*',express.static('./liquid-client/dist'));
 app.use('/test',express.static('./liquid-client/dist'));
 app.use('/test/*',express.static('./liquid-client/dist'));
+app.use('/sw-test/sw.js',express.static('./liquid-client/public/sw-test.js'));
 
 /**
  * Provide funding programs.

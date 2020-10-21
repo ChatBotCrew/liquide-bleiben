@@ -23,7 +23,7 @@
     <transition name="fscard">
       <FullscreenDescriptionCard v-if="!!description" v-bind:name="description.name" v-bind:text="description.text"></FullscreenDescriptionCard>
     </transition>
-    <!-- <transition name="cookies">
+    <transition name="cookies">
       <div class="cookies-banner" v-if="cookieBannerVisible">
         <div>
           <div>
@@ -39,16 +39,16 @@
             unsere Website besuchen zu können.
           </div>
         </div>
-        <button class="btn small" v-on:click="enableCookies">Ich lehne ab</button>
-        <button class="btn small" v-on:click="disableCookies">Ich stimme zu</button>
+        <button class="btn small" v-on:click="disable">Ich lehne ab</button>
+        <button class="btn small" v-on:click="enable">Ich stimme zu</button>
       </div>
-    </transition> -->
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { ButtonConfig } from "./components/NavFooter/ButtonConfig.class";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import NavHeader from "./components/NavHeader.vue";
 import NavFooter from "./components/NavFooter/NavFooter.vue";
 import FullscreenResultCard from "./components/results/FullscreenResultCard.vue";
@@ -56,6 +56,8 @@ import FullscreenDescriptionCard from "./components/results/FullscreenDescriptio
 import { FinderService } from "./shared/services/finder.service";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-vue";
 import AnalyticsService from "./shared/services/analytics.service";
+import { Route } from "vue-router";
+import { NotificationService } from "./shared/services/notfication.service";
 
 @Component({
   components: {
@@ -73,7 +75,6 @@ export default class App extends Vue {
   public description: any = false;
   public cookieBannerVisible: boolean = true;
   public gtmProperty = "UA-180130811-1";
-
   public gtmTrackerName = "gtmDefaultTracker";
 
   $refs: any;
@@ -82,6 +83,14 @@ export default class App extends Vue {
     this.buttons = buttons;
   }
   mounted() {
+    // console.log(this.$router);
+    
+    // this.$cookies.remove('allow');
+    AnalyticsService.init(this.$cookies);
+    this.cookieBannerVisible = AnalyticsService.cookieBannerVisible;
+
+    // NotificationService.main();
+
     FinderService.loadStatusFromUrl();
     FinderService.addCurrentOfferListener((offer: any) => {
       this.offer = offer;
@@ -89,11 +98,14 @@ export default class App extends Vue {
     FinderService.addCurrentDescriptionListener((description: any) => {
       this.description = description;
     });
-    // AnalyticsService.init(this.$cookies);
-    // this.cookieBannerVisible = this.$cookies.get("allow") == null;
-    // AnalyticsService.allowed = this.$cookies.get("allow");
-    // console.log();
-    
+  }
+  enable() {
+    AnalyticsService.enable();
+    this.cookieBannerVisible = AnalyticsService.cookieBannerVisible;
+  }
+  disable() {
+    AnalyticsService.disable();
+    this.cookieBannerVisible = AnalyticsService.cookieBannerVisible;
   }
 
   // disableCookies() {

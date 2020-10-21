@@ -58,10 +58,12 @@ import { ButtonConfig } from "../components/NavFooter/ButtonConfig.class";
 import DynamicForm from "../components/DynamicForm.vue";
 import Progress from "../components/Progress.vue";
 import EmployeesCalculator from "../components/EmployeesCalculator.vue";
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
 import QuestionRequestService from "../shared/services/question-request.service";
 import { FinderService } from "../shared/services/finder.service";
 import URLService from "../shared/services/url.service";
+import AnalyticsService from "../shared/services/analytics.service";
+import { Route } from "vue-router";
 
 @Component({
   components: {
@@ -104,20 +106,14 @@ export default class Finder extends Vue {
       FinderService.updateValue("index", --this.currentQuestion);
     } else {
       FinderService.updateValue("index", null, false);
-      
+
       this.$router.push({
         path: "/" + FinderService.parseValueToUrl(),
       });
     }
     this.progressValues = FinderService.values;
     this.calcIsOpen = false;
-    
-      // let w:any = window;
-      //   w.gtag("event", "Click", {
-      //     event_category: "Button",
-      //     event_label: "Previous",
-      //     event_value: FinderService.values,
-      //   })
+    AnalyticsService.sendGAEvent('Click', 'Button', 'Previous', FinderService.values);
   }
   public next() {
     let key = this.questions[this.currentQuestion].config.key;
@@ -134,14 +130,7 @@ export default class Finder extends Vue {
     }
     this.progressValues = FinderService.values;
     this.calcIsOpen = false;
-
-    
-      // let w:any = window;
-      //   w.gtag("event", "Click", {
-      //     event_category: "Button",
-      //     event_label: "Next",
-      //     event_value: FinderService.values,
-      //   });
+    AnalyticsService.sendGAEvent('Click', 'Button', 'Next', FinderService.values);
   }
 
   public setEmployees(bla: any) {
@@ -168,6 +157,13 @@ export default class Finder extends Vue {
     }
     this.updateStatus();
   }
+
+  
+  
+  @Watch('$route', { immediate: true, deep: true })
+   onUrlChange(newVal: Route) {
+     AnalyticsService.sendGAEvent('Load', 'Finder', 'Enter', FinderService.values);
+    }
 }
 </script>
 <style lang="scss">

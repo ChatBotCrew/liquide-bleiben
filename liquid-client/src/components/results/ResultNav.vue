@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
+import AnalyticsService from "../../shared/services/analytics.service";
 
 @Component
 export default class ResultNav extends Vue {
